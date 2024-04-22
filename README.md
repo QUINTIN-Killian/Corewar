@@ -11,7 +11,7 @@ Repository for the EPITECH Corewar project.
 - We merge our branches on the 'dev' branch and merge 'dev' on 'main' with the agreement of everybody
 
 ## Links :
-[Trello](https://trello.com/invite/b/PYUBxwPz/ATTI22d4de95a0ea54e0ab2eb3eef8c56ac0BA91765A/42sh)
+[Trello](https://trello.com/b/9jQngJFs/corewar)
 
 ##### Credits :
 Project created by QUINTIN Killian & CHARDIN Elie
