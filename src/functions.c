@@ -29,7 +29,7 @@ int convert_hex_in_int(char *hex)
             res += nb;
             continue;
         }
-        res += my_compute_power_rec(nb * 16, my_strlen(hex) - i - 1);
+        res += nb * my_compute_power_rec(16, my_strlen(hex) - i - 1);
     }
     return res;
 }
@@ -56,4 +56,15 @@ int my_str_ishex(char *str)
         'Z') || (str[i] >= 'a' && str[i] <= 'z')))
             return 0;
     return 1;
+}
+
+void give_champions_id(champion_t **champions)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        if (node->id == -1)
+            node->id = get_max_champion_id(champions);
+        node = node->next;
+    }
 }

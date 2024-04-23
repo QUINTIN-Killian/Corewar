@@ -22,13 +22,18 @@ void destroy_struct(corewar_t *corewar)
 int error_handling(int ac, char **av, corewar_t *corewar)
 {
     init_struct(corewar);
-    if (ac < 3 ) {
+    if (ac < 3) {
         mini_fdprintf(2, "Not enough arguments.\n");
         return 1;
     }
     if (!is_enough_champions(ac, av))
         return 1;
     if (!extract_args(ac, av, corewar)) {
+        delete_list(&corewar->champions);
+        return 1;
+    }
+    give_champions_id(&corewar->champions);
+    if (!unique_champions(&corewar->champions)) {
         delete_list(&corewar->champions);
         return 1;
     }

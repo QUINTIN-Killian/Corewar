@@ -15,10 +15,7 @@ champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
     corewar->nb_champions++;
     champion->timeout = 0;
     champion->is_alive = 1;
-    if (id == -1)
-        champion->id = get_max_champion_id(&corewar->champions);
-    else
-        champion->id = id;
+    champion->id = id;
     champion->start_mem = start_mem;
     champion->fd = fopen(filename, "r");
     champion->next = corewar->champions;

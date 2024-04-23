@@ -37,6 +37,7 @@ typedef struct corewar_s {
 
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
+int unique_champions(champion_t **champions);
 
 //extract_args.c :
 int extract_args(int ac, char **av, corewar_t *corewar);
@@ -51,6 +52,7 @@ int is_correct_file(char **args, int i);
 int convert_hex_in_int(char *hex);
 int get_max_champion_id(champion_t **champions);
 int my_str_ishex(char *str);
+void give_champions_id(champion_t **champions);
 
 //linked_list.c :
 champion_t *create_champion(corewar_t *corewar, int id, int start_mem,

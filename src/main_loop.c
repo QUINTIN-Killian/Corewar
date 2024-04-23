@@ -22,7 +22,7 @@
 // {
 //     int turns = 0;
 //     champion_t *current = *champs;
-    
+//
 //     while (turns != corewar->turns) {
 //         current = *champs;
 //         while (current != NULL) {

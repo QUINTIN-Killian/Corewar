@@ -20,3 +20,33 @@ int is_enough_champions(int ac, char **av)
     }
     return 1;
 }
+
+static int champion_already_present(champion_t **champions,
+    champion_t *node_ref, int id, int start_mem)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        if (node != node_ref && (node->id == id || node->start_mem ==
+        start_mem)) {
+            mini_fdprintf(2,
+            "Several champions have the same id or starting head point.\n");
+            return 1;
+        }
+        node = node->next;
+    }
+    return 0;
+}
+
+int unique_champions(champion_t **champions)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        if (champion_already_present(champions, node, node->id,
+        node->start_mem))
+            return 0;
+        node = node->next;
+    }
+    return 1;
+}
