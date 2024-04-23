@@ -15,17 +15,17 @@ int extract_args(int ac, char **av, corewar_t *corewar)
     for (int i = 1; i < ac; i++) {
         if (is_dump_flag(av, i)) {
             corewar->nb_turns = convert_str_in_int(av[i + 1]);
-            i += 2;
+            i++;
             continue;
         }
         if (is_a_flag(av, i)) {
             start_mem = convert_hex_in_int(&(av[i + 1][2]));
-            i += 2;
+            i++;
             continue;
         }
         if (is_n_flag(av, i)) {
             id = convert_str_in_int(av[i + 1]);
-            i += 2;
+            i++;
             continue;
         }
         if (is_correct_file(av, i)) {
