@@ -22,7 +22,7 @@ void destroy_struct(corewar_t *corewar)
 int error_handling(int ac, char **av, corewar_t *corewar)
 {
     init_struct(corewar);
-    if (ac < 3 ) {
+    if (ac < 3) {
         mini_fdprintf(2, "Not enough arguments.\n");
         return 1;
     }
