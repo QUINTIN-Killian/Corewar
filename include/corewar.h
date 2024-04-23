@@ -42,15 +42,13 @@ unsigned int rev_int(unsigned int nbr);
 unsigned long rev_long(unsigned long nbr);
 
 //extraction.c :
-void extract_header(champion_t **champions);
+int extract_header(champion_t **champions);
+int extract_args(int ac, char **av, corewar_t *corewar);
 
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
 int unique_champions(champion_t **champions);
 int right_magic_number(champion_t **champions);
-
-//extract_args.c :
-int extract_args(int ac, char **av, corewar_t *corewar);
 
 //flag_recognition.c :
 int is_a_flag(char **args, int i);

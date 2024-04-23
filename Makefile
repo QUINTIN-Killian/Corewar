@@ -10,7 +10,6 @@ CC	=	gcc
 
 SRC	=	src/endian.c	\
 		src/error_handling.c	\
-		src/extract_args.c	\
 		src/extraction.c	\
 		src/flags_recognition.c	\
 		src/functions.c	\
