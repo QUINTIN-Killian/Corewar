@@ -18,6 +18,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
     champion->start_mem = corewar->start_mem;
     champion->fd = fopen(filename, "r");
     champion->next = corewar->champions;
+    champion->instructions = NULL;
     corewar->id = -1;
     corewar->start_mem = -1;
     return champion;

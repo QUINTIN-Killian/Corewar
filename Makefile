@@ -8,12 +8,12 @@
 
 CC	=	gcc
 
-SRC	=	src/endian.c	\
+SRC	=	src/champions.c	\
+		src/endian.c	\
 		src/error_handling.c	\
 		src/extraction.c	\
 		src/flags_recognition.c	\
 		src/functions.c	\
-		src/linked_list.c	\
 		src/main.c	\
 		src/main_loop.c
 
