@@ -30,6 +30,8 @@ typedef struct champion_s {
 } champion_t;
 
 typedef struct corewar_s {
+    int id;
+    int start_mem;
     int nb_turns;
     int nb_champions;
     champion_t *champions;
@@ -63,8 +65,7 @@ int my_str_ishex(char *str);
 void give_champions_id(champion_t **champions);
 
 //linked_list.c :
-champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
-    char *filename);
+champion_t *create_champion(corewar_t *corewar, char *filename);
 void delete_by_id(champion_t **champions, int id);
 void display_champs_infos(champion_t **champions);
 void delete_list(champion_t **champions);

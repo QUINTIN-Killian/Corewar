@@ -9,6 +9,8 @@
 
 void init_struct(corewar_t *corewar)
 {
+    corewar->id = -1;
+    corewar->start_mem = -1;
     corewar->champions = NULL;
     corewar->nb_champions = 0;
     corewar->nb_turns = -1;
