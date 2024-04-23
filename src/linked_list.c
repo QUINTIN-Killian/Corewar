@@ -36,7 +36,7 @@ void delete_by_id(champion_t **liste, int id)
 void display_champs_infos(champion_t *list)
 {
     while (list != NULL) {
-        printf("ID: %d, Timeout: %d, Statut: %d\n",
+        mini_printf("ID: %d, Timeout: %d, Statut: %d\n",
             list->id, list->timeout, list->is_alive);
         list = list->next;
     }
