@@ -8,12 +8,13 @@
 
 CC	=	gcc
 
-SRC	=	src/main.c	\
+SRC	=	src/champions.c	\
+		src/endian.c	\
 		src/error_handling.c	\
-		src/extract_args.c	\
+		src/extraction.c	\
 		src/flags_recognition.c	\
 		src/functions.c	\
-		src/linked_list.c	\
+		src/main.c	\
 		src/main_loop.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)

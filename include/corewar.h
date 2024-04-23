@@ -11,9 +11,13 @@
     #include "op.h"
 
 typedef struct instructions_s {
-    char *current_instruction;
-    char **instructions;
+    int mnemonic;
+    char *coding_byte;
+    char *instruction;
+    char **parameters;
     int nb_parameters;
+    int nb_bytes;
+    struct instructions_s *next;
 } instructions_t;
 
 typedef struct champion_s {
@@ -27,20 +31,29 @@ typedef struct champion_s {
     long prog_size;
     char comment[COMMENT_LENGTH + 1];
     struct champion_s *next;
+    instructions_t *instructions;
 } champion_t;
 
 typedef struct corewar_s {
+    int id;
+    int start_mem;
     int nb_turns;
     int nb_champions;
     champion_t *champions;
 } corewar_t;
 
+//endian.c :
+unsigned int rev_int(unsigned int nbr);
+unsigned long rev_long(unsigned long nbr);
+
+//extraction.c :
+int extract_header(champion_t **champions);
+int extract_args(int ac, char **av, corewar_t *corewar);
+
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
 int unique_champions(champion_t **champions);
-
-//extract_args.c :
-int extract_args(int ac, char **av, corewar_t *corewar);
+int right_magic_number(champion_t **champions);
 
 //flag_recognition.c :
 int is_a_flag(char **args, int i);
@@ -54,9 +67,8 @@ int get_max_champion_id(champion_t **champions);
 int my_str_ishex(char *str);
 void give_champions_id(champion_t **champions);
 
-//linked_list.c :
-champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
-    char *filename);
+//champions.c :
+champion_t *create_champion(corewar_t *corewar, char *filename);
 void delete_by_id(champion_t **champions, int id);
 void display_champs_infos(champion_t **champions);
 void delete_list(champion_t **champions);

@@ -7,18 +7,20 @@
 
 #include "../include/corewar.h"
 
-champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
-    char *filename)
+champion_t *create_champion(corewar_t *corewar, char *filename)
 {
     champion_t *champion = malloc(sizeof(champion_t));
 
     corewar->nb_champions++;
     champion->timeout = 0;
     champion->is_alive = 1;
-    champion->id = id;
-    champion->start_mem = start_mem;
+    champion->id = corewar->id;
+    champion->start_mem = corewar->start_mem;
     champion->fd = fopen(filename, "r");
     champion->next = corewar->champions;
+    champion->instructions = NULL;
+    corewar->id = -1;
+    corewar->start_mem = -1;
     return champion;
 }
 

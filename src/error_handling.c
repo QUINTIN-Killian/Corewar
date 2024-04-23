@@ -50,3 +50,15 @@ int unique_champions(champion_t **champions)
     }
     return 1;
 }
+
+int right_magic_number(champion_t **champions)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        if (node->magic_number != COREWAR_EXEC_MAGIC)
+            return 0;
+        node = node->next;
+    }
+    return 1;
+}
