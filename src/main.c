@@ -26,19 +26,15 @@ int error_handling(int ac, char **av, corewar_t *corewar)
         mini_fdprintf(2, "Not enough arguments.\n");
         return 1;
     }
-    if (!is_enough_champions(ac, av))
+    if (!is_enough_champions(ac, av) || !extract_args(ac, av, corewar))
         return 1;
-    if (!extract_args(ac, av, corewar)) {
-        delete_list(&corewar->champions);
-        return 1;
-    }
     give_champions_id(&corewar->champions);
-    if (!unique_champions(&corewar->champions)) {
-        delete_list(&corewar->champions);
+    if (!unique_champions(&corewar->champions))
         return 1;
-    }
     corewar->champions = rev_champions(&corewar->champions);
     extract_header(&corewar->champions);
+    if (!right_magic_number(&corewar->champions))
+        return 1;
     return 0;
 }
 

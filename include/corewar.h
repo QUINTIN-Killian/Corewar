@@ -45,6 +45,7 @@ void extract_header(champion_t **champions);
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
 int unique_champions(champion_t **champions);
+int right_magic_number(champion_t **champions);
 
 //extract_args.c :
 int extract_args(int ac, char **av, corewar_t *corewar);
