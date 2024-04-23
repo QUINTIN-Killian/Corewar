@@ -10,9 +10,17 @@
     #include "my.h"
     #include "op.h"
 
+typedef struct instructions_s {
+    char *current_instruction;
+    char **instructions;
+    int nb_parameters;
+} instructions_t;
+
 typedef struct champion_s {
     FILE *fd;
     int id;
+    int timeout;
+    int is_alive;
     int start_mem;
     int magic_number;
     char name[PROG_NAME_LENGTH + 1];
@@ -47,5 +55,11 @@ champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
 int convert_hex_in_int(char *hex);
 int get_max_champion_id(champion_t **champions);
 int my_str_ishex(char *str);
+
+void change_cellule(champion_t *previous, champion_t *current,
+    champion_t **liste);
+void delete_by_id(champion_t **liste, int id);
+void display_champs_infos(champion_t *list);
+void delete_list(champion_t **liste);
 
 #endif /* !COREWAR_H_ */
