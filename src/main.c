@@ -20,9 +20,10 @@ int error_handling(int ac, char **av, corewar_t *corewar)
     if (ac < 3 || !is_enough_champions(ac, av))
         return 1;
     if (!extract_args(ac, av, corewar)) {
-        //fonction destroy linked list
+        delete_list(&corewar->champions);
         return 1;
     }
+    return 0;
 }
 
 int main(int ac, char **av)
