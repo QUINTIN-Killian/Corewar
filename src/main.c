@@ -38,6 +38,7 @@ int error_handling(int ac, char **av, corewar_t *corewar)
         return 1;
     }
     corewar->champions = rev_champions(&corewar->champions);
+    extract_header(&corewar->champions);
     return 0;
 }
 

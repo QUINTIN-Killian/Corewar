@@ -35,6 +35,13 @@ typedef struct corewar_s {
     champion_t *champions;
 } corewar_t;
 
+//endian.c :
+unsigned int rev_int(unsigned int nbr);
+unsigned long rev_long(unsigned long nbr);
+
+//extraction.c :
+void extract_header(champion_t **champions);
+
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
 int unique_champions(champion_t **champions);
