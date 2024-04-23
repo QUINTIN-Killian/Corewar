@@ -11,9 +11,13 @@
     #include "op.h"
 
 typedef struct instructions_s {
-    char *current_instruction;
-    char **instructions;
+    int mnemonic;
+    char *coding_byte;
+    char *instruction;
+    char **parameters;
     int nb_parameters;
+    int nb_bytes;
+    struct instructions_s *next;
 } instructions_t;
 
 typedef struct champion_s {
@@ -27,6 +31,7 @@ typedef struct champion_s {
     long prog_size;
     char comment[COMMENT_LENGTH + 1];
     struct champion_s *next;
+    instructions_t *instructions;
 } champion_t;
 
 typedef struct corewar_s {
@@ -62,7 +67,7 @@ int get_max_champion_id(champion_t **champions);
 int my_str_ishex(char *str);
 void give_champions_id(champion_t **champions);
 
-//linked_list.c :
+//champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
 void delete_by_id(champion_t **champions, int id);
 void display_champs_infos(champion_t **champions);
