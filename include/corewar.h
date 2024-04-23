@@ -58,5 +58,6 @@ champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
 void delete_by_id(champion_t **champions, int id);
 void display_champs_infos(champion_t **champions);
 void delete_list(champion_t **champions);
+champion_t *rev_champions(champion_t **champions);
 
 #endif /* !COREWAR_H_ */

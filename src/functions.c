@@ -7,25 +7,29 @@
 
 #include "../include/corewar.h"
 
+static int get_char_value(char c)
+{
+    if (c >= 'A' && c <= 'F')
+        return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f')
+        return c - 'a' + 10;
+    return c - '0';
+}
+
 int convert_hex_in_int(char *hex)
 {
+    int nb;
     int res = 0;
 
     if (hex == NULL)
-        return res;
+        return -1;
     for (int i = my_strlen(hex) - 1; i >= 0; i--) {
-        if (hex[i] >= 'A' && hex[i] <= 'F') {
-            res += my_compute_power_rec(((hex[i] - 'A') + 10) * 16, i -
-            my_strlen(hex) + 1);
+        nb = get_char_value(hex[i]);
+        if (i == my_strlen(hex) - 1) {
+            res += nb;
             continue;
         }
-        if (hex[i] >= 'a' && hex[i] <= 'f') {
-            res += my_compute_power_rec(((hex[i] - 'a') + 10) * 16, i -
-            my_strlen(hex) + 1);
-            continue;
-        }
-        res += my_compute_power_rec((hex[i] - '0') * 16, i - my_strlen(hex) +
-        1);
+        res += my_compute_power_rec(nb * 16, my_strlen(hex) - i - 1);
     }
     return res;
 }
@@ -40,6 +44,7 @@ int get_max_champion_id(champion_t **champions)
             id++;
             node = *champions;
         }
+        node = node->next;
     }
     return id;
 }
