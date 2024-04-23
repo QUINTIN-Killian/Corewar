@@ -57,3 +57,14 @@ int my_str_ishex(char *str)
             return 0;
     return 1;
 }
+
+void give_champions_id(champion_t **champions)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        if (node->id == -1)
+            node->id = get_max_champion_id(champions);
+        node = node->next;
+    }
+}

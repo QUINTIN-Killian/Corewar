@@ -32,6 +32,11 @@ int error_handling(int ac, char **av, corewar_t *corewar)
         delete_list(&corewar->champions);
         return 1;
     }
+    give_champions_id(&corewar->champions);
+    if (!unique_champions(&corewar->champions)) {
+        delete_list(&corewar->champions);
+        return 1;
+    }
     corewar->champions = rev_champions(&corewar->champions);
     return 0;
 }
