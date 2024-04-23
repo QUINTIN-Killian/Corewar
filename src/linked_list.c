@@ -7,25 +7,47 @@
 
 #include "../include/corewar.h"
 
-void change_cellule(champion_t *previous, champion_t *current,
-    champion_t **liste)
+champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
+    char *filename)
+{
+    champion_t *champion = malloc(sizeof(champion_t));
+
+    corewar->nb_champions++;
+    if (id == -1)
+        champion->id = get_max_champion_id(&corewar->champions);
+    else
+        champion->id = id;
+    champion->start_mem = start_mem;
+    champion->fd = fopen(filename, "r");
+    champion->next = corewar->champions;
+    return champion;
+}
+
+static void del_node(champion_t *node)
+{
+    fclose(node->fd);
+    free(node);
+}
+
+static void change_cellule(champion_t *previous, champion_t *current,
+    champion_t **champions)
 {
     if (previous == NULL) {
-        *liste = current->next;
+        *champions = current->next;
     } else {
         previous->next = current->next;
     }
 }
 
-void delete_by_id(champion_t **liste, int id)
+void delete_by_id(champion_t **champions, int id)
 {
-    champion_t *current = *liste;
+    champion_t *current = *champions;
     champion_t *previous = NULL;
 
     while (current != NULL) {
         if (current->id == id) {
-            change_cellule(previous, current, liste);
-            free(current);
+            change_cellule(previous, current, champions);
+            del_node(current);
             return;
         }
         previous = current;
@@ -33,24 +55,26 @@ void delete_by_id(champion_t **liste, int id)
     }
 }
 
-void display_champs_infos(champion_t *list)
+void display_champs_infos(champion_t **champions)
 {
-    while (list != NULL) {
-        printf("ID: %d, Timeout: %d, Statut: %d\n",
-            list->id, list->timeout, list->is_alive);
-        list = list->next;
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        mini_printf("ID: %d, Timeout: %d, Statut: %d\n",
+        node->id, node->timeout, node->is_alive);
+        node = node->next;
     }
 }
 
-void delete_list(champion_t **liste)
+void delete_list(champion_t **champions)
 {
-    champion_t *current = *liste;
+    champion_t *current = *champions;
     champion_t *next;
 
     while (current != NULL) {
         next = current->next;
-        free(current);
+        del_node(current);
         current = next;
     }
-    *liste = NULL;
+    *champions = NULL;
 }
