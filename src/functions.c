@@ -29,7 +29,7 @@ int convert_hex_in_int(char *hex)
             res += nb;
             continue;
         }
-        res += my_compute_power_rec(nb * 16, my_strlen(hex) - i - 1);
+        res += nb * my_compute_power_rec(16, my_strlen(hex) - i - 1);
     }
     return res;
 }
