@@ -9,7 +9,6 @@
 CC	=	gcc
 
 SRC	=	src/main.c	\
-		src/champions.c	\
 		src/error_handling.c	\
 		src/extract_args.c	\
 		src/flags_recognition.c	\
