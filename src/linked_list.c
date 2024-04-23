@@ -13,6 +13,8 @@ champion_t *create_champion(corewar_t *corewar, int id, int start_mem,
     champion_t *champion = malloc(sizeof(champion_t));
 
     corewar->nb_champions++;
+    champion->timeout = 0;
+    champion->is_alive = 1;
     if (id == -1)
         champion->id = get_max_champion_id(&corewar->champions);
     else
@@ -60,8 +62,8 @@ void display_champs_infos(champion_t **champions)
     champion_t *node = *champions;
 
     while (node != NULL) {
-        mini_printf("ID: %d, Timeout: %d, Statut: %d\n",
-        node->id, node->timeout, node->is_alive);
+        mini_printf("ID: %d, Name: %s, Head: %d, Timeout: %d, Statut: %d\n",
+        node->id, node->name, node->start_mem, node->timeout, node->is_alive);
         node = node->next;
     }
 }
@@ -77,4 +79,19 @@ void delete_list(champion_t **champions)
         current = next;
     }
     *champions = NULL;
+}
+
+champion_t *rev_champions(champion_t **champions)
+{
+    champion_t *p = NULL;
+    champion_t *c = *champions;
+    champion_t *n;
+
+    while (c != NULL) {
+        n = c->next;
+        c->next = p;
+        p = c;
+        c = n;
+    }
+    return p;
 }
