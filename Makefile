@@ -37,8 +37,6 @@ $(EXEC):	$(H_NAME) $(LIB_NAME) $(OBJ)
 
 bin/%.o:	src/%.c $(H_NAME) $(LIB_NAME)
 	@mkdir -p bin
-	@mkdir -p bin/ast
-	@mkdir -p bin/builtin
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
