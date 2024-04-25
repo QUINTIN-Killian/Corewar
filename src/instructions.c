@@ -63,14 +63,17 @@ void display_instructions_infos(instructions_t **instructions)
 {
     instructions_t *node = *instructions;
 
+    mini_printf("\e[33mInstructions:\e[0m\n");
     if (node == NULL) {
         mini_printf("NULL\n");
         return;
     }
     while (node != NULL) {
-        mini_printf("Instruction : %s, Coding byte : %s, Len : %d\n",
-        node->instruction, node->coding_byte, node->nb_bytes);
-        mini_printf("Parameters :\n");
+        mini_printf("ID: %d, Mnemonic: %d, Instruction: %s, Cycles: %d, ",
+        node->id, node->mnemonic, node->instruction, node->nb_cycles);
+        mini_printf("Coding byte: %s, Size: %d, Nb_params: %d\n",
+        node->coding_byte, node->nb_bytes, node->nb_parameters);
+        mini_printf("Parameters:\n");
         print_word_array(node->parameters);
         mini_printf("\n");
         node = node->next;

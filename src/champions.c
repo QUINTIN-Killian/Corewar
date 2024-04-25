@@ -62,10 +62,12 @@ void display_champions_infos(champion_t **champions)
     champion_t *node = *champions;
 
     if (node == NULL) {
+        mini_printf("\e[33mChampions:\e[0m\n");
         mini_printf("NULL\n");
         return;
     }
     while (node != NULL) {
+        mini_printf("\e[33mChampion:\e[0m\n");
         mini_printf("ID: %d, Name: %s, Head: %d, Timeout: %d, Statut: %d\n",
         node->id, node->name, node->start_mem, node->timeout, node->is_alive);
         display_instructions_infos(&node->instructions);
