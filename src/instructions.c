@@ -27,9 +27,12 @@ instructions_t *create_instruction(instructions_t *next)
 
 static void del_node(instructions_t *node)
 {
-    free(node->instruction);
-    free(node->coding_byte);
-    free_word_array(node->parameters);
+    if (node->instruction != NULL)
+        free(node->instruction);
+    if (node->coding_byte != NULL)
+        free(node->coding_byte);
+    if (node->parameters != NULL)
+        free_word_array(node->parameters);
 }
 
 void destroy_instruction_node_by_id(instructions_t **instructions, int id)
