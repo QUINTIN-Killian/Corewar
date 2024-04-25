@@ -51,3 +51,25 @@ void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions)
         node = node->next;
     }
 }
+
+char *convert_int_in_bin(int nb)
+{
+    char *ans;
+    int tmp;
+
+    if (nb > 255 || nb < 0)
+        return NULL;
+    ans = my_strdup("00000000");
+    for (int i = 7; i >= 0; i--) {
+        tmp = my_compute_power_rec(2, i);
+        if (nb - tmp == 0) {
+            ans[7 - i] = '1';
+            break;
+        }
+        if (nb - tmp > 0) {
+            nb -= tmp;
+            ans[7 - i] = '1';
+        }
+    }
+    return ans;
+}

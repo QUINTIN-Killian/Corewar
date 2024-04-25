@@ -7,18 +7,33 @@
 
 #include "../include/corewar.h"
 
-instructions_t *create_instruction(void)
+instructions_t *create_instruction(instructions_t *next)
 {
     instructions_t *instruction = malloc(sizeof(instructions_t));
 
+    if (next == NULL)
+        instruction->id = 1;
+    else
+        instruction->id = next->id + 1;
+    instruction->mnemonic = 0;
+    instruction->nb_bytes = 0;
+    instruction->nb_parameters = 0;
+    instruction->coding_byte = NULL;
+    instruction->instruction = NULL;
+    instruction->parameters = NULL;
+    instruction->next = next;
     return instruction;
 }
 
 static void del_node(instructions_t *node)
 {
-    free(node->instruction);
-    free(node->coding_byte);
-    free_word_array(node->parameters);
+    if (node->instruction != NULL)
+        free(node->instruction);
+    if (node->coding_byte != NULL)
+        free(node->coding_byte);
+    if (node->parameters != NULL)
+        free_word_array(node->parameters);
+    free(node);
 }
 
 void destroy_instruction_node_by_id(instructions_t **instructions, int id)
@@ -48,16 +63,20 @@ void display_instructions_infos(instructions_t **instructions)
 {
     instructions_t *node = *instructions;
 
+    mini_printf("\e[33mInstructions:\e[0m\n");
     if (node == NULL) {
         mini_printf("NULL\n");
         return;
     }
     while (node != NULL) {
-        mini_printf("Instruction : %s, Coding byte : %s, Len : %d\n",
-        node->instruction, node->coding_byte, node->nb_bytes);
-        mini_printf("Parameters :\n");
+        mini_printf("ID: %d, Mnemonic: %d, Instruction: %s, Cycles: %d, ",
+        node->id, node->mnemonic, node->instruction, node->nb_cycles);
+        mini_printf("Coding byte: %s, Size: %d, Nb_params: %d\n",
+        node->coding_byte, node->nb_bytes, node->nb_parameters);
+        mini_printf("Parameters:\n");
         print_word_array(node->parameters);
         mini_printf("\n");
+        node = node->next;
     }
 }
 

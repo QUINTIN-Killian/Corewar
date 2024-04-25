@@ -15,8 +15,10 @@ SRC	=	src/champions.c	\
 		src/flags_recognition.c	\
 		src/functions.c	\
 		src/instructions.c	\
+		src/instructions2.c	\
 		src/main.c	\
-		src/main_loop.c
+		src/main_loop.c	\
+		src/op.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)
 
