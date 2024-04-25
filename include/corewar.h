@@ -13,10 +13,11 @@
 typedef struct instructions_s {
     int id;
     int mnemonic;
-    char *coding_byte;
     char *instruction;
-    char **parameters;
+    int nb_cycles;
+    char *coding_byte;
     int nb_parameters;
+    char **parameters;
     int nb_bytes;
     struct instructions_s *next;
 } instructions_t;
