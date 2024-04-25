@@ -14,6 +14,7 @@ SRC	=	src/champions.c	\
 		src/extraction.c	\
 		src/flags_recognition.c	\
 		src/functions.c	\
+		src/instructions.c	\
 		src/main.c	\
 		src/main_loop.c
 
