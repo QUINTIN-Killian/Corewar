@@ -32,8 +32,11 @@ int error_handling(int ac, char **av, corewar_t *corewar)
         return 1;
     give_champions_id(&corewar->champions);
     corewar->champions = rev_champions(&corewar->champions);
-    if (!unique_champions(&corewar->champions) || !extract_header(&corewar->
-    champions) || !right_magic_number(&corewar->champions))
+    if (!unique_champions(&corewar->champions))
+        return 1;
+    extract_header(&corewar->champions);
+    del_incorrect_magic_number(corewar, &corewar->champions);
+    if (!is_enough_correct_champions(corewar))
         return 1;
     return 0;
 }
