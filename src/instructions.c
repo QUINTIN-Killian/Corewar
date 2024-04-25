@@ -33,6 +33,7 @@ static void del_node(instructions_t *node)
         free(node->coding_byte);
     if (node->parameters != NULL)
         free_word_array(node->parameters);
+    free(node);
 }
 
 void destroy_instruction_node_by_id(instructions_t **instructions, int id)
