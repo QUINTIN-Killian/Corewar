@@ -7,10 +7,21 @@
 
 #include "../include/corewar.h"
 
-instructions_t *create_instruction(void)
+instructions_t *create_instruction(instructions_t *next)
 {
     instructions_t *instruction = malloc(sizeof(instructions_t));
 
+    if (next == NULL)
+        instruction->id = 1;
+    else
+        instruction->id = next->id + 1;
+    instruction->mnemonic = 0;
+    instruction->nb_bytes = 0;
+    instruction->nb_parameters = 0;
+    instruction->coding_byte = NULL;
+    instruction->instruction = NULL;
+    instruction->parameters = NULL;
+    instruction->next = next;
     return instruction;
 }
 
@@ -58,6 +69,7 @@ void display_instructions_infos(instructions_t **instructions)
         mini_printf("Parameters :\n");
         print_word_array(node->parameters);
         mini_printf("\n");
+        node = node->next;
     }
 }
 
