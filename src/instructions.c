@@ -1,0 +1,90 @@
+/*
+** EPITECH PROJECT, 2024
+** B-CPE-200-LYN-2-1-corewar-elie.chardin
+** File description:
+** instructions
+*/
+
+#include "../include/corewar.h"
+
+instructions_t *create_instruction(void)
+{
+    instructions_t *instruction = malloc(sizeof(instructions_t));
+
+    return instruction;
+}
+
+static void del_node(instructions_t *node)
+{
+    free(node->instruction);
+    free(node->coding_byte);
+    free_word_array(node->parameters);
+}
+
+void destroy_instruction_node_by_id(instructions_t **instructions, int id)
+{
+    instructions_t *node = *instructions;
+    instructions_t *tmp;
+
+    if (node == NULL)
+        return;
+    if (node->id == id) {
+        *instructions = node->next;
+        del_node(node);
+        return;
+    }
+    while (node->next != NULL) {
+        if (node->next->id == id) {
+            tmp = node->next;
+            node->next = node->next->next;
+            del_node(tmp);
+            return;
+        }
+        node = node->next;
+    }
+}
+
+void display_instructions_infos(instructions_t **instructions)
+{
+    instructions_t *node = *instructions;
+
+    if (node == NULL) {
+        mini_printf("NULL\n");
+        return;
+    }
+    while (node != NULL) {
+        mini_printf("Instruction : %s, Coding byte : %s, Len : %d\n",
+        node->instruction, node->coding_byte, node->nb_bytes);
+        mini_printf("Parameters :\n");
+        print_word_array(node->parameters);
+        mini_printf("\n");
+    }
+}
+
+void delete_instructions_list(instructions_t **instructions)
+{
+    instructions_t *current = *instructions;
+    instructions_t *next;
+
+    while (current != NULL) {
+        next = current->next;
+        del_node(current);
+        current = next;
+    }
+    *instructions = NULL;
+}
+
+instructions_t *rev_instructions(instructions_t **instructions)
+{
+    instructions_t *p = NULL;
+    instructions_t *c = *instructions;
+    instructions_t *n;
+
+    while (c != NULL) {
+        n = c->next;
+        c->next = p;
+        p = c;
+        c = n;
+    }
+    return p;
+}
