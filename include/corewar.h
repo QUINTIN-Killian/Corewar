@@ -48,8 +48,9 @@ unsigned int rev_int(unsigned int nbr);
 unsigned long rev_long(unsigned long nbr);
 
 //extraction.c :
-void extract_header(champion_t **champions);
 int extract_args(int ac, char **av, corewar_t *corewar);
+void extract_header(champion_t **champions);
+void extract_body(champion_t **champions);
 
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
@@ -66,6 +67,7 @@ int is_correct_file(char **args, int i);
 int get_max_champion_id(champion_t **champions);
 void give_champions_id(champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
+char *convert_int_in_bin(int nb);
 
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
@@ -75,10 +77,13 @@ void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 
 //instructions.c :
-instructions_t *create_instruction(void);
+instructions_t *create_instruction(instructions_t *next);
 void destroy_instruction_node_by_id(instructions_t **instructions, int id);
 void display_instructions_infos(instructions_t **instructions);
 void delete_instructions_list(instructions_t **instructions);
 instructions_t *rev_instructions(instructions_t **instructions);
+
+//instructions2.c :
+int set_instruction(instructions_t *node);
 
 #endif /* !COREWAR_H_ */
