@@ -62,9 +62,7 @@ int is_dump_flag(char **args, int i);
 int is_correct_file(char **args, int i);
 
 //functions.c :
-int convert_hex_in_int(char *hex);
 int get_max_champion_id(champion_t **champions);
-int my_str_ishex(char *str);
 void give_champions_id(champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
 
