@@ -41,24 +41,19 @@ int extract_args(int ac, char **av, corewar_t *corewar)
     return 1;
 }
 
-int extract_header(champion_t **champions)
+void extract_header(champion_t **champions)
 {
     champion_t *node = *champions;
 
     while (node != NULL) {
-        if (fread(&(node->magic_number), sizeof(unsigned int), 1,
-        node->fd) < 1 || fread(&(node->name), sizeof(char), PROG_NAME_LENGTH,
-        node->fd) < PROG_NAME_LENGTH || fread(&(node->prog_size),
-        sizeof(unsigned long), 1, node->fd) < 1 || fread(&(node->comment),
-        sizeof(char), COMMENT_LENGTH, node->fd) < COMMENT_LENGTH) {
-            mini_fdprintf(2, "Incorrect header file.\n");
-            return 0;
-        }
+        fread(&(node->magic_number), sizeof(unsigned int), 1, node->fd);
         node->magic_number = rev_int(node->magic_number);
+        fread(&(node->name), sizeof(char), PROG_NAME_LENGTH, node->fd);
         node->name[PROG_NAME_LENGTH] = '\0';
+        fread(&(node->prog_size), sizeof(unsigned long), 1, node->fd);
         node->prog_size = rev_long(node->prog_size);
+        fread(&(node->comment), sizeof(char), COMMENT_LENGTH, node->fd);
         node->comment[COMMENT_LENGTH] = '\0';
         node = node->next;
     }
-    return 1;
 }

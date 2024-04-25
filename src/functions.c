@@ -65,6 +65,24 @@ void give_champions_id(champion_t **champions)
     while (node != NULL) {
         if (node->id == -1)
             node->id = get_max_champion_id(champions);
+        node->start_mem = node->id;
+        node = node->next;
+    }
+}
+
+void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions)
+{
+    champion_t *node = *champions;
+    champion_t *tmp;
+
+    while (node != NULL) {
+        if (node->magic_number != COREWAR_EXEC_MAGIC) {
+            tmp = node;
+            node = node->next;
+            destroy_champion_node_by_id(champions, tmp->id);
+            corewar->nb_champions--;
+            continue;
+        }
         node = node->next;
     }
 }
