@@ -57,3 +57,20 @@ void extract_header(champion_t **champions)
         node = node->next;
     }
 }
+
+void extract_body(champion_t **champions)
+{
+    champion_t *node = *champions;
+    int extra_bytes = 0;
+    int coding_byte = 0;
+
+    while (node != NULL) {
+        node->instructions = create_instruction(node->instructions);
+        fread(&(extra_bytes), 4, 1, node->fd);
+        fread(&(node->instructions->mnemonic), 1, 1, node->fd);
+        fread(&coding_byte, 1, 1, node->fd);
+        node->instructions->coding_byte = convert_int_in_bin(coding_byte);
+        set_instruction(node->instructions);
+        node = node->next;
+    }
+}

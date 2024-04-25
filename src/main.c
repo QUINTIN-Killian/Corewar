@@ -49,6 +49,7 @@ int main(int ac, char **av)
         destroy_struct(&corewar);
         return 84;
     }
+    extract_body(&corewar.champions);
     display_champions_infos(&corewar.champions);
     destroy_struct(&corewar);
     return 0;
