@@ -11,6 +11,7 @@
     #include "op.h"
 
 typedef struct instructions_s {
+    int id;
     int mnemonic;
     char *coding_byte;
     char *instruction;
@@ -72,5 +73,12 @@ void destroy_champion_node_by_id(champion_t **champions, int id);
 void display_champions_infos(champion_t **champions);
 void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
+
+//instructions.c :
+instructions_t *create_instruction(void);
+void destroy_instruction_node_by_id(instructions_t **instructions, int id);
+void display_instructions_infos(instructions_t **instructions);
+void delete_instructions_list(instructions_t **instructions);
+instructions_t *rev_instructions(instructions_t **instructions);
 
 #endif /* !COREWAR_H_ */
