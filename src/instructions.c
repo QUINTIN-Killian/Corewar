@@ -63,7 +63,7 @@ void display_instructions_infos(instructions_t **instructions)
 {
     instructions_t *node = *instructions;
 
-    mini_printf("\e[33mInstructions:\e[0m\n");
+    mini_printf("Instructions:\n");
     if (node == NULL) {
         mini_printf("NULL\n");
         return;
