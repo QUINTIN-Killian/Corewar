@@ -69,8 +69,8 @@ void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
 void destroy_champion_node_by_id(champion_t **champions, int id);
-void display_champs_infos(champion_t **champions);
-void delete_list(champion_t **champions);
+void display_champions_infos(champion_t **champions);
+void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 
 #endif /* !COREWAR_H_ */

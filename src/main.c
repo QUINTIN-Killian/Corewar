@@ -18,7 +18,7 @@ void init_struct(corewar_t *corewar)
 
 void destroy_struct(corewar_t *corewar)
 {
-    delete_list(&corewar->champions);
+    delete_champions_list(&corewar->champions);
 }
 
 int error_handling(int ac, char **av, corewar_t *corewar)
@@ -49,7 +49,7 @@ int main(int ac, char **av)
         destroy_struct(&corewar);
         return 84;
     }
-    display_champs_infos(&corewar.champions);
+    display_champions_infos(&corewar.champions);
     destroy_struct(&corewar);
     return 0;
 }
