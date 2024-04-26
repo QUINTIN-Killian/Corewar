@@ -51,6 +51,7 @@ int main(int ac, char **av)
     }
     extract_body(&corewar.champions);
     create_memory(&corewar);
+    place_champions_head(&corewar, &corewar.champions);
     display_champions_infos(&corewar.champions);
     print_memory(&corewar);
     destroy_struct(&corewar);

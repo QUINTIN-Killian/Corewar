@@ -37,3 +37,27 @@ void destroy_memory(corewar_t *corewar)
         free(corewar->memory);
     }
 }
+
+int set_memory_cell(corewar_t *corewar, int new_cell, int coords)
+{
+    int x;
+    int y;
+
+    if (coords < 0 || coords >= MEM_SIZE)
+        return 0;
+    y = coords / 32;
+    x = coords % 32;
+    free(corewar->memory[y][x]);
+    corewar->memory[y][x] = convert_int_in_hex(new_cell);
+    return 1;
+}
+
+void place_champions_head(corewar_t *corewar, champion_t **champions)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        set_memory_cell(corewar, node->id, node->start_mem);
+        node = node->next;
+    }
+}
