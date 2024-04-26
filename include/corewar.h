@@ -42,6 +42,7 @@ typedef struct corewar_s {
     int nb_turns;
     int nb_champions;
     champion_t *champions;
+    char ***memory;
 } corewar_t;
 
 //endian.c :
@@ -85,5 +86,10 @@ instructions_t *rev_instructions(instructions_t **instructions);
 
 //instructions2.c :
 int set_instruction(instructions_t *node);
+
+//memory.c :
+void create_memory(corewar_t *corewar);
+void print_memory(corewar_t *corewar);
+void destroy_memory(corewar_t *corewar);
 
 #endif /* !COREWAR_H_ */
