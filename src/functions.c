@@ -22,15 +22,30 @@ int get_max_champion_id(champion_t **champions)
     return id;
 }
 
-void give_champions_id(champion_t **champions)
+static void set_champions_same_id(champion_t **champions, champion_t *node_ref)
 {
     champion_t *node = *champions;
 
     while (node != NULL) {
+        if (node != node_ref && node->id == node_ref->id)
+            node->id++;
+        node = node->next;
+    }
+}
+
+void set_champions_infos(corewar_t *corewar, champion_t **champions)
+{
+    champion_t *node = *champions;
+    int n = 0;
+
+    while (node != NULL) {
+        if (node->id != -1)
+            set_champions_same_id(champions, node);
         if (node->id == -1)
             node->id = get_max_champion_id(champions);
         if (node->start_mem == -1)
-            node->start_mem = node->id;
+            node->start_mem = 0 + n * (MEM_SIZE / corewar->nb_champions);
+        n++;
         node = node->next;
     }
 }

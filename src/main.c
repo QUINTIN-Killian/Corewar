@@ -30,10 +30,8 @@ int error_handling(int ac, char **av, corewar_t *corewar)
     }
     if (!is_enough_champions(ac, av) || !extract_args(ac, av, corewar))
         return 1;
-    give_champions_id(&corewar->champions);
     corewar->champions = rev_champions(&corewar->champions);
-    if (!unique_champions(&corewar->champions))
-        return 1;
+    set_champions_infos(corewar, &corewar->champions);
     extract_header(&corewar->champions);
     del_incorrect_magic_number(corewar, &corewar->champions);
     if (!is_enough_correct_champions(corewar))
