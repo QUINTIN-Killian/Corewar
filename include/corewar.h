@@ -56,7 +56,6 @@ void extract_body(champion_t **champions);
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
 int is_enough_correct_champions(corewar_t *corewar);
-int unique_champions(champion_t **champions);
 
 //flag_recognition.c :
 int is_a_flag(char **args, int i);
@@ -66,7 +65,7 @@ int is_correct_file(char **args, int i);
 
 //functions.c :
 int get_max_champion_id(champion_t **champions);
-void give_champions_id(champion_t **champions);
+void set_champions_infos(corewar_t *corewar, champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
 char *convert_int_in_bin(int nb);
 
