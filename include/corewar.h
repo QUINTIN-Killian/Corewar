@@ -52,6 +52,7 @@ unsigned long rev_long(unsigned long nbr);
 int extract_args(int ac, char **av, corewar_t *corewar);
 void extract_header(champion_t **champions);
 void extract_body(champion_t **champions);
+void extract_parameters(instructions_t *node, champion_t *champ);
 
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
@@ -85,6 +86,6 @@ void delete_instructions_list(instructions_t **instructions);
 instructions_t *rev_instructions(instructions_t **instructions);
 
 //instructions2.c :
-int set_instruction(instructions_t *node);
+int set_instruction(instructions_t *node, champion_t *champ);
 
 #endif /* !COREWAR_H_ */

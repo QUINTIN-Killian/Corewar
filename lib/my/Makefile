@@ -33,7 +33,8 @@ SRC	=	concat_2_str.c  \
 		my_tabdup.c \
 		parse_str.c \
 		print_word_array.c  \
-		sep_str.c
+		sep_str.c	\
+		my_strncpy.c
 
 OBJ	=	$(SRC:%.c=bin/%.o)
 

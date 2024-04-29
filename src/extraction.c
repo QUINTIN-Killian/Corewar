@@ -70,7 +70,7 @@ void extract_body(champion_t **champions)
         fread(&(node->instructions->mnemonic), 1, 1, node->fd);
         fread(&coding_byte, 1, 1, node->fd);
         node->instructions->coding_byte = convert_int_in_bin(coding_byte);
-        set_instruction(node->instructions);
+        set_instruction(node->instructions, node);
         node = node->next;
     }
 }
