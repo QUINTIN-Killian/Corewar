@@ -85,20 +85,28 @@ char *extract_gen(const char *pair, char *params, champion_t *node)
     }
     return NULL;
 }
+// live lire 4 
+// zjmp fork lfork lire 2
 
 void other_extract(instructions_t *node, champion_t *champ, int q, char *pair)
 {
-    if (strcmp(node->instruction, "add") == 0 || strcmp(node->instruction, "sub") == 0
-    || strcmp(node->instruction, "st") == 0 || strcmp(node->instruction, "and") == 0
-    || strcmp(node->instruction, "or") == 0 || strcmp(node->instruction, "xor") == 0
-    || strcmp(node->instruction, "ld") == 0 || strcmp(node->instruction, "zjmp") == 0
-    || strcmp(node->instruction, "fork") == 0 || strcmp(node->instruction, "lld") == 0
-    || strcmp(node->instruction, "lfork") == 0 || strcmp(node->instruction, "aff") == 0) {
+    short nb  = 0;
+
+    if (my_strcmp(node->instruction, "add") == 0 || my_strcmp(node->instruction, "sub") == 0
+    || my_strcmp(node->instruction, "st") == 0 || my_strcmp(node->instruction, "and") == 0
+    || my_strcmp(node->instruction, "or") == 0 || my_strcmp(node->instruction, "xor") == 0
+    || my_strcmp(node->instruction, "ld") == 0 || my_strcmp(node->instruction, "lld") == 0
+    || my_strcmp(node->instruction, "aff") == 0) {
         for (int i = 0; i < 8; i += 2, q++) {
             my_strncpy(pair, node->coding_byte + i, 2);
             pair[2] = '\0';
             node->parameters[q] = extract_gen(pair, node->parameters[q], champ);
         }
+    }
+    if (my_strcmp(node->instruction, "fork") == 0 || my_strcmp(node->instruction, "lfork") == 0
+    || my_strcmp(node->instruction, "zjmp") == 0) {
+        fread(&nb, 1, 1, champ->fd);
+        node->parameters[q] = convert_int_to_str(nb);
     }
 }
 
@@ -109,11 +117,13 @@ void extracts_methods(instructions_t *node, champion_t *champ, int q)
     if (strcmp(node->instruction, "sti") == 0 || strcmp(node->instruction, "ldi") == 0
     || strcmp(node->instruction, "lldi") == 0) {
         for (int i = 0; i < 8; i += 2, q++) {
+            printf("q : %d\n", q);
             my_strncpy(pair, node->coding_byte + i, 2);
             pair[2] = '\0';
-            node->parameters[q] =  extract_sti(pair, node->parameters[q], champ);
+            node->parameters[q] = my_strdup(extract_sti(pair, node->parameters[q], champ));
         }
     }
+    return;
     other_extract(node, champ, q, pair);
 }
 
@@ -129,8 +139,9 @@ void extract_parameters(instructions_t *node, champion_t *champ)
         if (my_strcmp(pair, "00") == 0)
             init++;
     }
-    node->parameters = malloc(sizeof(char * ) * init);
+    node->parameters = malloc(sizeof(char * ) * 10);
     extracts_methods(node, champ, q);
+    return;
 }
 
 int set_instruction(instructions_t *node, champion_t *champ)
@@ -140,7 +151,7 @@ int set_instruction(instructions_t *node, champion_t *champ)
             node->instruction = my_strdup(op_tab[i].mnemonique);
             node->nb_cycles = op_tab[i].nbr_cycles;
             node->nb_parameters = op_tab[i].nbr_args;
-            extract_parameters(node, champ);
+            extract_parameters(node, champ); //while (fread mnermonic)
             return 1;
         }
     }
