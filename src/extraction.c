@@ -67,12 +67,12 @@ void extract_body(champion_t **champions)
     int coding_byte = 0;
 
     while (node != NULL) { 
-        while (fread(&mnemonic, 1, 1, node->fd)) {
+        while (fread(&mnemonic, 1, 1, node->fd) == 1) {
             node->instructions = create_instruction(node->instructions);
             node->instructions->mnemonic = mnemonic;
             // fread(&(node->instructions->mnemonic), 1, 1, node->fd);
-            if (node->instructions->mnemonic == 1 || node->instructions->mnemonic == 9
-            || node->instructions->mnemonic == 12 || node->instructions->mnemonic == 15) {
+            if (node->instructions->mnemonic != 1 || node->instructions->mnemonic != 9
+            || node->instructions->mnemonic != 12 || node->instructions->mnemonic != 15) {
                 fread(&coding_byte, 1, 1, node->fd);
             }
             node->instructions->coding_byte = convert_int_in_bin(coding_byte);
