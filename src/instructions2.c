@@ -86,7 +86,6 @@ char *extract_gen(const char *pair, char *params, champion_t *node)
     return NULL;
 }
 // live lire 4 
-// zjmp fork lfork lire 2
 
 void other_extract(instructions_t *node, champion_t *champ, int q, char *pair)
 {
