@@ -43,9 +43,9 @@ static char *extract_indirect(char *params, champion_t *node)
 
 static char *extract_direct(char *params, champion_t *node)
 {
-    short nb = 0;
+    int nb = 0;
+
     fread(&nb, 4, 1, node->fd);
-    nb = (nb << 8) | ((nb >> 8) & 0xFF);
     params = convert_int_to_str(nb);
     printf("direct : %x\n", nb);
     return params;
