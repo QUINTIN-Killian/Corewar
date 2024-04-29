@@ -47,7 +47,7 @@ static char *extract_direct(char *params, champion_t *node)
     fread(&nb, 4, 1, node->fd);
     nb = (nb << 8) | ((nb >> 8) & 0xFF);
     params = convert_int_to_str(nb);
-    printf("indirect : %x\n", nb);
+    printf("direct : %x\n", nb);
     return params;
 }
 
@@ -107,6 +107,11 @@ void other_extract(instructions_t *node, champion_t *champ, int q, char *pair)
         fread(&nb, 1, 1, champ->fd);
         node->parameters[q] = convert_int_to_str(nb);
     }
+    if (my_strcmp(node->instruction, "live") == 0) {
+        fread(&nb, 4, 1, champ->fd);
+        nb = (nb << 8) | ((nb >> 8) & 0xFF);
+        node->parameters[q] = convert_int_to_str(nb);
+    }
 }
 
 void extracts_methods(instructions_t *node, champion_t *champ, int q)
@@ -116,13 +121,11 @@ void extracts_methods(instructions_t *node, champion_t *champ, int q)
     if (strcmp(node->instruction, "sti") == 0 || strcmp(node->instruction, "ldi") == 0
     || strcmp(node->instruction, "lldi") == 0) {
         for (int i = 0; i < 8; i += 2, q++) {
-            printf("q : %d\n", q);
             my_strncpy(pair, node->coding_byte + i, 2);
             pair[2] = '\0';
             node->parameters[q] = my_strdup(extract_sti(pair, node->parameters[q], champ));
         }
     }
-    return;
     other_extract(node, champ, q, pair);
 }
 
@@ -150,7 +153,9 @@ int set_instruction(instructions_t *node, champion_t *champ)
             node->instruction = my_strdup(op_tab[i].mnemonique);
             node->nb_cycles = op_tab[i].nbr_cycles;
             node->nb_parameters = op_tab[i].nbr_args;
+            // extract_parameters(node, champ);
             extract_parameters(node, champ); //while (fread mnermonic)
+            // node = node->next;
             return 1;
         }
     }

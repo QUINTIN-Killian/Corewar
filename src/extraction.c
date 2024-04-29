@@ -63,14 +63,22 @@ void extract_header(champion_t **champions)
 void extract_body(champion_t **champions)
 {
     champion_t *node = *champions;
+    int mnemonic = 0;
     int coding_byte = 0;
 
-    while (node != NULL) {
-        node->instructions = create_instruction(node->instructions);
-        fread(&(node->instructions->mnemonic), 1, 1, node->fd);
-        fread(&coding_byte, 1, 1, node->fd);
-        node->instructions->coding_byte = convert_int_in_bin(coding_byte);
-        set_instruction(node->instructions, node);
+    while (node != NULL) { 
+        while (fread(&mnemonic, 1, 1, node->fd)) {
+            node->instructions = create_instruction(node->instructions);
+            node->instructions->mnemonic = mnemonic;
+            // fread(&(node->instructions->mnemonic), 1, 1, node->fd);
+            if (node->instructions->mnemonic == 1 || node->instructions->mnemonic == 9
+            || node->instructions->mnemonic == 12 || node->instructions->mnemonic == 15) {
+                fread(&coding_byte, 1, 1, node->fd);
+            }
+            node->instructions->coding_byte = convert_int_in_bin(coding_byte);
+            set_instruction(node->instructions, node);
+            node->instructions = node->instructions->next;
+        }
         node = node->next;
     }
 }
