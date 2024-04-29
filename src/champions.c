@@ -7,11 +7,22 @@
 
 #include "../include/corewar.h"
 
+static char **create_registers(void)
+{
+    char **registers = malloc(sizeof(char *) * (REG_NUMBER + 1));
+
+    for (int i = 0; i < REG_NUMBER; i++)
+        registers[i] = my_strdup("0");
+    registers[REG_NUMBER] = NULL;
+    return registers;
+}
+
 champion_t *create_champion(corewar_t *corewar, char *filename)
 {
     champion_t *champion = malloc(sizeof(champion_t));
 
     corewar->nb_champions++;
+    champion->registers = create_registers();
     champion->magic_number = 0;
     champion->name[0] = '\0';
     champion->prog_size = 0;
@@ -30,6 +41,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
 
 static void del_node(champion_t *node)
 {
+    free_word_array(node->registers);
     fclose(node->fd);
     free(node);
 }
