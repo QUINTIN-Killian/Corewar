@@ -21,6 +21,7 @@ instructions_t *create_instruction(instructions_t *next)
     instruction->coding_byte = NULL;
     instruction->instruction = NULL;
     instruction->parameters = NULL;
+    instruction->prev = NULL;
     instruction->next = next;
     return instruction;
 }

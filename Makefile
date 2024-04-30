@@ -18,7 +18,8 @@ SRC	=	src/champions.c	\
 		src/instructions2.c	\
 		src/main.c	\
 		src/main_loop.c	\
-		src/op.c
+		src/op.c	\
+		src/parameters_extraction.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)
 

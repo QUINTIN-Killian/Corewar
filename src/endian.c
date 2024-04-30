@@ -7,6 +7,11 @@
 
 #include "../include/corewar.h"
 
+unsigned short rev_short(unsigned short nbr)
+{
+    return (nbr << 8) | ((nbr >> 8) & 0xFF);
+}
+
 unsigned int rev_int(unsigned int nbr)
 {
     return ((nbr << 24) |

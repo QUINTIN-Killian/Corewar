@@ -19,6 +19,7 @@ typedef struct instructions_s {
     int nb_parameters;
     char **parameters;
     int nb_bytes;
+    struct instructions_s *prev;
     struct instructions_s *next;
 } instructions_t;
 
@@ -45,6 +46,7 @@ typedef struct corewar_s {
 } corewar_t;
 
 //endian.c :
+unsigned short rev_short(unsigned short nbr);
 unsigned int rev_int(unsigned int nbr);
 unsigned long rev_long(unsigned long nbr);
 
@@ -52,6 +54,9 @@ unsigned long rev_long(unsigned long nbr);
 int extract_args(int ac, char **av, corewar_t *corewar);
 void extract_header(champion_t **champions);
 void extract_body(champion_t **champions);
+
+//parameters_extraction.c :
+void extract_parameters(instructions_t *instruction, FILE *fd);
 
 //error_handling.c :
 int is_enough_champions(int ac, char **av);
@@ -85,5 +90,6 @@ instructions_t *rev_instructions(instructions_t **instructions);
 
 //instructions2.c :
 int set_instruction(instructions_t *node);
+void set_double_linked_list(champion_t **champions);
 
 #endif /* !COREWAR_H_ */
