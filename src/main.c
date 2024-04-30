@@ -49,7 +49,8 @@ int main(int ac, char **av)
     }
     extract_body(&corewar.champions);
     set_double_linked_list(&corewar.champions);
-    display_champions_infos(&corewar.champions);
+    //display_champions_infos(&corewar.champions);
+    main_loop(&corewar.champions, &corewar);
     destroy_struct(&corewar);
     return 0;
 }
