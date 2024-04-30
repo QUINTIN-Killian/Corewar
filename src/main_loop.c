@@ -7,28 +7,15 @@
 
 #include "../include/corewar.h"
 
-// void handle_champions_life(champion_t *current, champion_t **liste)
-// {
-//     if (current->is_alive == 1) {
-//         delete_by_id(liste, current->id);
-//     }
-//     if (current->is_alive == 0 &&
-//         strcmp(current->instructions->current_instruction, "live") == 0) {
-//         print_alive();
-//     }
-// }
+void main_loop(champion_t **champions, corewar_t *corewar)
+{
+    champion_t *node;
 
-// int main_loop(champion_t **champs, corewar_t *corewar)
-// {
-//     int turns = 0;
-//     champion_t *current = *champs;
-//
-//     while (turns != corewar->turns) {
-//         current = *champs;
-//         while (current != NULL) {
-//             handle_champions_life();
-//             current = current->next;
-//         }
-//         turns++;
-//     }
-// }
+    while (corewar->nb_champions > 1 || corewar->nb_turns != 0) {
+        node = *champions;
+        while (node != NULL) {
+            node = node->next;
+        }
+        corewar->nb_turns--;
+    }
+}
