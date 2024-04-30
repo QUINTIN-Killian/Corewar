@@ -35,7 +35,8 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
 {
     int tmp = -1;
 
-    if (is_champion_dead(corewar, (*node)->id)) {
+    if ((*node)->cycle_live == CYCLE_TO_DIE ||
+    is_champion_dead(corewar, (*node)->id)) {
         tmp = (*node)->id;
         *node = (*node)->next;
         destroy_champion_node_by_id(champions, tmp);
@@ -71,6 +72,7 @@ void main_loop(champion_t **champions, corewar_t *corewar)
 
     while (corewar->nb_champions > 1 && corewar->nb_turns != 0) {
         node = *champions;
+        node->cycle_live++;
         champions_turn(champions, corewar, node);
         corewar->nb_turns--;
     }
