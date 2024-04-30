@@ -43,6 +43,7 @@ typedef struct corewar_s {
     int nb_turns;
     int nb_champions;
     champion_t *champions;
+    char ***memory;
 } corewar_t;
 
 //endian.c :
@@ -73,6 +74,7 @@ int get_max_champion_id(champion_t **champions);
 void set_champions_infos(corewar_t *corewar, champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
 char *convert_int_in_bin(int nb);
+char *convert_int_in_hex(int nb);
 
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
@@ -95,5 +97,12 @@ instructions_t *move_instruction_head(instructions_t **instructions);
 
 //main_loop.c :
 void main_loop(champion_t **champions, corewar_t *corewar);
+
+//memory.c :
+void create_memory(corewar_t *corewar);
+void print_memory(corewar_t *corewar);
+void destroy_memory(corewar_t *corewar);
+int set_memory_cell(corewar_t *corewar, int new_cell, int coords);
+void place_champions_head(corewar_t *corewar, champion_t **champions);
 
 #endif /* !COREWAR_H_ */
