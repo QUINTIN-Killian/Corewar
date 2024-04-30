@@ -24,6 +24,7 @@ typedef struct instructions_s {
 } instructions_t;
 
 typedef struct champion_s {
+    char **registers;
     FILE *fd;
     int id;
     int timeout;
