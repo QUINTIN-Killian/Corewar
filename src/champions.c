@@ -9,7 +9,7 @@
 
 static int *create_registers(void)
 {
-    int *registers = malloc(sizeof(int) * (REG_NUMBER + 1));
+    int *registers = malloc(REG_SIZE * (REG_NUMBER + 1));
 
     for (int i = 0; i < REG_NUMBER + 1; i++)
         registers[i] = 0;
