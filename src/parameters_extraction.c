@@ -7,31 +7,31 @@
 
 #include "../include/corewar.h"
 
-static char *extract_register(FILE *fd)
+static int extract_register(FILE *fd)
 {
     int nb = 0;
 
     fread(&nb, 1, 1, fd);
-    return convert_int_to_str(nb);
+    return nb;
 }
 
-static char *extract_ind(FILE *fd)
+static int extract_ind(FILE *fd)
 {
     short nb = 0;
 
     fread(&nb, 2, 1, fd);
-    return convert_int_to_str(rev_short(nb));
+    return rev_short(nb);
 }
 
-static char *extract_direct(FILE *fd)
+static int extract_direct(FILE *fd)
 {
     int nb = 0;
 
     fread(&nb, 4, 1, fd);
-    return convert_int_to_str(rev_int(nb));
+    return rev_int(nb);
 }
 
-static int get_nb_parameters(char *coding_byte)
+int get_nb_parameters(char *coding_byte)
 {
     int ans = 0;
 
@@ -45,8 +45,7 @@ void extract_indexes_instruction(instructions_t *instruction, FILE *fd)
 {
     int nb_parameters = get_nb_parameters(instruction->coding_byte);
 
-    instruction->parameters = malloc(sizeof(char *) * (nb_parameters + 1));
-    instruction->parameters[nb_parameters] = NULL;
+    instruction->parameters = malloc(sizeof(int) * nb_parameters);
     for (int i = 0; i < nb_parameters; i++) {
         if (my_strncmp(&(instruction->coding_byte[i * 2]), "01", 2) == 0) {
             instruction->parameters[i] = extract_register(fd);
@@ -60,8 +59,7 @@ void extract_general(instructions_t *instruction, FILE *fd)
 {
     int nb_parameters = get_nb_parameters(instruction->coding_byte);
 
-    instruction->parameters = malloc(sizeof(char *) * (nb_parameters + 1));
-    instruction->parameters[nb_parameters] = NULL;
+    instruction->parameters = malloc(sizeof(char *) * nb_parameters);
     for (int i = 0; i < nb_parameters; i++) {
         if (my_strncmp(&(instruction->coding_byte[i * 2]), "01", 2) == 0) {
             instruction->parameters[i] = extract_register(fd);
@@ -78,16 +76,14 @@ void extract_general(instructions_t *instruction, FILE *fd)
 void extract_parameters(instructions_t *instruction, FILE *fd)
 {
     if (instruction->mnemonic == 1) {
-        instruction->parameters = malloc(sizeof(char *) * 2);
+        instruction->parameters = malloc(sizeof(int));
         instruction->parameters[0] = extract_direct(fd);
-        instruction->parameters[1] = NULL;
         return;
     }
     if (instruction->mnemonic == 9 || instruction->mnemonic == 12 ||
     instruction->mnemonic == 15) {
-        instruction->parameters = malloc(sizeof(char *) * 2);
+        instruction->parameters = malloc(sizeof(int));
         instruction->parameters[0] = extract_ind(fd);
-        instruction->parameters[1] = NULL;
         return;
     }
     if (instruction->mnemonic == 10 || instruction->mnemonic == 11 ||

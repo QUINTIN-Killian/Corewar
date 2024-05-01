@@ -17,7 +17,7 @@ typedef struct instructions_s {
     int nb_cycles;
     char *coding_byte;
     int nb_parameters;
-    char **parameters;
+    int *parameters;
     int nb_bytes;
     struct instructions_s *prev;
     struct instructions_s *next;
@@ -25,7 +25,7 @@ typedef struct instructions_s {
 
 typedef struct champion_s {
     int cycle_live;
-    char **registers;
+    int *registers;
     FILE *fd;
     int id;
     int timeout;
@@ -59,6 +59,7 @@ void extract_header(champion_t **champions);
 void extract_body(champion_t **champions);
 
 //parameters_extraction.c :
+int get_nb_parameters(char *coding_byte);
 void extract_parameters(instructions_t *instruction, FILE *fd);
 
 //error_handling.c :

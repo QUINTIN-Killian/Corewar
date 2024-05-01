@@ -7,13 +7,12 @@
 
 #include "../include/corewar.h"
 
-static char **create_registers(void)
+static int *create_registers(void)
 {
-    char **registers = malloc(sizeof(char *) * (REG_NUMBER + 1));
+    int *registers = malloc(sizeof(int) * (REG_NUMBER + 1));
 
-    for (int i = 0; i < REG_NUMBER; i++)
-        registers[i] = my_strdup("0");
-    registers[REG_NUMBER] = NULL;
+    for (int i = 0; i < REG_NUMBER + 1; i++)
+        registers[i] = 0;
     return registers;
 }
 
@@ -42,7 +41,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
 
 static void del_node(champion_t *node)
 {
-    free_word_array(node->registers);
+    free(node->registers);
     fclose(node->fd);
     free(node);
 }
@@ -76,15 +75,19 @@ void display_champions_infos(champion_t **champions)
 
     if (node == NULL) {
         mini_printf("Champions:\n");
-        mini_printf("NULL\n");
+        mini_printf("\tNULL\n");
         return;
     }
     while (node != NULL) {
         mini_printf("Champion:\n");
-        mini_printf("ID: %d, Name: %s, Head: %d, Timeout: %d, Statut: %d\n",
+        mini_printf("\tID: %d, Name: %s, Head: %d, Timeout: %d, Statut: %d\n",
         node->id, node->name, node->start_mem, node->timeout, node->is_alive);
         display_instructions_infos(&node->instructions);
         node = node->next;
+        if (node != NULL) {
+            mini_printf("--------------------------------------------------");
+            mini_printf("----------------------------------------------\n\n");
+        }
     }
 }
 

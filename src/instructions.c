@@ -33,7 +33,7 @@ static void del_node(instructions_t *node)
     if (node->coding_byte != NULL)
         free(node->coding_byte);
     if (node->parameters != NULL)
-        free_word_array(node->parameters);
+        free(node->parameters);
     free(node);
 }
 
@@ -60,23 +60,34 @@ void destroy_instruction_node_by_id(instructions_t **instructions, int id)
     }
 }
 
+static void display_instructions_infos_aux(instructions_t *node)
+{
+    mini_printf("\tID: %d, Mnemonic: %d, Instruction: %s, Cycles: %d, ",
+    node->id, node->mnemonic, node->instruction, node->nb_cycles);
+    mini_printf("Coding byte: %s, Size: %d, Nb_params: %d\n",
+    node->coding_byte, node->nb_bytes, node->nb_parameters);
+    mini_printf("\tParameters:\n\t");
+    if (node->mnemonic == 1 || node->mnemonic == 9 ||
+    node->mnemonic == 12 || node->mnemonic == 15) {
+        mini_printf("\t%d\n", node->parameters[0]);
+        return;
+    }
+    for (int i = 0; i < get_nb_parameters(node->coding_byte); i++)
+        mini_printf("\t%d", node->parameters[i]);
+    mini_printf("\n");
+}
+
 void display_instructions_infos(instructions_t **instructions)
 {
     instructions_t *node = *instructions;
 
     mini_printf("Instructions:\n");
-    if (node == NULL) {
-        mini_printf("NULL\n");
+    if (node == NULL || node->parameters == NULL) {
+        mini_printf("\tNULL\n");
         return;
     }
     while (node != NULL) {
-        mini_printf("ID: %d, Mnemonic: %d, Instruction: %s, Cycles: %d, ",
-        node->id, node->mnemonic, node->instruction, node->nb_cycles);
-        mini_printf("Coding byte: %s, Size: %d, Nb_params: %d\n",
-        node->coding_byte, node->nb_bytes, node->nb_parameters);
-        mini_printf("Parameters:\n");
-        print_word_array(node->parameters);
-        mini_printf("\n");
+        display_instructions_infos_aux(node);
         node = node->next;
     }
 }
