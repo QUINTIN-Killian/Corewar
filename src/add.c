@@ -5,7 +5,7 @@
 ** add
 */
 
-#include "../../include/corewar.h"
+#include "../include/corewar.h"
 
 void exec_add(champion_t *champion)
 {

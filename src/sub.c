@@ -5,7 +5,7 @@
 ** sub
 */
 
-#include "../../include/corewar.h"
+#include "../include/corewar.h"
 
 void exec_sub(champion_t *champion)
 {

@@ -57,8 +57,9 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
         if (skip_turn(champions, corewar, &node))
             continue;
         if (node->instructions != NULL) {
-            mini_printf("%s : %s\n",
-            node->name, node->instructions->instruction);
+            // mini_printf("%s : %s\n",
+            // node->name, node->instructions->instruction);
+            instruction_execution(node, node->instructions);
             node->timeout = node->instructions->nb_cycles;
             node->instructions = move_instruction_head(&node->instructions);
         }

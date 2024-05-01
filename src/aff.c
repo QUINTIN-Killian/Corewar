@@ -5,7 +5,7 @@
 ** aff
 */
 
-#include "../../include/corewar.h"
+#include "../include/corewar.h"
 
 void exec_aff(champion_t *champion)
 {

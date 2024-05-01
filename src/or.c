@@ -5,7 +5,7 @@
 ** or
 */
 
-#include "../../include/corewar.h"
+#include "../include/corewar.h"
 
 void exec_or(champion_t *champion)
 {

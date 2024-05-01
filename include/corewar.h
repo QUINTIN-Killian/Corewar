@@ -108,4 +108,29 @@ void destroy_memory(corewar_t *corewar);
 int set_memory_cell(corewar_t *corewar, int new_cell, int coords);
 void place_champions_head(corewar_t *corewar, champion_t **champions);
 
+//instructions/add.c :
+void exec_add(champion_t *champion);
+
+//instructions/aff.c :
+void exec_aff(champion_t *champion);
+
+//instructions/and.c :
+void exec_and(champion_t *champion);
+
+//instructions/instruction_execution.c :
+void instruction_execution(champion_t *champion,
+    instructions_t *instruction);
+
+//instructions/live.c :
+void exec_live(champion_t *champion);
+
+//instructions/or.c :
+void exec_or(champion_t *champion);
+
+//instructions/sub.c :
+void exec_sub(champion_t *champion);
+
+//instructions/xor.c :
+void exec_xor(champion_t *champion);
+
 #endif /* !COREWAR_H_ */

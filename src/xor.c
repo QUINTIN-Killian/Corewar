@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2024
 ** corewar-private
 ** File description:
-** and
+** xor
 */
 
-#include "../../include/corewar.h"
+#include "../include/corewar.h"
 
-void exec_and(champion_t *champion)
+void exec_xor(champion_t *champion)
 {
     int value1 = 0;
     int value2 = 0;
@@ -21,5 +21,5 @@ void exec_and(champion_t *champion)
     else
         value2 = champion->instructions->parameters[1];
     champion->registers[champion->instructions->parameters[2]] =
-    value1 & value2;
+    value1 ^ value2;
 }
