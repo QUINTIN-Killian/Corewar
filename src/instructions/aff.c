@@ -9,6 +9,6 @@
 
 void exec_aff(champion_t *champion)
 {
-    mini_printf("%c\n", champion->registers[convert_str_in_int(
-    champion->instructions->parameters[0])][0]);
+    mini_printf("%c\n", champion->registers[
+    champion->instructions->parameters[0]]);
 }
