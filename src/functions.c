@@ -45,6 +45,7 @@ void set_champions_infos(corewar_t *corewar, champion_t **champions)
             node->id = get_max_champion_id(champions);
         if (node->start_mem == -1)
             node->start_mem = 0 + n * (MEM_SIZE / corewar->nb_champions);
+        node->registers[0] = node->start_mem;
         n++;
         node = node->next;
     }
