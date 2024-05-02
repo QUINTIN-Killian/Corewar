@@ -14,10 +14,12 @@ void init_struct(corewar_t *corewar)
     corewar->champions = NULL;
     corewar->nb_champions = 0;
     corewar->nb_turns = -1;
+    corewar->memory = NULL;
 }
 
 void destroy_struct(corewar_t *corewar)
 {
+    destroy_memory(corewar);
     delete_champions_list(&corewar->champions);
 }
 
@@ -48,7 +50,12 @@ int main(int ac, char **av)
         return 84;
     }
     extract_body(&corewar.champions);
-    display_champions_infos(&corewar.champions);
+    set_double_linked_list(&corewar.champions);
+    create_memory(&corewar);
+    place_champions_head(&corewar, &corewar.champions);
+    //display_champions_infos(&corewar.champions);
+    //print_memory(&corewar);
+    main_loop(&corewar.champions, &corewar);
     destroy_struct(&corewar);
     return 0;
 }

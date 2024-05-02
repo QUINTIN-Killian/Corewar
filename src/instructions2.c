@@ -21,3 +21,38 @@ int set_instruction(instructions_t *node)
     }
     return 0;
 }
+
+static void set_double_linked_list_aux(instructions_t **instructions)
+{
+    instructions_t *p = NULL;
+    instructions_t *c = *instructions;
+
+    while (c != NULL) {
+        c->prev = p;
+        p = c;
+        c = c->next;
+    }
+}
+
+void set_double_linked_list(champion_t **champions)
+{
+    champion_t *node = *champions;
+
+    while (node != NULL) {
+        set_double_linked_list_aux(&node->instructions);
+        node = node->next;
+    }
+}
+
+instructions_t *move_instruction_head(instructions_t **instructions)
+{
+    instructions_t *node = *instructions;
+
+    if (node == NULL)
+        return NULL;
+    if (node->next != NULL)
+        return node->next;
+    while (node->prev != NULL)
+        node = node->prev;
+    return node;
+}

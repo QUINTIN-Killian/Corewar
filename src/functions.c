@@ -88,3 +88,25 @@ char *convert_int_in_bin(int nb)
     }
     return ans;
 }
+
+static char get_char_value(int nb)
+{
+    if (nb >= 0 && nb < 10)
+        return '0' + nb;
+    nb -= 10;
+    return 'a' + nb;
+}
+
+char *convert_int_in_hex(int nb)
+{
+    char *ans;
+
+    if (nb > 255 || nb < 0)
+        return NULL;
+    ans = my_strdup("00");
+    for (int i = 1; i >= 0; i--) {
+        ans[i] = get_char_value(nb % 16);
+        nb = nb / 16;
+    }
+    return ans;
+}

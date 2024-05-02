@@ -60,17 +60,30 @@ void extract_header(champion_t **champions)
     }
 }
 
+static int extract_coding_byte(int mnemonic, FILE *fd)
+{
+    int coding_byte = 0;
+
+    if (mnemonic != 1 && mnemonic != 9 && mnemonic != 12 && mnemonic != 15)
+        fread(&coding_byte, 1, 1, fd);
+    return coding_byte;
+}
+
 void extract_body(champion_t **champions)
 {
     champion_t *node = *champions;
-    int coding_byte = 0;
+    int mnemonic = 0;
 
     while (node != NULL) {
-        node->instructions = create_instruction(node->instructions);
-        fread(&(node->instructions->mnemonic), 1, 1, node->fd);
-        fread(&coding_byte, 1, 1, node->fd);
-        node->instructions->coding_byte = convert_int_in_bin(coding_byte);
-        set_instruction(node->instructions);
+        while (fread(&mnemonic, 1, 1, node->fd) == 1) {
+            node->instructions = create_instruction(node->instructions);
+            node->instructions->mnemonic = mnemonic;
+            node->instructions->coding_byte =
+            convert_int_in_bin(extract_coding_byte(mnemonic, node->fd));
+            set_instruction(node->instructions);
+            extract_parameters(node->instructions, node->fd);
+        }
+        node->instructions = rev_instructions(&node->instructions);
         node = node->next;
     }
 }
