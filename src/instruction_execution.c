@@ -7,88 +7,57 @@
 
 #include "../include/corewar.h"
 
-static void instruction_execution4(champion_t *champion,
+static void instruction_execution4(corewar_t *corewar, champion_t *champion,
     instructions_t *instruction)
 {
-    if (instruction->mnemonic == 13) {
-        mini_printf("Instruction LLD\n");
-        return;
-    }
-    if (instruction->mnemonic == 14) {
-        mini_printf("Instruction LLDI\n");
-        return;
-    }
-    if (instruction->mnemonic == 15) {
-        mini_printf("Instruction LFORK\n");
-        return;
-    }
-    if (instruction->mnemonic == 16) {
-        mini_printf("Instruction AFF\n");
+    if (instruction->mnemonic == 13)
+        return exec_lld(champion, corewar);
+    if (instruction->mnemonic == 14)
+        return exec_lldi(corewar, champion);
+    if (instruction->mnemonic == 15)
+        return move_instruction_head(champion);
+    if (instruction->mnemonic == 16)
         return exec_aff(champion);
-    }
 }
 
-static void instruction_execution3(champion_t *champion,
+static void instruction_execution3(corewar_t *corewar, champion_t *champion,
     instructions_t *instruction)
 {
-    if (instruction->mnemonic == 9) {
-        mini_printf("Instruction ZJMP\n");
-        return;
-    }
-    if (instruction->mnemonic == 10) {
-        mini_printf("Instruction LDI\n");
-        return;
-    }
-    if (instruction->mnemonic == 11) {
-        mini_printf("Instruction STI\n");
-        return;
-    }
-    if (instruction->mnemonic == 12) {
-        mini_printf("Instruction FORK\n");
-        return;
-    }
-    instruction_execution4(champion, instruction);
+    if (instruction->mnemonic == 9)
+        return exec_zjmp(champion);
+    if (instruction->mnemonic == 10)
+        return exec_ldi(corewar, champion);
+    if (instruction->mnemonic == 11)
+        return exec_sti(champion, corewar);
+    if (instruction->mnemonic == 12)
+        return move_instruction_head(champion);
+    instruction_execution4(corewar, champion, instruction);
 }
 
-static void instruction_execution2(champion_t *champion,
+static void instruction_execution2(corewar_t *corewar, champion_t *champion,
     instructions_t *instruction)
 {
-    if (instruction->mnemonic == 5) {
-        mini_printf("Instruction SUB\n");
+    if (instruction->mnemonic == 5)
         return exec_sub(champion);
-    }
-    if (instruction->mnemonic == 6) {
-        mini_printf("Instruction AND\n");
+    if (instruction->mnemonic == 6)
         return exec_and(champion);
-    }
-    if (instruction->mnemonic == 7) {
-        mini_printf("Instruction OR\n");
+    if (instruction->mnemonic == 7)
         return exec_or(champion);
-    }
-    if (instruction->mnemonic == 8) {
-        mini_printf("Instruction XOR\n");
+    if (instruction->mnemonic == 8)
         return exec_xor(champion);
-    }
-    instruction_execution3(champion, instruction);
+    instruction_execution3(corewar, champion, instruction);
 }
 
-void instruction_execution(champion_t *champion, instructions_t *instruction)
+void instruction_execution(corewar_t *corewar, champion_t *champion,
+    instructions_t *instruction)
 {
-    if (instruction->mnemonic == 1) {
-        mini_printf("Instruction LIVE\n");
+    if (instruction->mnemonic == 1)
         return exec_live(champion);
-    }
-    if (instruction->mnemonic == 2) {
-        mini_printf("Instruction LD\n");
-        return;
-    }
-    if (instruction->mnemonic == 3) {
-        mini_printf("Instruction ST\n");
-        return;
-    }
-    if (instruction->mnemonic == 4) {
-        mini_printf("Instruction ADD\n");
+    if (instruction->mnemonic == 2)
+        return exec_ld(champion, corewar);
+    if (instruction->mnemonic == 3)
+        return exec_st(champion, corewar);
+    if (instruction->mnemonic == 4)
         return exec_add(champion);
-    }
-    instruction_execution2(champion, instruction);
+    instruction_execution2(corewar, champion, instruction);
 }
