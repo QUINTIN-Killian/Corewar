@@ -37,7 +37,9 @@ static void exec_zjmp_backward(champion_t *champion)
 
 void exec_zjmp(champion_t *champion)
 {
-    if (!champion->carry || champion->instructions->parameters[0] == 0)
+    if (!champion->carry)
+        return move_instruction_head(champion);
+    if (champion->instructions->parameters[0] == 0)
         return;
     champion->PC = champion->PC + champion->instructions->parameters[0] %
     IDX_MOD;
