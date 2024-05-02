@@ -9,6 +9,7 @@
     #define COREWAR_H_
     #include "my.h"
     #include "op.h"
+    #define PC registers[0]
 
 typedef struct instructions_s {
     int id;
