@@ -33,8 +33,7 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
     int tmp = -1;
 
     while (node != NULL) {
-        if (node->instructions == NULL || node->timeout > 0 ||
-        get_memory_cell(corewar, node->head)->id_owner != node->id) {
+        if (node->instructions == NULL || node->timeout > 0) {
             node->timeout--;
             node = node->next;
             continue;
