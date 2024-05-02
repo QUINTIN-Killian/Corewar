@@ -58,7 +58,9 @@ void main_loop(champion_t **champions, corewar_t *corewar)
 {
     champion_t *node;
 
+    corewar->turn_nbr = 0;
     while (corewar->nb_champions > 1 && corewar->nb_turns != 0) {
+        corewar->turn_nbr++;
         node = *champions;
         node->cycle_live++;
         champions_turn(champions, corewar, node);

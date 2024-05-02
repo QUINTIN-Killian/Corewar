@@ -52,6 +52,7 @@ typedef struct corewar_s {
     int start_mem;
     int nb_turns;
     int nb_champions;
+    int turn_nbr;
     champion_t *champions;
     cell_t **memory;
 } corewar_t;
