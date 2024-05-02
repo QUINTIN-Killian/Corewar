@@ -31,7 +31,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
     champion->timeout = 0;
     champion->is_alive = 1;
     champion->id = corewar->id;
-    champion->start_mem = corewar->start_mem;
+    champion->head = corewar->start_mem;
     champion->fd = fopen(filename, "r");
     champion->next = corewar->champions;
     champion->instructions = NULL;
@@ -82,7 +82,7 @@ void display_champions_infos(champion_t **champions)
     while (node != NULL) {
         mini_printf("Champion:\n");
         mini_printf("\tID: %d, Name: %s, Head: %d, Timeout: %d, Statut: %d\n",
-        node->id, node->name, node->start_mem, node->timeout, node->is_alive);
+        node->id, node->name, node->head, node->timeout, node->is_alive);
         display_instructions_infos(&node->instructions);
         node = node->next;
         if (node != NULL) {

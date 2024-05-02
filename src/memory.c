@@ -57,7 +57,7 @@ void place_champions_head(corewar_t *corewar, champion_t **champions)
     champion_t *node = *champions;
 
     while (node != NULL) {
-        set_memory_cell(corewar, node->id, node->start_mem);
+        set_memory_cell(corewar, node->id, node->head);
         node = node->next;
     }
 }
