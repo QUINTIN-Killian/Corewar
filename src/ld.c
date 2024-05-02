@@ -6,18 +6,6 @@
 */
 #include "include/corewar.h"
 
-cell_t get_memory_cell(corewar_t *corewar, int coords)
-{
-    int x;
-    int y;
-
-    if (coords < 0 || coords >= MEM_SIZE)
-        return;
-    y = coords / 32;
-    x = coords % 32;
-    return corewar->memory[x][y];
-}
-
 int set_val(int i)
 {
     if (i == 0)
@@ -55,4 +43,9 @@ void exec_ld(champion_t *champion, corewar_t *corewar)
             new << val;
     }
     champion->registers[champion->instructions->parameters[1]] = new;
+    if (new == 0) {
+        champion->carry = 0;
+    } else {
+        champion->carry = 1;
+    }
 }

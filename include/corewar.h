@@ -144,4 +144,7 @@ void exec_xor(champion_t *champion);
 //conversion.c 
 int convert_hex_in_int(char *hex);
 
+// get_memory_cell.c
+cell_t get_memory_cell(corewar_t *corewar, int coords);
+
 #endif /* !COREWAR_H_ */
