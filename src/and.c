@@ -26,4 +26,5 @@ void exec_and(champion_t *champion)
         champion->carry = 0;
     else
         champion->carry = 1;
+    move_instruction_head(champion);
 }

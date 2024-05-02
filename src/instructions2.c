@@ -44,15 +44,9 @@ void set_double_linked_list(champion_t **champions)
     }
 }
 
-instructions_t *move_instruction_head(instructions_t **instructions)
+void move_instruction_head(champion_t *champion)
 {
-    instructions_t *node = *instructions;
-
-    if (node == NULL)
-        return NULL;
-    if (node->next != NULL)
-        return node->next;
-    while (node->prev != NULL)
-        node = node->prev;
-    return node;
+    if (champion->instructions == NULL)
+        return;
+    champion->instructions = champion->instructions->next;
 }

@@ -11,4 +11,5 @@ void exec_aff(champion_t *champion)
 {
     mini_printf("%c\n", champion->registers[
     champion->instructions->parameters[0]]);
+    move_instruction_head(champion);
 }
