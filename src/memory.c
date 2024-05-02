@@ -43,21 +43,6 @@ void destroy_memory(corewar_t *corewar)
     free(corewar->memory);
 }
 
-int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell, int coords)
-{
-    int x;
-    int y;
-
-    if (coords < 0 || coords >= MEM_SIZE)
-        return 0;
-    y = coords / 32;
-    x = coords % 32;
-    free(corewar->memory[y][x].value);
-    corewar->memory[y][x].id_owner = id_owner;
-    corewar->memory[y][x].value = convert_int_in_hex(new_cell);
-    return 1;
-}
-
 void place_champions_head(corewar_t *corewar, champion_t **champions)
 {
     champion_t *node = *champions;
