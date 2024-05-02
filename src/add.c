@@ -12,4 +12,8 @@ void exec_add(champion_t *champion)
     champion->registers[champion->instructions->parameters[2]] =
     champion->registers[champion->instructions->parameters[0]] +
     champion->registers[champion->instructions->parameters[1]];
+    if (champion->registers[champion->instructions->parameters[2]] == 0)
+        champion->carry = 0;
+    else
+        champion->carry = 1;
 }
