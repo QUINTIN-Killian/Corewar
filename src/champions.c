@@ -86,8 +86,8 @@ void display_champions_infos(champion_t **champions)
         display_instructions_infos(&node->instructions);
         node = node->next;
         if (node != NULL) {
-            mini_printf("--------------------------------------------------");
-            mini_printf("----------------------------------------------\n\n");
+            mini_printf("\n-------------------------------------------------");
+            mini_printf("-----------------------------------------------\n\n");
         }
     }
 }
