@@ -42,6 +42,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
 
 static void del_node(champion_t *node)
 {
+    delete_instructions_list(&node->head_instruction_ref);
     free(node->registers);
     fclose(node->fd);
     free(node);
@@ -98,7 +99,6 @@ void delete_champions_list(champion_t **champions)
     champion_t *next;
 
     while (current != NULL) {
-        delete_instructions_list(&current->head_instruction_ref);
         next = current->next;
         del_node(current);
         current = next;
