@@ -9,7 +9,7 @@
     #define COREWAR_H_
     #include "my.h"
     #include "op.h"
-    #define PC registers[0]
+    #define PC head
 
 typedef struct instructions_s {
     int id;
@@ -32,7 +32,7 @@ typedef struct champion_s {
     int id;
     int timeout;
     int is_alive;
-    int start_mem;
+    int head;
     int magic_number;
     char name[PROG_NAME_LENGTH + 1];
     long prog_size;
