@@ -36,7 +36,7 @@ SRC	=	src/champions.c	\
 		src/ldi.c	\
 		src/lldi.c	\
 		src/zjmp.c	\
-		src/get_memory_cell.c	\
+		src/memory_cell.c	\
 		src/conversions.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)
