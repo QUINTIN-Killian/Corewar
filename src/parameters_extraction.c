@@ -49,9 +49,11 @@ void extract_indexes_instruction(instructions_t *instruction, FILE *fd)
     for (int i = 0; i < nb_parameters; i++) {
         if (my_strncmp(&(instruction->coding_byte[i * 2]), "01", 2) == 0) {
             instruction->parameters[i] = extract_register(fd);
+            instruction->nb_bytes++;
             continue;
         }
         instruction->parameters[i] = extract_ind(fd);
+        instruction->nb_bytes += 2;
     }
 }
 
@@ -63,13 +65,16 @@ void extract_general(instructions_t *instruction, FILE *fd)
     for (int i = 0; i < nb_parameters; i++) {
         if (my_strncmp(&(instruction->coding_byte[i * 2]), "01", 2) == 0) {
             instruction->parameters[i] = extract_register(fd);
+            instruction->nb_bytes++;
             continue;
         }
         if (my_strncmp(&(instruction->coding_byte[i * 2]), "10", 2) == 0) {
             instruction->parameters[i] = extract_direct(fd);
+            instruction->nb_bytes += 4;
             continue;
         }
         instruction->parameters[i] = extract_ind(fd);
+        instruction->nb_bytes += 2;
     }
 }
 
@@ -78,14 +83,17 @@ void extract_parameters(instructions_t *instruction, FILE *fd)
     if (instruction->mnemonic == 1) {
         instruction->parameters = malloc(sizeof(int));
         instruction->parameters[0] = extract_direct(fd);
+        instruction->nb_bytes = 5;
         return;
     }
     if (instruction->mnemonic == 9 || instruction->mnemonic == 12 ||
     instruction->mnemonic == 15) {
         instruction->parameters = malloc(sizeof(int));
         instruction->parameters[0] = extract_ind(fd);
+        instruction->nb_bytes = 3;
         return;
     }
+    instruction->nb_bytes = 2;
     if (instruction->mnemonic == 10 || instruction->mnemonic == 11 ||
     instruction->mnemonic == 14)
         return extract_indexes_instruction(instruction, fd);
