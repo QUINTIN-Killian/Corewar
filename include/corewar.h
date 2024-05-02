@@ -11,6 +11,11 @@
     #include "op.h"
     #define PC head
 
+typedef struct cell_s {
+    char *value;
+    int id_owner;
+} cell_t;
+
 typedef struct instructions_s {
     int id;
     int mnemonic;
@@ -47,7 +52,7 @@ typedef struct corewar_s {
     int nb_turns;
     int nb_champions;
     champion_t *champions;
-    char ***memory;
+    cell_t **memory;
 } corewar_t;
 
 //endian.c :
@@ -107,7 +112,8 @@ void main_loop(champion_t **champions, corewar_t *corewar);
 void create_memory(corewar_t *corewar);
 void print_memory(corewar_t *corewar);
 void destroy_memory(corewar_t *corewar);
-int set_memory_cell(corewar_t *corewar, int new_cell, int coords);
+int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell,
+    int coords);
 void place_champions_head(corewar_t *corewar, champion_t **champions);
 
 //instructions/add.c :

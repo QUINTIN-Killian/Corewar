@@ -7,10 +7,10 @@
 
 #include "../include/corewar.h"
 
-static int is_champion_dead_aux(corewar_t *corewar, char *id_hex, int i)
+static int is_champion_dead_aux(corewar_t *corewar, int id, int i)
 {
-    for (int j = 0; corewar->memory[i][j] != NULL; j++) {
-        if (my_strcmp(corewar->memory[i][j], id_hex) == 0) {
+    for (int j = 0; corewar->memory[i][j].value != NULL; j++) {
+        if (corewar->memory[i][j].id_owner == id) {
             return 0;
         }
     }
@@ -19,11 +19,8 @@ static int is_champion_dead_aux(corewar_t *corewar, char *id_hex, int i)
 
 int is_champion_dead(corewar_t *corewar, int id)
 {
-    char *id_hex = convert_int_in_hex(id);
-
     for (int i = 0; corewar->memory[i] != NULL; i++) {
-        if (!is_champion_dead_aux(corewar, id_hex, i)) {
-            free(id_hex);
+        if (!is_champion_dead_aux(corewar, id, i)) {
             return 0;
         }
     }
@@ -42,6 +39,7 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
         destroy_champion_node_by_id(champions, tmp);
         return 1;
     }
+    //if ((*node)->is_alive == 2)
     if ((*node)->timeout > 0) {
         (*node)->timeout--;
         *node = (*node)->next;
