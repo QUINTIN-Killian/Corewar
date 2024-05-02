@@ -5,7 +5,7 @@
 ** st
 */
 #include "../include/corewar.h"
-// PC + VALUE % IDX_MOD.  il faut sotre a cette adresse
+
 void exec_st(champion_t *champion)
 {
     int value1 = champion->registers[champion->instructions->parameters[0]];
