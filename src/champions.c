@@ -98,7 +98,7 @@ void delete_champions_list(champion_t **champions)
     champion_t *next;
 
     while (current != NULL) {
-        delete_instructions_list(&current->instructions);
+        delete_instructions_list(&current->head_instruction_ref);
         next = current->next;
         del_node(current);
         current = next;
