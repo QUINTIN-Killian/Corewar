@@ -141,4 +141,7 @@ void exec_sub(champion_t *champion);
 //instructions/xor.c :
 void exec_xor(champion_t *champion);
 
+//conversion.c 
+int convert_hex_in_int(char *hex);
+
 #endif /* !COREWAR_H_ */
