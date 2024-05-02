@@ -44,6 +44,7 @@ typedef struct champion_s {
     char comment[COMMENT_LENGTH + 1];
     struct champion_s *next;
     instructions_t *instructions;
+    instructions_t *head_instruction_ref;
 } champion_t;
 
 typedef struct corewar_s {
@@ -83,8 +84,6 @@ int is_correct_file(char **args, int i);
 int get_max_champion_id(champion_t **champions);
 void set_champions_infos(corewar_t *corewar, champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
-char *convert_int_in_bin(int nb);
-char *convert_int_in_hex(int nb);
 
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
@@ -112,46 +111,65 @@ void main_loop(champion_t **champions, corewar_t *corewar);
 void create_memory(corewar_t *corewar);
 void print_memory(corewar_t *corewar);
 void destroy_memory(corewar_t *corewar);
-int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell,
-    int coords);
 void place_champions_head(corewar_t *corewar, champion_t **champions);
 
-//instructions/add.c :
+//add.c :
 void exec_add(champion_t *champion);
 
-//instructions/aff.c :
+//aff.c :
 void exec_aff(champion_t *champion);
 
-//instructions/and.c :
+//and.c :
 void exec_and(champion_t *champion);
 
-//instructions/instruction_execution.c :
-void instruction_execution(champion_t *champion,
+//instruction_execution.c :
+void instruction_execution(corewar_t *corewar, champion_t *champion,
     instructions_t *instruction);
 
-//instructions/live.c :
+//zjmp.c :
+void exec_zjmp(champion_t *champion);
+
+//live.c :
 void exec_live(champion_t *champion);
 
-//instructions/or.c :
+//or.c :
 void exec_or(champion_t *champion);
 
-//instructions/sub.c :
+//sub.c :
 void exec_sub(champion_t *champion);
 
-//instructions/xor.c :
+//xor.c :
 void exec_xor(champion_t *champion);
 
-//instructions/ld.c
-int set_val(int i);
+//st.c :
+void exec_st(champion_t *champion, corewar_t *corewar);
 
-//instruction/lldi.c
+//sti.c :
+void exec_sti(champion_t *champion, corewar_t *corewar);
+
+//ld.c :
+int set_val(int i);
+void exec_ld(champion_t *champion, corewar_t *corewar);
+
+//lld.c :
+void exec_lld(champion_t *champion, corewar_t *corewar);
+
+//ldi.c :
+void exec_ldi(corewar_t *corewar, champion_t *champion);
+
+//lldi.c :
 void set_carry(champion_t *champion, int new);
 int set_value(champion_t *champion, int start, int parameter);
+void exec_lldi(corewar_t *corewar, champion_t *champion);
 
-//conversion.c
+//conversions.c :
 int convert_hex_in_int(char *hex);
+char *convert_int_in_bin(int nb);
+char *convert_int_in_hex(int nb);
 
-// get_memory_cell.c
-cell_t get_memory_cell(corewar_t *corewar, int coords);
+// memory_cell.c :
+cell_t *get_memory_cell(corewar_t *corewar, int coords);
+int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell,
+    int coords);
 
 #endif /* !COREWAR_H_ */

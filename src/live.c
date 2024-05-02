@@ -10,4 +10,5 @@
 void exec_live(champion_t *champion)
 {
     champion->cycle_live = -1;
+    move_instruction_head(champion);
 }

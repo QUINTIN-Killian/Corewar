@@ -10,7 +10,8 @@
 ** File description:
 ** ld
 */
-#include "include/corewar.h"
+
+#include "../include/corewar.h"
 
 void exec_lld(champion_t *champion, corewar_t *corewar)
 {
@@ -18,17 +19,18 @@ void exec_lld(champion_t *champion, corewar_t *corewar)
     int adress = 0;
     int new = 0;
     int val = 0;
-    cell_t temp;
+    cell_t *temp;
 
     value1 = set_value(champion, 2, 1);
     adress = champion->PC + value1;
     for (int i = 0; i < REG_SIZE; i++) {
         temp = get_memory_cell(corewar, adress);
-        new += convert_hex_in_int(temp.value);
+        new += convert_hex_in_int(temp->value);
         val = set_val(i);
         if (val != -1)
-            new << val;
+            new = new << val;
     }
     champion->registers[champion->instructions->parameters[1]] = new;
     set_carry(champion, new);
+    move_instruction_head(champion);
 }

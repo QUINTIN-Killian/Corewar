@@ -4,7 +4,8 @@
 ** File description:
 ** sti
 */
-#include "include/corewar.h"
+
+#include "../include/corewar.h"
 
 void exec_sti(champion_t *champion, corewar_t *corewar)
 {
@@ -25,4 +26,5 @@ void exec_sti(champion_t *champion, corewar_t *corewar)
     }
     adress = champion->PC + (value2 + value3) % IDX_MOD;
     set_memory_cell(corewar, champion->id, value1, adress);
+    move_instruction_head(champion);
 }
