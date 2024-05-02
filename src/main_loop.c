@@ -32,7 +32,7 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
 {
     int tmp = -1;
 
-    if ((*node)->cycle_live == CYCLE_TO_DIE ||
+    if ((*node)->cycle_live >= CYCLE_TO_DIE ||
     is_champion_dead(corewar, (*node)->id)) {
         tmp = (*node)->id;
         *node = (*node)->next;
