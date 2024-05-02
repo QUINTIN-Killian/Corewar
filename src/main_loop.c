@@ -27,44 +27,29 @@ int is_champion_dead(corewar_t *corewar, int id)
     return 1;
 }
 
-static int skip_turn(champion_t **champions, corewar_t *corewar,
-    champion_t **node)
-{
-    int tmp = -1;
-
-    if ((*node)->instructions == NULL) {
-        *node = (*node)->next;
-        return 1;
-    }
-    if ((*node)->timeout > 0) {
-        (*node)->timeout--;
-        *node = (*node)->next;
-        return 1;
-    }
-    if ((*node)->cycle_live >= CYCLE_TO_DIE ||
-    is_champion_dead(corewar, (*node)->id)) {
-        tmp = (*node)->id;
-        *node = (*node)->next;
-        destroy_champion_node_by_id(champions, tmp);
-        return 1;
-    }
-    //if ((*node)->is_alive == 2)
-    return 0;
-}
-
 static void champions_turn(champion_t **champions, corewar_t *corewar,
     champion_t *node)
 {
+    int tmp = -1;
+
     while (node != NULL) {
-        if (skip_turn(champions, corewar, &node))
+        if (node->instructions == NULL || node->timeout > 0 ||
+        get_memory_cell(corewar, node->head)->id_owner != node->id) {
+            node->timeout--;
+            node = node->next;
             continue;
-        if (node->instructions != NULL) {
-            // mini_printf("%s : %s\n",
-            // node->name, node->instructions->instruction);
-            node->timeout = node->instructions->nb_cycles;
-            instruction_execution(node, node->instructions);
-            //node->instructions = move_instruction_head(&node->instructions);
         }
+        if (node->cycle_live >= CYCLE_TO_DIE ||
+        is_champion_dead(corewar, node->id)) {
+            tmp = node->id;
+            node = node->next;
+            destroy_champion_node_by_id(champions, tmp);
+            corewar->nb_champions--;
+            continue;
+        }
+        mini_printf("%s : %s\n", node->name, node->instructions->instruction);
+        node->timeout = node->instructions->nb_cycles;
+        instruction_execution(corewar, node, node->instructions);
         node = node->next;
     }
 }
