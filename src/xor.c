@@ -22,4 +22,8 @@ void exec_xor(champion_t *champion)
         value2 = champion->instructions->parameters[1];
     champion->registers[champion->instructions->parameters[2]] =
     value1 ^ value2;
+    if (champion->registers[champion->instructions->parameters[2]] == 0)
+        champion->carry = 0;
+    else
+        champion->carry = 1;
 }
