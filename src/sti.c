@@ -24,5 +24,5 @@ void exec_sti(champion_t *champion, corewar_t *corewar)
         value2 = champion->instructions->parameters[2];
     }
     adress = champion->PC + (value2 + value3) % IDX_MOD;
-    set_memory_cell(corewar, value1, adress);
+    set_memory_cell(corewar, champion->id, value1, adress);
 }
