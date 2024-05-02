@@ -14,6 +14,8 @@ static void exec_zjmp_forward(champion_t *champion)
 
     while (node != NULL && distance > 0) {
         distance -= node->nb_bytes;
+        if (distance <= 0)
+            break;
         node = node->next;
     }
     champion->instructions = node;
@@ -26,6 +28,8 @@ static void exec_zjmp_backward(champion_t *champion)
 
     while (node != NULL && distance > 0) {
         distance -= node->nb_bytes;
+        if (distance <= 0)
+            break;
         node = node->prev;
     }
     champion->instructions = node;
