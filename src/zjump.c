@@ -39,7 +39,7 @@ void exec_zjmp(champion_t *champion)
         return;
     champion->PC = champion->PC + champion->instructions->parameters[0] %
     IDX_MOD;
-    if (champion->instructions->parameters[0] <= 0xffff / 2) 
+    if (champion->instructions->parameters[0] <= 0xffff / 2)
         return exec_zjmp_forward(champion);
     exec_zjmp_backward(champion);
 }
