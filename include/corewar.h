@@ -103,7 +103,7 @@ instructions_t *rev_instructions(instructions_t **instructions);
 //instructions2.c :
 int set_instruction(instructions_t *node);
 void set_double_linked_list(champion_t **champions);
-instructions_t *move_instruction_head(instructions_t **instructions);
+void move_instruction_head(champion_t *champion);
 
 //main_loop.c :
 void main_loop(champion_t **champions, corewar_t *corewar);

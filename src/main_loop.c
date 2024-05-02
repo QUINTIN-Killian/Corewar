@@ -32,6 +32,15 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
 {
     int tmp = -1;
 
+    if ((*node)->instructions == NULL) {
+        *node = (*node)->next;
+        return 1;
+    }
+    if ((*node)->timeout > 0) {
+        (*node)->timeout--;
+        *node = (*node)->next;
+        return 1;
+    }
     if ((*node)->cycle_live >= CYCLE_TO_DIE ||
     is_champion_dead(corewar, (*node)->id)) {
         tmp = (*node)->id;
@@ -40,11 +49,6 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
         return 1;
     }
     //if ((*node)->is_alive == 2)
-    if ((*node)->timeout > 0) {
-        (*node)->timeout--;
-        *node = (*node)->next;
-        return 1;
-    }
     return 0;
 }
 
@@ -57,9 +61,9 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
         if (node->instructions != NULL) {
             // mini_printf("%s : %s\n",
             // node->name, node->instructions->instruction);
-            instruction_execution(node, node->instructions);
             node->timeout = node->instructions->nb_cycles;
-            node->instructions = move_instruction_head(&node->instructions);
+            instruction_execution(node, node->instructions);
+            //node->instructions = move_instruction_head(&node->instructions);
         }
         node = node->next;
     }
