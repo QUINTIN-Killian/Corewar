@@ -24,6 +24,7 @@ typedef struct instructions_s {
 } instructions_t;
 
 typedef struct champion_s {
+    int carry;
     int cycle_live;
     int *registers;
     FILE *fd;

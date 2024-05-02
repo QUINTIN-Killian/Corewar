@@ -22,6 +22,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
 
     corewar->nb_champions++;
     champion->cycle_live = -1;
+    champion->carry = 1;
     champion->registers = create_registers();
     champion->magic_number = 0;
     champion->name[0] = '\0';
