@@ -29,13 +29,9 @@ void exec_ld(champion_t *champion, corewar_t *corewar)
     int val = 0;
     cell_t temp;
 
-    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0) {
-        value1 = champion->registers[champion->instructions->parameters[1]];
-    } else {
-        value1 = champion->instructions->parameters[1];
-    }
+    value1 = set_value(champion, 2, 1);
     adress = champion->PC + value1 % IDX_MOD;
-    for (int i = 0 ; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         temp = get_memory_cell(corewar, adress);
         new += convert_hex_in_int(temp.value);
         val = set_val(i);
@@ -43,9 +39,5 @@ void exec_ld(champion_t *champion, corewar_t *corewar)
             new << val;
     }
     champion->registers[champion->instructions->parameters[1]] = new;
-    if (new == 0) {
-        champion->carry = 0;
-    } else {
-        champion->carry = 1;
-    }
+    set_carry(champion, new);
 }

@@ -144,7 +144,11 @@ void exec_xor(champion_t *champion);
 //instructions/ld.c
 int set_val(int i);
 
-//conversion.c 
+//instruction/lldi.c
+void set_carry(champion_t *champion, int new);
+int set_value(champion_t *champion, int start, int parameter);
+
+//conversion.c
 int convert_hex_in_int(char *hex);
 
 // get_memory_cell.c
