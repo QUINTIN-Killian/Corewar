@@ -41,7 +41,7 @@ void exec_lld(champion_t *champion, corewar_t *corewar)
         value1 = champion->instructions->parameters[1];
     }
     adress = champion->PC + value1;
-    for (int i = 0 ; i < 4; i++) {
+    for (int i = 0 ; i < REG_SIZE; i++) {
         temp = get_memory_cell(corewar, adress);
         new += convert_hex_in_int(temp.value);
         val = set_val(i);
