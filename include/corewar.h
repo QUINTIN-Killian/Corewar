@@ -163,6 +163,9 @@ void set_carry(champion_t *champion, int new);
 int set_value(champion_t *champion, int start, int parameter);
 void exec_lldi(corewar_t *corewar, champion_t *champion);
 
+//instructions/fork.c
+void duplicate_champion(corewar_t *corewar, int id);
+
 //conversions.c :
 int convert_hex_in_int(char *hex);
 char *convert_int_in_bin(int nb);

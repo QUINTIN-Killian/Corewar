@@ -78,8 +78,8 @@ void extract_body(champion_t **champions)
         while (fread(&mnemonic, 1, 1, node->fd) == 1) {
             node->instructions = create_instruction(node->instructions);
             node->instructions->mnemonic = mnemonic;
-            node->instructions->coding_byte =
-            convert_int_in_bin(extract_coding_byte(mnemonic, node->fd));
+            // node->instructions->coding_byte =
+            // convert_int_in_bin(extract_coding_byte(mnemonic, node->fd));
             set_instruction(node->instructions);
             extract_parameters(node->instructions, node->fd);
         }
