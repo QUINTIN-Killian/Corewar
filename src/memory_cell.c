@@ -7,13 +7,21 @@
 
 #include "../include/corewar.h"
 
+static int cycle_coords(int coords)
+{
+    if (coords < 0)
+        return MEM_SIZE + (coords % MEM_SIZE);
+    if (coords >= MEM_SIZE)
+        return coords % MEM_SIZE;
+    return coords;
+}
+
 cell_t *get_memory_cell(corewar_t *corewar, int coords)
 {
     int x;
     int y;
 
-    if (coords < 0 || coords >= MEM_SIZE)
-        coords = my_abs(coords % MEM_SIZE);
+    coords = cycle_coords(coords);
     y = coords / 32;
     x = coords % 32;
     return &(corewar->memory[y][x]);
@@ -23,13 +31,16 @@ int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell, int coords)
 {
     int x;
     int y;
+    unsigned char *nb = (unsigned char *)&new_cell;
 
-    if (coords < 0 || coords >= MEM_SIZE)
-        coords = my_abs(coords % MEM_SIZE);
-    y = coords / 32;
-    x = coords % 32;
-    free(corewar->memory[y][x].value);
-    corewar->memory[y][x].id_owner = id_owner;
-    corewar->memory[y][x].value = convert_int_in_hex(new_cell);
+    for (int i = 0; i < 4; i++) {
+        coords = cycle_coords(coords);
+        y = coords / 32;
+        x = coords % 32;
+        free(corewar->memory[y][x].value);
+        corewar->memory[y][x].id_owner = id_owner;
+        corewar->memory[y][x].value = convert_int_in_hex(nb[3 - i]);
+        coords++;
+    }
     return 1;
 }
