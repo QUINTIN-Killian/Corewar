@@ -57,6 +57,9 @@ typedef struct corewar_s {
     cell_t **memory;
 } corewar_t;
 
+//writing.c :
+void write_instructions_in_memory(corewar_t *corewar, champion_t **champions);
+
 //endian.c :
 unsigned short rev_short(unsigned short nbr);
 unsigned int rev_int(unsigned int nbr);
@@ -112,7 +115,6 @@ void main_loop(champion_t **champions, corewar_t *corewar);
 void create_memory(corewar_t *corewar);
 void print_memory(corewar_t *corewar);
 void destroy_memory(corewar_t *corewar);
-void place_champions_head(corewar_t *corewar, champion_t **champions);
 
 //add.c :
 void exec_add(champion_t *champion);
@@ -167,10 +169,11 @@ void exec_lldi(corewar_t *corewar, champion_t *champion);
 int convert_hex_in_int(char *hex);
 char *convert_int_in_bin(int nb);
 char *convert_int_in_hex(int nb);
+int convert_bin_in_int(char *bin);
 
 // memory_cell.c :
 cell_t *get_memory_cell(corewar_t *corewar, int coords);
-int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell,
-    int coords);
+int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell, int coords,
+    int nb_bytes);
 
 #endif /* !COREWAR_H_ */

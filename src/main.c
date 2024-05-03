@@ -52,10 +52,10 @@ int main(int ac, char **av)
     extract_body(&corewar.champions);
     set_double_linked_list(&corewar.champions);
     create_memory(&corewar);
-    place_champions_head(&corewar, &corewar.champions);
+    write_instructions_in_memory(&corewar, &corewar.champions);
     //display_champions_infos(&corewar.champions);
-    //print_memory(&corewar);
-    main_loop(&corewar.champions, &corewar);
+    print_memory(&corewar);
+    //main_loop(&corewar.champions, &corewar);
     destroy_struct(&corewar);
     return 0;
 }

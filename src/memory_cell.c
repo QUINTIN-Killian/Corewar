@@ -27,19 +27,20 @@ cell_t *get_memory_cell(corewar_t *corewar, int coords)
     return &(corewar->memory[y][x]);
 }
 
-int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell, int coords)
+int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell, int coords,
+    int nb_bytes)
 {
     int x;
     int y;
     unsigned char *nb = (unsigned char *)&new_cell;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = nb_bytes - 1; i >= 0; i--) {
         coords = cycle_coords(coords);
         y = coords / 32;
         x = coords % 32;
         free(corewar->memory[y][x].value);
         corewar->memory[y][x].id_owner = id_owner;
-        corewar->memory[y][x].value = convert_int_in_hex(nb[3 - i]);
+        corewar->memory[y][x].value = convert_int_in_hex(nb[i]);
         coords++;
     }
     return 1;
