@@ -9,6 +9,17 @@
 #include <string.h>
 #include "../include/corewar.h"
 
+void exec_fork(champion_t *champion, corewar_t *corewar)
+{
+    int value1 = 0;
+    int adress = 0;
+
+    value1 = champion->instructions->parameters[0];
+    adress = champion->PC + value1 %IDX_MOD;
+    duplicate_champion(corewar, champion->id, adress);
+    // move_instruction_head(champion);
+}
+
 champion_t *find_champion(corewar_t *corewar, int id)
 {
     champion_t *current = corewar->champions;
@@ -22,7 +33,7 @@ champion_t *find_champion(corewar_t *corewar, int id)
     return NULL;
 }
 
-void duplicate_champion(corewar_t *corewar, int id)
+void duplicate_champion(corewar_t *corewar, int id, int adress)
 {
     champion_t *original = find_champion(corewar, id);
     champion_t *new_champion = (champion_t *)malloc(sizeof(champion_t));
@@ -38,6 +49,7 @@ void duplicate_champion(corewar_t *corewar, int id)
     new_champion->magic_number = original->magic_number;
     new_champion->timeout = original->timeout;
     new_champion->registers = original->registers;
+    new_champion->head = adress;
     new_champion->prog_size = original->prog_size;
     strncpy(new_champion->name, original->name, 128);
     strncpy(new_champion->comment, original->comment, 2048);
