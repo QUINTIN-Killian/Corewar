@@ -20,4 +20,5 @@ void exec_st(champion_t *champion, corewar_t *corewar)
         adress = champion->PC + value2 % IDX_MOD;
         set_memory_cell(corewar, champion->id, value1, adress);
     }
+    move_instruction_head(champion);
 }

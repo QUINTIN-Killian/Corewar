@@ -4,7 +4,8 @@
 ** File description:
 ** conversion
 */
-#include "include/corewar.h"
+
+#include "../include/corewar.h"
 
 static int get_char_value(char c)
 {
@@ -39,7 +40,7 @@ char *convert_int_in_bin(int nb)
     int tmp;
 
     if (nb > 255 || nb < 0)
-        return NULL;
+        nb = my_abs(nb % 256);
     ans = my_strdup("00000000");
     for (int i = 7; i >= 0; i--) {
         tmp = my_compute_power_rec(2, i);
@@ -55,7 +56,7 @@ char *convert_int_in_bin(int nb)
     return ans;
 }
 
-static char get_char_value(int nb)
+static char get_int_value(int nb)
 {
     if (nb >= 0 && nb < 10)
         return '0' + nb;
@@ -68,10 +69,10 @@ char *convert_int_in_hex(int nb)
     char *ans;
 
     if (nb > 255 || nb < 0)
-        return NULL;
+        nb = my_abs(nb % 256);
     ans = my_strdup("00");
     for (int i = 1; i >= 0; i--) {
-        ans[i] = get_char_value(nb % 16);
+        ans[i] = get_int_value(nb % 16);
         nb = nb / 16;
     }
     return ans;

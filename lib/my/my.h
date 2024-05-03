@@ -40,5 +40,6 @@ int my_fdputstr(int fd, char const *str);
 int my_fdput_nbr(int fd, int nb);
 int mini_fdprintf(int fd, const char *format, ...);
 void print_word_array(char **word_array);
+int my_abs(int nbr);
 
 #endif

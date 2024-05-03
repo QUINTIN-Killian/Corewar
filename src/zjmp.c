@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** corewar-private
 ** File description:
-** zjump
+** zjmp
 */
 
 #include "../include/corewar.h"
@@ -14,6 +14,8 @@ static void exec_zjmp_forward(champion_t *champion)
 
     while (node != NULL && distance > 0) {
         distance -= node->nb_bytes;
+        if (distance <= 0)
+            break;
         node = node->next;
     }
     champion->instructions = node;
@@ -26,6 +28,8 @@ static void exec_zjmp_backward(champion_t *champion)
 
     while (node != NULL && distance > 0) {
         distance -= node->nb_bytes;
+        if (distance <= 0)
+            break;
         node = node->prev;
     }
     champion->instructions = node;
@@ -33,9 +37,9 @@ static void exec_zjmp_backward(champion_t *champion)
 
 void exec_zjmp(champion_t *champion)
 {
-    int distance;
-
-    if (!champion->carry || champion->instructions->parameters[0] == 0)
+    if (!champion->carry)
+        return move_instruction_head(champion);
+    if (champion->instructions->parameters[0] == 0)
         return;
     champion->PC = champion->PC + champion->instructions->parameters[0] %
     IDX_MOD;

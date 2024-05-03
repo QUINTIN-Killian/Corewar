@@ -28,7 +28,16 @@ SRC	=	src/champions.c	\
 		src/live.c	\
 		src/or.c	\
 		src/sub.c	\
-		src/xor.c
+		src/xor.c	\
+		src/st.c	\
+		src/sti.c	\
+		src/ld.c	\
+		src/lld.c	\
+		src/ldi.c	\
+		src/lldi.c	\
+		src/zjmp.c	\
+		src/memory_cell.c	\
+		src/conversions.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)
 

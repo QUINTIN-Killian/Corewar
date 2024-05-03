@@ -84,6 +84,7 @@ void extract_body(champion_t **champions)
             extract_parameters(node->instructions, node->fd);
         }
         node->instructions = rev_instructions(&node->instructions);
+        node->head_instruction_ref = node->instructions;
         node = node->next;
     }
 }
