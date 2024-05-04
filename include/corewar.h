@@ -174,6 +174,7 @@ int convert_bin_in_int(char *bin);
 
 // memory_cell.c :
 cell_t *create_tmp_cell(int id_owner, int value_int);
+int combine_bytes(int nb_bytes, ...);
 cell_t *get_memory_cell(corewar_t *corewar, int coords);
 int set_memory_cell(corewar_t *corewar, cell_t *new_cell, int coords,
     int nb_bytes);

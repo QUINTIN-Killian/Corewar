@@ -25,6 +25,20 @@ static int cycle_coords(int coords)
     return coords;
 }
 
+int combine_bytes(int nb_bytes, ...)
+{
+    int res = 0;
+    va_list args;
+
+    va_start(args, nb_bytes);
+    for (int i = 0; i < nb_bytes; i++) {
+        res += va_arg(args, int);
+        res = res << (8 * (nb_bytes - 1));
+    }
+    va_end(args);
+    return res;
+}
+
 cell_t *get_memory_cell(corewar_t *corewar, int coords)
 {
     int x;
