@@ -38,7 +38,7 @@ void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *co
         return check_special(champion->instructions->coding_byte);
     if (mnemonic_value == 3)
         return check_st(champion->instructions->coding_byte, champion);
-    if (mnemonic_value == )
+    // if (mnemonic_value == )
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
