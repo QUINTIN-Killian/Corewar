@@ -11,10 +11,10 @@ static int write_live(corewar_t *corewar, champion_t *champion,
     instructions_t **node)
 {
     if ((*node)->mnemonic == 1) {
-        set_memory_cell(corewar, champion->id, (*node)->mnemonic, 
-        champion->PC, 1);
-        set_memory_cell(corewar, champion->id, (*node)->parameters[0], 
-        champion->PC + 1, 4);
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->mnemonic), champion->PC, 1);
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->parameters[0]), champion->PC + 1, 4);
         champion->PC += (*node)->nb_bytes;
         (*node) = (*node)->next;
         return 1;
@@ -27,10 +27,10 @@ static int write_no_coding_byte(corewar_t *corewar, champion_t *champion,
 {
     if ((*node)->mnemonic == 9 || (*node)->mnemonic == 12 ||
     (*node)->mnemonic == 15) {
-        set_memory_cell(corewar, champion->id, (*node)->mnemonic, 
-        champion->PC, 1);
-        set_memory_cell(corewar, champion->id, (*node)->parameters[0], 
-        champion->PC + 1, 2);
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->mnemonic), champion->PC, 1);
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->parameters[0]), champion->PC + 1, 2);
         champion->PC += (*node)->nb_bytes;
         (*node) = (*node)->next;
         return 1;
@@ -42,19 +42,20 @@ static void write_index_instruction(corewar_t *corewar, champion_t *champion,
     instructions_t **node)
 {
     // mini_printf("%s : %d\n", (*node)->coding_byte, convert_bin_in_int((*node)->coding_byte));
-    set_memory_cell(corewar, champion->id, (*node)->mnemonic, champion->PC, 1);
-    set_memory_cell(corewar, champion->id, convert_bin_in_int(
-    (*node)->coding_byte), champion->PC + 1, 1);
+    set_memory_cell(corewar, create_tmp_cell(champion->id, (*node)->mnemonic),
+    champion->PC, 1);
+    set_memory_cell(corewar, create_tmp_cell(champion->id, convert_bin_in_int(
+    (*node)->coding_byte)), champion->PC + 1, 1);
     champion->PC += 2;
     for (int i = 0; i < get_nb_parameters((*node)->coding_byte); i++) {
         if (my_strncmp(&((*node)->coding_byte[i * 2]), "01", 2) == 0) {
-            set_memory_cell(corewar, champion->id, (*node)->parameters[i],
-            champion->PC, 1);
+            set_memory_cell(corewar, create_tmp_cell(champion->id,
+            (*node)->parameters[i]), champion->PC, 1);
             champion->PC++;
             continue;
         }
-        set_memory_cell(corewar, champion->id, (*node)->parameters[i],
-        champion->PC, 2);
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->parameters[i]), champion->PC, 2);
         champion->PC += 2;
     }
     (*node) = (*node)->next;
@@ -63,25 +64,26 @@ static void write_index_instruction(corewar_t *corewar, champion_t *champion,
 static void write_general_instruction(corewar_t *corewar, champion_t *champion,
     instructions_t **node)
 {
-    set_memory_cell(corewar, champion->id, (*node)->mnemonic, champion->PC, 1);
-    set_memory_cell(corewar, champion->id, convert_bin_in_int(
-    (*node)->coding_byte), champion->PC + 1, 1);
+    set_memory_cell(corewar, create_tmp_cell(champion->id, (*node)->mnemonic),
+    champion->PC, 1);
+    set_memory_cell(corewar, create_tmp_cell(champion->id, convert_bin_in_int(
+    (*node)->coding_byte)), champion->PC + 1, 1);
     champion->PC += 2;
     for (int i = 0; i < get_nb_parameters((*node)->coding_byte); i++) {
         if (my_strncmp(&((*node)->coding_byte[i * 2]), "01", 2) == 0) {
-            set_memory_cell(corewar, champion->id, (*node)->parameters[i],
-            champion->PC, 1);
+            set_memory_cell(corewar, create_tmp_cell(champion->id,
+            (*node)->parameters[i]), champion->PC, 1);
             champion->PC++;
             continue;
         }
         if (my_strncmp(&((*node)->coding_byte[i * 2]), "10", 2) == 0) {
-            set_memory_cell(corewar, champion->id, (*node)->parameters[i],
-            champion->PC, 4);
+            set_memory_cell(corewar, create_tmp_cell(champion->id,
+            (*node)->parameters[i]), champion->PC, 4);
             champion->PC += 4;
             continue;
         }
-        set_memory_cell(corewar, champion->id, (*node)->parameters[i],
-        champion->PC, 2);
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->parameters[i]), champion->PC, 2);
         champion->PC += 2;
     }
     (*node) = (*node)->next;

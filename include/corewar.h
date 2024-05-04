@@ -13,6 +13,7 @@
 
 typedef struct cell_s {
     char *value;
+    int value_int;
     int id_owner;
 } cell_t;
 
@@ -172,8 +173,9 @@ char *convert_int_in_hex(int nb);
 int convert_bin_in_int(char *bin);
 
 // memory_cell.c :
+cell_t *create_tmp_cell(int id_owner, int value_int);
 cell_t *get_memory_cell(corewar_t *corewar, int coords);
-int set_memory_cell(corewar_t *corewar, int id_owner, int new_cell, int coords,
+int set_memory_cell(corewar_t *corewar, cell_t *new_cell, int coords,
     int nb_bytes);
 
 #endif /* !COREWAR_H_ */
