@@ -40,6 +40,8 @@ void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *co
         return check_st(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 4 || mnemonic_value == 5)
         return check_add_sub(champion->instructions->coding_byte, champion);
+    if (mnemonic_value == 6)
+        return check_and(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
         return check_special(champion->instructions->coding_byte);
     
