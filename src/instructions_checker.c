@@ -7,22 +7,35 @@
 #include "../include/corewar.h"
 extern op_t op_tab[];
 
-void process_instruction(int mnemonic_value)
+int check_special(char *coding_byte)
 {
-    switch(mnemonic_value) {
-        case 1:
-            break;
-        case 9:
-        case 12:
-        case 15:
-            break;
-        case 10:
-        case 11:
-        case 14:
-            break;
-        default:
-            break;
+    int len = my_strlen(coding_byte);
+    char pair[3];
+
+    if (len % 2 != 0) {
+        return 0;
     }
+    pair[0] = coding_byte[0];
+    pair[1] = coding_byte[1];
+    pair[2] = '\0';
+    if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "10") != 0) {
+        return 1;
+    }
+    for (int i = 2; i < len; i += 2) {
+        pair[0] = coding_byte[i];
+        pair[1] = coding_byte[i + 1];
+        pair[2] = '\0';
+        if (my_strcmp(pair, "00") != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *corewar)
+{
+    if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
+        return check_special(champion->instructions->coding_byte);
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
@@ -32,7 +45,7 @@ int pc_checker(corewar_t *corewar, champion_t *champion)
     int mn = convert_hex_in_int(mnemonic->value);
 
     while (mn != op_tab[i].mnemonique) {
-        process_instruction(op_tab[i].mnemonique);
+        process_instruction(op_tab[i].mnemonique, champion, corewar);
         i++;
     }
 }
