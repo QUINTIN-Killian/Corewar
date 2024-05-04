@@ -157,7 +157,7 @@ void exec_sti(champion_t *champion, corewar_t *corewar);
 //ld.c :
 int set_val(int i);
 void exec_ld(champion_t *champion, corewar_t *corewar);
-int check_ld(char *coding_byte, champion_t *champion);
+int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lld.c :
 void exec_lld(champion_t *champion, corewar_t *corewar);
