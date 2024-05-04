@@ -45,10 +45,11 @@ void exec_ldi(corewar_t *corewar, champion_t *champion)
     move_instruction_head(champion);
 }
 
-static int check_registers(champion_t *champion, int i)
+static int check_registers(champion_t *champion, int i, corewar_t *corewar, int adresse)
 {
-    if (champion->registers[champion->instructions->parameters[i]] < 1 ||
-    champion->registers[champion->instructions->parameters[i]] > 16)
+    cell_t *cell = get_memory_cell(corewar, adresse);
+
+    if (cell->value_int < 1 || cell->value_int > 16)
         return 1;
     return 0;
 }
@@ -65,37 +66,46 @@ static int check_empty(int len, char *coding_byte, char *pair)
     return 0;
 }
 
-static int check_firsts_couples(char *pair, char *coding_byte, int j, champion_t *champion)
+static int check_firsts_couples(char *pair, char *coding_byte,champion_t *champion, corewar_t *corewar)
 {
+    int j = 0;
+    int adresse = champion->PC + 1;
     for (int i = 0; i < 4; i += 2) {
         pair[0] = coding_byte[i];
         pair[1] = coding_byte[i + 1];
         pair[2] = '\0';
         if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "01") != 0)
-            return 1;
-        if (my_strcmp(pair, "01") == 0 && check_registers(champion, j) == 1)
-            return 1;
+            return -1;
+        if (my_strcmp(pair, "01") == 0)
+            adresse++;
+        if (my_strcmp(pair, "11") == 0)
+            adresse += 2;
+        if (my_strcmp(pair, "01") == 0 && check_registers(champion, j, corewar, adresse) == 1)
+            return -1;
         j++;
     }
-    return 0;
+    return adresse;
 }
 
-int check_ldi(char *coding_byte, champion_t *champion)
+int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     int len = my_strlen(coding_byte);
     char pair[3];
-    int j = 0;
+    int adresse = 0;
 
     if (len < 8 || len % 2 != 0)
         return 1;
-    if (check_firsts_couples(pair, coding_byte, j, champion) == 1)
+    if (check_firsts_couples(pair, coding_byte, champion, corewar) == -1) {
         return 1;
+    } else {
+        adresse = check_firsts_couples(pair, coding_byte, champion, corewar);
+    }
     pair[0] = coding_byte[4];
     pair[1] = coding_byte[5];
     pair[2] = '\0';
     if (my_strcmp(pair, "01") != 0)
         return 1;
-    if (check_registers(champion, 2) == 1)
+    if (check_registers(champion, 2, corewar, adresse) == 1)
         return 1;
     if (check_empty(len, coding_byte, pair) == 1)
         return 1;
