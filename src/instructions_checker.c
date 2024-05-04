@@ -34,7 +34,7 @@ static int check_special(char *coding_byte)
 
 void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *corewar)
 {
-    if (mnemonic_value == 2)
+    if (mnemonic_value == 2 || mnemonic_value == 13)
         return check_ld(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 3)
         return check_st(champion->instructions->coding_byte, champion);
@@ -44,7 +44,6 @@ void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *co
         return check_and(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
         return check_special(champion->instructions->coding_byte);
-    
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
