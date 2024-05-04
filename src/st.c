@@ -42,7 +42,7 @@ int check_st(char *coding_byte, champion_t *champion)
     int len = my_strlen(coding_byte);
     char pair[3];
 
-    if (len % 2 != 0)
+    if (len % 2 != 0 || len < 8)
         return 1;
     pair[0] = coding_byte[0];
     pair[1] = coding_byte[1];
