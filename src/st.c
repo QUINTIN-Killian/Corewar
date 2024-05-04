@@ -24,6 +24,19 @@ void exec_st(champion_t *champion, corewar_t *corewar)
     move_instruction_head(champion);
 }
 
+static int check_empty(int len, char *pair, char *coding_byte)
+{
+    for (int i = 4; i < len; i += 2) {
+        pair[0] = coding_byte[i];
+        pair[1] = coding_byte[i + 1];
+        pair[2] = '\0';
+        if (my_strcmp(pair, "00") != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int check_st(char *coding_byte)
 {
     int len = my_strlen(coding_byte);
