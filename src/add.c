@@ -31,22 +31,13 @@ static int check_empty(int len, char *pair, char *coding_byte)
     return 0;
 }
 
-static int register_checker(champion_t *champion)
-{
-    if (champion->registers[champion->instructions->parameters[0]] < 1 ||
-    champion->registers[champion->instructions->parameters[0]] > 16 ||
-    champion->registers[champion->instructions->parameters[1]] < 1 ||
-    champion->registers[champion->instructions->parameters[1]] > 16 ||
-    champion->registers[champion->instructions->parameters[2]] < 1 ||
-    champion->registers[champion->instructions->parameters[2]] > 16)
-        return 1;
-    return 0;
-}
-
-int check_add_sub(char *coding_byte, champion_t *champion)
+int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     int len = my_strlen(coding_byte);
     char pair[3];
+    int index = champion->PC + 2;
+    int value = 0;
+    cell_t *cell;
 
     if (len < 8 || len % 2 != 0)
         return 1;
@@ -56,10 +47,11 @@ int check_add_sub(char *coding_byte, champion_t *champion)
         pair[2] = '\0';
         if (my_strcmp(pair, "01") != 0)
             return 1;
+        cell = get_memory_cell(corewar, value);
+        if (cell->value_int < 1 || cell->value_int > 16)
+            return 1;
     }
     if (check_empty(len, pair, coding_byte) == 1)
-        return 1;
-    if (register_checker(champion) == 1)
         return 1;
     return 0;
 }
