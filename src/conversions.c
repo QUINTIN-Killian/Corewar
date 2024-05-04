@@ -77,3 +77,15 @@ char *convert_int_in_hex(int nb)
     }
     return ans;
 }
+
+int convert_bin_in_int(char *bin)
+{
+    int ans = 0;
+
+    if (bin == NULL)
+        return 0;
+    for (int i = my_strlen(bin) - 1; i >= 0; i--)
+        if (bin[i] == '1')
+            ans += my_compute_power_rec(2, my_strlen(bin) - 1 - i);
+    return ans;
+}
