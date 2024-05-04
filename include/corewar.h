@@ -147,6 +147,7 @@ void exec_xor(champion_t *champion);
 
 //st.c :
 void exec_st(champion_t *champion, corewar_t *corewar);
+int check_st(char *coding_byte);
 
 //sti.c :
 void exec_sti(champion_t *champion, corewar_t *corewar);

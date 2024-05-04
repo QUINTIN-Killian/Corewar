@@ -45,31 +45,6 @@ static int check_empty(int len, char *pair, char *coding_byte)
     return 0;
 }
 
-static int check_st(char *coding_byte)
-{
-    int len = my_strlen(coding_byte);
-    char pair[3];
-
-    if (len % 2 != 0) {
-        return 1;
-    }
-    pair[0] = coding_byte[0];
-    pair[1] = coding_byte[1];
-    pair[2] = '\0';
-    if (my_strcmp(pair, "01") != 0) {
-        return 1;
-    }
-    pair[0] = coding_byte[2];
-    pair[1] = coding_byte[3];
-    if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
-        && my_strcmp(pair, "11") != 0)
-        return 1;
-    if (check_empty(len, pair, coding_byte == 1))
-        return 1;
-    return 0;
-}
-
-
 void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *corewar)
 {
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
