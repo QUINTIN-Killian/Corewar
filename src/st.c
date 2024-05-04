@@ -37,20 +37,21 @@ static int check_empty(int len, char *pair, char *coding_byte)
     return 0;
 }
 
-int check_st(char *coding_byte)
+int check_st(char *coding_byte, champion_t *champion)
 {
     int len = my_strlen(coding_byte);
     char pair[3];
 
-    if (len % 2 != 0) {
+    if (len % 2 != 0)
         return 1;
-    }
     pair[0] = coding_byte[0];
     pair[1] = coding_byte[1];
     pair[2] = '\0';
-    if (my_strcmp(pair, "01") != 0) {
+    if (my_strcmp(pair, "01") != 0)
         return 1;
-    }
+    if (champion->registers[champion->instructions->parameters[0]] < 1 ||
+        champion->registers[champion->instructions->parameters[0]] > 16)
+        return 1;
     pair[0] = coding_byte[2];
     pair[1] = coding_byte[3];
     if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
