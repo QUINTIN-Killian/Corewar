@@ -42,13 +42,3 @@ void destroy_memory(corewar_t *corewar)
     }
     free(corewar->memory);
 }
-
-void place_champions_head(corewar_t *corewar, champion_t **champions)
-{
-    champion_t *node = *champions;
-
-    while (node != NULL) {
-        set_memory_cell(corewar, node->id, node->id, node->head);
-        node = node->next;
-    }
-}
