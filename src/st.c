@@ -37,10 +37,12 @@ static int check_empty(int len, char *pair, char *coding_byte)
     return 0;
 }
 
-int check_st(char *coding_byte, champion_t *champion)
+int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     int len = my_strlen(coding_byte);
     char pair[3];
+    cell_t *cell;
+    int adresse = champion->PC + 1;
 
     if (len % 2 != 0 || len < 8)
         return 1;
@@ -49,13 +51,16 @@ int check_st(char *coding_byte, champion_t *champion)
     pair[2] = '\0';
     if (my_strcmp(pair, "01") != 0)
         return 1;
-    if (champion->registers[champion->instructions->parameters[0]] < 1 ||
-        champion->registers[champion->instructions->parameters[0]] > 16)
+    cell = get_memory_cell(corewar, adresse);
+    if (cell->value_int < 1 || cell->value_int > 16)
         return 1;
     pair[0] = coding_byte[2];
     pair[1] = coding_byte[3];
     if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
         && my_strcmp(pair, "11") != 0)
+        return 1;
+    cell = get_memory_cell(corewar, adresse + 1);
+    if (my_strcmp(pair, "01") != 0 && (cell->value_int < 1 || cell->value_int > 16))
         return 1;
     if (check_empty(len, pair, coding_byte == 1))
         return 1;
