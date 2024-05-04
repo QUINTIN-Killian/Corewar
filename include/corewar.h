@@ -126,6 +126,7 @@ void exec_aff(champion_t *champion);
 
 //and.c :
 void exec_and(champion_t *champion);
+int check_and(char *coding_byte, champion_t *champion);
 
 //instruction_execution.c :
 void instruction_execution(corewar_t *corewar, champion_t *champion,

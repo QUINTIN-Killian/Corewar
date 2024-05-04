@@ -28,3 +28,49 @@ void exec_and(champion_t *champion)
         champion->carry = 1;
     move_instruction_head(champion);
 }
+
+static int check_empty(int len , char *coding_byte, char *pair)
+{
+    for (int i = 6; i < len; i += 2) {
+        pair[0] = coding_byte[i];
+        pair[1] = coding_byte[i + 1];
+        pair[2] = '\0';
+        if (my_strcmp(pair, "00") != 0)
+            return 1;
+    }
+}
+
+static int check_register(char *pair, champion_t *champion)
+{
+    if (my_strcmp(pair, "01") != 0)
+        return 1;
+    if (champion->registers[champion->instructions->parameters[2]] < 1 ||
+        champion->registers[champion->instructions->parameters[2]] > 16)
+        return 1;
+    return 0;
+}
+
+int check_and(char *coding_byte, champion_t *champion)
+{
+    int len = my_strlen(coding_byte);
+    char pair[3];
+
+    if (len < 8 || len % 2 != 0)
+        return 1;
+    for (int i = 0; i < 4; i += 2) {
+        pair[0] = coding_byte[i];
+        pair[1] = coding_byte[i + 1];
+        pair[2] = '\0';
+        if (my_strcmp(pair, "10") != 0 && my_strcmp(pair, "11")
+        != 0 && my_strcmp(pair, "01") != 0)
+            return 1;
+    }
+    pair[0] = coding_byte[4];
+    pair[1] = coding_byte[5];
+    pair[2] = '\0';
+    if (check_register(pair, champion) == 1)
+        return 1;
+    if (check_empty(len, coding_byte, pair) == 1)
+        return 1;
+    return 0;
+}
