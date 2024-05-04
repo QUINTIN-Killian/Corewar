@@ -7,7 +7,7 @@
 #include "../include/corewar.h"
 extern op_t op_tab[];
 
-int check_special(char *coding_byte)
+static int check_special(char *coding_byte)
 {
     int len = my_strlen(coding_byte);
     char pair[3];
@@ -32,10 +32,50 @@ int check_special(char *coding_byte)
     return 0;
 }
 
+static int check_empty(int len, char *pair, char *coding_byte)
+{
+    for (int i = 4; i < len; i += 2) {
+        pair[0] = coding_byte[i];
+        pair[1] = coding_byte[i + 1];
+        pair[2] = '\0';
+        if (my_strcmp(pair, "00") != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int check_st(char *coding_byte)
+{
+    int len = my_strlen(coding_byte);
+    char pair[3];
+
+    if (len % 2 != 0) {
+        return 1;
+    }
+    pair[0] = coding_byte[0];
+    pair[1] = coding_byte[1];
+    pair[2] = '\0';
+    if (my_strcmp(pair, "01") != 0) {
+        return 1;
+    }
+    pair[0] = coding_byte[2];
+    pair[1] = coding_byte[3];
+    if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
+        && my_strcmp(pair, "11") != 0)
+        return 1;
+    if (check_empty(len, pair, coding_byte == 1))
+        return 1;
+    return 0;
+}
+
+
 void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *corewar)
 {
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
         return check_special(champion->instructions->coding_byte);
+    if (mnemonic_value == 3)
+        return check_st(champion->instructions->coding_byte);
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
