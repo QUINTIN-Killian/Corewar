@@ -12,7 +12,7 @@ static int check_special(char *coding_byte)
     int len = my_strlen(coding_byte);
     char pair[3];
 
-    if (len % 2 != 0) {
+    if (len % 2 != 0 || len < 8) {
         return 0;
     }
     pair[0] = coding_byte[0];
@@ -34,11 +34,15 @@ static int check_special(char *coding_byte)
 
 void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *corewar)
 {
-    if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
-        return check_special(champion->instructions->coding_byte);
+    if (mnemonic_value == 2)
+        return check_ld(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 3)
         return check_st(champion->instructions->coding_byte, champion);
-    // if (mnemonic_value == )
+    if (mnemonic_value == 4 || mnemonic_value == 5)
+        return check_add_sub(champion->instructions->coding_byte, champion);
+    if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
+        return check_special(champion->instructions->coding_byte);
+    
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
