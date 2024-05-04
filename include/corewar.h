@@ -164,6 +164,7 @@ void exec_lld(champion_t *champion, corewar_t *corewar);
 
 //ldi.c :
 void exec_ldi(corewar_t *corewar, champion_t *champion);
+int check_ldi(char *coding_byte, champion_t *champion);
 
 //lldi.c :
 void set_carry(champion_t *champion, int new);
