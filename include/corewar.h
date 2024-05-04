@@ -123,6 +123,7 @@ int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //aff.c :
 void exec_aff(champion_t *champion);
+int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //and.c :
 void exec_and(champion_t *champion);

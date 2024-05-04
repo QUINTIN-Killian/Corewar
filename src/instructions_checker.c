@@ -46,6 +46,8 @@ void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *co
         return check_special(champion->instructions->coding_byte);
     if (mnemonic_value == 10)
         return check_ldi(champion->instructions->coding_byte, champion, corewar);
+    if (mnemonic_value == 16)
+        return check_aff(champion->instructions->coding_byte, champion, corewar);
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
