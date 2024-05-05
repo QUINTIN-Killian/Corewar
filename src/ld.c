@@ -64,16 +64,29 @@ static int set_adresse(char *pair, champion_t *champion)
 {
     if (my_strcmp(pair, "10") == 0) {
         return champion->PC + 5;
-    } else if (my_strcmp(pair, "01") == 0) {
+    }
+    if (my_strcmp(pair, "01") == 0) {
         return champion->PC + 3;
-    } else if(my_strcmp(pair, "11") == 0) {
+    }
+    if (my_strcmp(pair, "11") == 0) {
         return champion->PC + 3;
     }
 }
 
+static int check_first(char *pair, champion_t *champion, corewar_t *corewar)
+{
+    if (my_strcmp(pair, "10") != 0 && my_strcmp(pair, "11")
+        != 0 && my_strcmp(pair, "01") != 0)
+        return 1;
+    if (my_strcmp(pair, "01") == 0 &&
+        check_register(champion->PC + 2, corewar) == 1) {
+        return 1;
+    }
+    return 0;
+}
+
 int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
-    int len = my_strlen(coding_byte);
     char pair[3];
     int adresse = 0;
     cell_t *cell;
@@ -81,12 +94,8 @@ int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
     pair[0] = coding_byte[0];
     pair[1] = coding_byte[1];
     pair[2] = '\0';
-    if (my_strcmp(pair, "10") != 0 && my_strcmp(pair, "11") != 0 && my_strcmp(pair, "01") != 0)
+    if (check_first(pair, champion, corewar) == 1)
         return 1;
-    if (adresse == champion->PC + 3 && my_strcmp(pair, "01") == 0 &&
-        check_register(champion->PC + 2, corewar) == 1) {
-        return 1;
-    }
     adresse = set_adresse(pair, champion);
     pair[0] = coding_byte[2];
     pair[1] = coding_byte[3];
@@ -95,8 +104,7 @@ int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
     cell = get_memory_cell(corewar, adresse);
     if (cell->value_int < 1 || cell->value_int > 16)
         return 1;
-    if (check_empty(len, coding_byte, pair) == 1)
+    if (check_empty(my_strlen(coding_byte), coding_byte, pair) == 1)
         return 1;
     return 0;
 }
-
