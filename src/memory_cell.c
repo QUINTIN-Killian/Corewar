@@ -65,6 +65,7 @@ int set_memory_cell(corewar_t *corewar, cell_t *new_cell, int coords,
         x = coords % 32;
         free(corewar->memory[y][x].value);
         corewar->memory[y][x].id_owner = new_cell->id_owner;
+        corewar->memory[y][x].value_int = nb[i];
         corewar->memory[y][x].value = convert_int_in_hex(nb[i]);
         coords++;
     }
