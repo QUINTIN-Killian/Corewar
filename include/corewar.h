@@ -58,6 +58,9 @@ typedef struct corewar_s {
     cell_t **memory;
 } corewar_t;
 
+//instructions_checker.c :
+int pc_checker(corewar_t *corewar, champion_t *champion);
+
 //writing.c :
 void write_instructions_in_memory(corewar_t *corewar, champion_t **champions);
 
@@ -119,7 +122,7 @@ void destroy_memory(corewar_t *corewar);
 
 //add.c :
 void exec_add(champion_t *champion);
-int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar);
+int check_add_sub(char *coding_byte, corewar_t *corewar);
 
 //aff.c :
 void exec_aff(champion_t *champion);
