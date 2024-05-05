@@ -7,30 +7,6 @@
 #include "../include/corewar.h"
 extern op_t op_tab[];
 
-static int check_special(char *coding_byte)
-{
-    char pair[3];
-
-    if (my_strlen(coding_byte) % 2 != 0 || my_strlen(coding_byte) < 8) {
-        return 0;
-    }
-    pair[0] = coding_byte[0];
-    pair[1] = coding_byte[1];
-    pair[2] = '\0';
-    if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "10") != 0) {
-        return 1;
-    }
-    for (int i = 2; i < my_strlen(coding_byte); i += 2) {
-        pair[0] = coding_byte[i];
-        pair[1] = coding_byte[i + 1];
-        pair[2] = '\0';
-        if (my_strcmp(pair, "00") != 0) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
 int process_instruction(int mnemonic_value,
     champion_t *champion, corewar_t *corewar)
 {
