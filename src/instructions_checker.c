@@ -9,10 +9,9 @@ extern op_t op_tab[];
 
 static int check_special(char *coding_byte)
 {
-    int len = my_strlen(coding_byte);
     char pair[3];
 
-    if (len % 2 != 0 || len < 8) {
+    if (my_strlen(coding_byte) % 2 != 0 || my_strlen(coding_byte) < 8) {
         return 0;
     }
     pair[0] = coding_byte[0];
@@ -21,7 +20,7 @@ static int check_special(char *coding_byte)
     if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "10") != 0) {
         return 1;
     }
-    for (int i = 2; i < len; i += 2) {
+    for (int i = 2; i < my_strlen(coding_byte); i += 2) {
         pair[0] = coding_byte[i];
         pair[1] = coding_byte[i + 1];
         pair[2] = '\0';
@@ -32,22 +31,28 @@ static int check_special(char *coding_byte)
     return 0;
 }
 
-void process_instruction(int mnemonic_value, champion_t *champion, corewar_t *corewar)
+int process_instruction(int mnemonic_value,
+    champion_t *champion, corewar_t *corewar)
 {
     if (mnemonic_value == 2 || mnemonic_value == 13)
-        return check_ld(champion->instructions->coding_byte, champion, corewar);
+        return check_ld(champion->instructions->coding_byte,
+            champion, corewar);
     if (mnemonic_value == 3)
-        return check_st(champion->instructions->coding_byte, champion, corewar);
+        return check_st(champion->instructions->coding_byte,
+            champion, corewar);
     if (mnemonic_value == 4 || mnemonic_value == 5)
-        return check_add_sub(champion->instructions->coding_byte, champion, corewar);
+        return check_add_sub(champion->instructions->coding_byte,
+            champion, corewar);
     if (mnemonic_value == 6 || mnemonic_value == 7 || mnemonic_value == 8)
         return check_and(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
-        return check_special(champion->instructions->coding_byte);
+        return 0;
     if (mnemonic_value == 10)
-        return check_ldi(champion->instructions->coding_byte, champion, corewar);
+        return check_ldi(champion->instructions->coding_byte,
+            champion, corewar);
     if (mnemonic_value == 16)
-        return check_aff(champion->instructions->coding_byte, champion, corewar);
+        return check_aff(champion->instructions->coding_byte,
+            champion, corewar);
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
@@ -56,8 +61,10 @@ int pc_checker(corewar_t *corewar, champion_t *champion)
     int i = 0;
     int mn = convert_hex_in_int(mnemonic->value);
 
-    while (mn != op_tab[i].mnemonique) {
-        process_instruction(op_tab[i].mnemonique, champion, corewar);
+    while (op_tab[i].code != NULL) {
+        if (mn == op_tab[i].code)
+            return process_instruction(op_tab[i].mnemonique,
+                champion, corewar);
         i++;
     }
 }
