@@ -33,13 +33,12 @@ static int check_empty(int len, char *pair, char *coding_byte)
 
 int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
-    int len = my_strlen(coding_byte);
     char pair[3];
     int index = champion->PC + 2;
     int value = 0;
     cell_t *cell;
 
-    if (len < 8 || len % 2 != 0)
+    if (my_strlen(coding_byte) < 8 || my_strlen(coding_byte) % 2 != 0)
         return 1;
     for (int i = 0; i < 6; i += 2) {
         pair[0] = coding_byte[i];
@@ -51,7 +50,7 @@ int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar)
         if (cell->value_int < 1 || cell->value_int > 16)
             return 1;
     }
-    if (check_empty(len, pair, coding_byte) == 1)
+    if (check_empty(my_strlen(coding_byte), pair, coding_byte) == 1)
         return 1;
     return 0;
 }
