@@ -27,8 +27,7 @@ int is_champion_dead(corewar_t *corewar, int id)
     return 1;
 }
 
-static int skip_turn_aux(champion_t **champions, corewar_t *corewar,
-    champion_t **node)
+static int skip_turn_aux(corewar_t *corewar, champion_t **node)
 {
     if ((*node)->timeout > 0) {
         (*node)->timeout--;
@@ -57,7 +56,7 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
             return 2;
         return 1;
     }
-    return skip_turn_aux(champions, corewar, node);
+    return skip_turn_aux(corewar, node);
 }
 
 static void champions_turn(champion_t **champions, corewar_t *corewar,
