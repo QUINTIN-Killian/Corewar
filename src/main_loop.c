@@ -40,12 +40,12 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
         corewar->nb_champions--;
         return 1;
     }
-    if ((*node)->instructions == NULL) {
+    if ((*node)->timeout > 0) {
+        (*node)->timeout--;
         (*node) = (*node)->next;
         return 1;
     }
-    if ((*node)->timeout > 0) {
-        (*node)->timeout--;
+    if (pc_checker(corewar, *node)) {
         (*node) = (*node)->next;
         return 1;
     }
@@ -57,12 +57,16 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
 {
     while (node != NULL) {
         node->cycle_live++;
-        if (skip_turn(champions, corewar, &node))
+        if (skip_turn(champions, corewar, &node)) {
+            if (corewar->nb_champions == 1)
+                break;
             continue;
+        }
         mini_printf("%d) %s : %s\n",
-        corewar->turn_id, node->name, node->instructions->instruction);
-        node->timeout = node->instructions->nb_cycles;
-        instruction_execution(corewar, node, node->instructions);
+        corewar->turn_id, node->name,
+        get_memory_cell(corewar, node->PC)->value);
+        //node->timeout = node->instructions->nb_cycles;
+        //instruction_execution(corewar, node, node->instructions);
         node = node->next;
     }
 }
