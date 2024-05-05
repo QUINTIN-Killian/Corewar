@@ -14,6 +14,7 @@ void create_memory(corewar_t *corewar)
         corewar->memory[i] = malloc(sizeof(cell_t) * (32 + 1));
         for (int j = 0; j < 32; j++) {
             corewar->memory[i][j].id_owner = -1;
+            corewar->memory[i][j].value_int = 0;
             corewar->memory[i][j].value = my_strdup("00");
         }
         corewar->memory[i][32].value = NULL;
