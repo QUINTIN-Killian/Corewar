@@ -119,12 +119,15 @@ void destroy_memory(corewar_t *corewar);
 
 //add.c :
 void exec_add(champion_t *champion);
+int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //aff.c :
 void exec_aff(champion_t *champion);
+int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //and.c :
 void exec_and(champion_t *champion);
+int check_and(char *coding_byte, champion_t *champion);
 
 //instruction_execution.c :
 void instruction_execution(corewar_t *corewar, champion_t *champion,
@@ -147,6 +150,7 @@ void exec_xor(champion_t *champion);
 
 //st.c :
 void exec_st(champion_t *champion, corewar_t *corewar);
+int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //sti.c :
 void exec_sti(champion_t *champion, corewar_t *corewar);
@@ -154,12 +158,14 @@ void exec_sti(champion_t *champion, corewar_t *corewar);
 //ld.c :
 int set_val(int i);
 void exec_ld(champion_t *champion, corewar_t *corewar);
+int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lld.c :
 void exec_lld(champion_t *champion, corewar_t *corewar);
 
 //ldi.c :
 void exec_ldi(corewar_t *corewar, champion_t *champion);
+int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lldi.c :
 void set_carry(champion_t *champion, int new);

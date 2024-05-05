@@ -23,3 +23,59 @@ void exec_st(champion_t *champion, corewar_t *corewar)
     }
     move_instruction_head(champion);
 }
+
+static int check_empty(int len, char *pair, char *coding_byte)
+{
+    for (int i = 4; i < len; i += 2) {
+        pair[0] = coding_byte[i];
+        pair[1] = coding_byte[i + 1];
+        pair[2] = '\0';
+        if (my_strcmp(pair, "00") != 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int check_end(char *pair, int len, char *coding_byte, cell_t *cell)
+{
+    if (my_strcmp(pair, "01") != 0 &&
+        (cell->value_int < 1 || cell->value_int > 16))
+        return 1;
+    if (check_empty(len, pair, coding_byte == 1))
+        return 1;
+    return 0;
+}
+
+static check_first_register(cell_t *cell, corewar_t *corewar, int adresse)
+{
+    cell = get_memory_cell(corewar, adresse);
+    if (cell->value_int < 1 || cell->value_int > 16)
+        return 1;
+    return 0;
+}
+
+int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
+{
+    char pair[3];
+    cell_t *cell;
+    int adresse = champion->PC + 1;
+
+    if (my_strlen(coding_byte) % 2 != 0 || my_strlen(coding_byte) < 8)
+        return 1;
+    pair[0] = coding_byte[0];
+    pair[1] = coding_byte[1];
+    pair[2] = '\0';
+    if (my_strcmp(pair, "01") != 0 ||
+        check_first_register(cell, corewar, adresse))
+        return 1;
+    pair[0] = coding_byte[2];
+    pair[1] = coding_byte[3];
+    if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
+        && my_strcmp(pair, "11") != 0)
+        return 1;
+    cell = get_memory_cell(corewar, adresse + 1);
+    if (check_end(pair, my_strlen(coding_byte), coding_byte, cell) == 1)
+        return 1;
+    return 0;
+}
