@@ -38,6 +38,7 @@ static int check_empty(int len, char *coding_byte, char *pair)
         if (my_strcmp(pair, "00") != 0)
             return 1;
     }
+    return 0;
 }
 
 static int check_register(char *pair, champion_t *champion)

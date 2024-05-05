@@ -31,10 +31,9 @@ static int check_empty(int len, char *pair, char *coding_byte)
     return 0;
 }
 
-int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar)
+int check_add_sub(char *coding_byte, corewar_t *corewar)
 {
     char pair[3];
-    int index = champion->PC + 2;
     int value = 0;
     cell_t *cell;
 

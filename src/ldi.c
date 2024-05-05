@@ -45,8 +45,7 @@ void exec_ldi(corewar_t *corewar, champion_t *champion)
     move_instruction_head(champion);
 }
 
-static int check_registers(champion_t *champion, int i,
-    corewar_t *corewar, int adresse)
+static int check_registers(corewar_t *corewar, int adresse)
 {
     cell_t *cell = get_memory_cell(corewar, adresse);
 
@@ -84,7 +83,7 @@ static int check_firsts_couples(char *pair, char *coding_byte,
         if (my_strcmp(pair, "11") == 0)
             adresse += 2;
         if (my_strcmp(pair, "01") == 0 &&
-            check_registers(champion, j, corewar, adresse) == 1)
+            check_registers(corewar, adresse) == 1)
             return -1;
         j++;
     }
@@ -108,7 +107,7 @@ int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar)
     pair[2] = '\0';
     if (my_strcmp(pair, "01") != 0)
         return 1;
-    if (check_registers(champion, 2, corewar, adresse) == 1)
+    if (check_registers(corewar, adresse) == 1)
         return 1;
     if (check_empty(my_strlen(coding_byte), coding_byte, pair) == 1)
         return 1;

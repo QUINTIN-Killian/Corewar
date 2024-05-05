@@ -14,7 +14,7 @@ void exec_aff(champion_t *champion)
     move_instruction_head(champion);
 }
 
-static check_end_cb(int len, char *pair, char *coding_byte)
+static int check_end_cb(int len, char *pair, char *coding_byte)
 {
     for (int i = 2; i < len; i += 2) {
         pair[0] = coding_byte[i];

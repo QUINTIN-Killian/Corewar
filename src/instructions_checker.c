@@ -17,8 +17,7 @@ int process_instruction(int mnemonic_value,
         return check_st(champion->instructions->coding_byte,
             champion, corewar);
     if (mnemonic_value == 4 || mnemonic_value == 5)
-        return check_add_sub(champion->instructions->coding_byte,
-            champion, corewar);
+        return check_add_sub(champion->instructions->coding_byte, corewar);
     if (mnemonic_value == 6 || mnemonic_value == 7 || mnemonic_value == 8)
         return check_and(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
@@ -29,18 +28,16 @@ int process_instruction(int mnemonic_value,
     if (mnemonic_value == 16)
         return check_aff(champion->instructions->coding_byte,
             champion, corewar);
+    return 0;
 }
 
 int pc_checker(corewar_t *corewar, champion_t *champion)
 {
-    cell_t *mnemonic = get_memory_cell(corewar, champion->PC);
-    int i = 0;
-    int mn = convert_hex_in_int(mnemonic->value);
+    int mnemonic =
+    convert_hex_in_int(get_memory_cell(corewar, champion->PC)->value);
 
-    while (op_tab[i].code != NULL) {
-        if (mn == op_tab[i].code)
-            return process_instruction(op_tab[i].mnemonique,
-                champion, corewar);
-        i++;
-    }
+    for (int i = 0; op_tab[i].code != 0; i++)
+        if (mnemonic == op_tab[i].code)
+            return process_instruction(op_tab[i].code, champion, corewar);
+    return 1;
 }
