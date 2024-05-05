@@ -27,19 +27,9 @@ int is_champion_dead(corewar_t *corewar, int id)
     return 1;
 }
 
-static int skip_turn(champion_t **champions, corewar_t *corewar,
+static int skip_turn_aux(champion_t **champions, corewar_t *corewar,
     champion_t **node)
 {
-    int tmp = -1;
-
-    if ((*node)->cycle_live >= CYCLE_TO_DIE ||
-    is_champion_dead(corewar, (*node)->id)) {
-        tmp = (*node)->id;
-        (*node) = (*node)->next;
-        destroy_champion_node_by_id(champions, tmp);
-        corewar->nb_champions--;
-        return 1;
-    }
     if ((*node)->timeout > 0) {
         (*node)->timeout--;
         (*node) = (*node)->next;
@@ -52,16 +42,36 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
     return 0;
 }
 
+static int skip_turn(champion_t **champions, corewar_t *corewar,
+    champion_t **node)
+{
+    int tmp = -1;
+
+    if ((*node)->cycle_live >= CYCLE_TO_DIE ||
+    is_champion_dead(corewar, (*node)->id)) {
+        tmp = (*node)->id;
+        (*node) = (*node)->next;
+        destroy_champion_node_by_id(champions, tmp);
+        corewar->nb_champions--;
+        if (corewar->nb_champions == 1)
+            return 2;
+        return 1;
+    }
+    return skip_turn_aux(champions, corewar, node);
+}
+
 static void champions_turn(champion_t **champions, corewar_t *corewar,
     champion_t *node)
 {
+    int skip = 0;
+
     while (node != NULL) {
         node->cycle_live++;
-        if (skip_turn(champions, corewar, &node)) {
-            if (corewar->nb_champions == 1)
-                break;
+        skip = skip_turn(champions, corewar, &node);
+        if (skip == 1)
             continue;
-        }
+        if (skip == 2)
+            break;
         mini_printf("%d) %s : %s\n",
         corewar->turn_id, node->name,
         get_memory_cell(corewar, node->PC)->value);
