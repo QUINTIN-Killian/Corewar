@@ -29,7 +29,7 @@ void exec_and(champion_t *champion)
     move_instruction_head(champion);
 }
 
-static int check_empty(int len , char *coding_byte, char *pair)
+static int check_empty(int len, char *coding_byte, char *pair)
 {
     for (int i = 6; i < len; i += 2) {
         pair[0] = coding_byte[i];
@@ -52,10 +52,9 @@ static int check_register(char *pair, champion_t *champion)
 
 int check_and(char *coding_byte, champion_t *champion)
 {
-    int len = my_strlen(coding_byte);
     char pair[3];
 
-    if (len < 8 || len % 2 != 0)
+    if (my_strlen(coding_byte) < 8 || my_strlen(coding_byte) % 2 != 0)
         return 1;
     for (int i = 0; i < 4; i += 2) {
         pair[0] = coding_byte[i];
@@ -70,7 +69,7 @@ int check_and(char *coding_byte, champion_t *champion)
     pair[2] = '\0';
     if (check_register(pair, champion) == 1)
         return 1;
-    if (check_empty(len, coding_byte, pair) == 1)
+    if (check_empty(my_strlen(coding_byte), coding_byte, pair) == 1)
         return 1;
     return 0;
 }
