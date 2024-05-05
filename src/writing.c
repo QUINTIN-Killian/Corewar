@@ -114,6 +114,7 @@ void write_instructions_in_memory(corewar_t *corewar, champion_t **champions)
 
     while (node != NULL) {
         write_instructions_in_memory_aux(corewar, node, &node->instructions);
+        node->PC = node->registers[1];
         node = node->next;
     }
 }
