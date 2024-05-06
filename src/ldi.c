@@ -67,8 +67,7 @@ static int check_empty(int len, char *coding_byte, char *pair)
 static int check_firsts_couples(char *pair, char *coding_byte,
     champion_t *champion, corewar_t *corewar)
 {
-    int j = 0;
-    int adresse = champion->PC + 1;
+    int adresse = champion->PC + 2;
 
     for (int i = 0; i < 4; i += 2) {
         pair[0] = coding_byte[i];
@@ -78,12 +77,11 @@ static int check_firsts_couples(char *pair, char *coding_byte,
             return -1;
         if (my_strcmp(pair, "01") == 0)
             adresse++;
-        if (my_strcmp(pair, "11") == 0)
+        if (my_strcmp(pair, "11") == 0 || my_strcmp(pair, "10") == 0)
             adresse += 2;
         if (my_strcmp(pair, "01") == 0 &&
             check_registers(corewar, adresse) == 1)
             return -1;
-        j++;
     }
     return adresse;
 }
@@ -91,15 +89,10 @@ static int check_firsts_couples(char *pair, char *coding_byte,
 int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     char pair[3];
-    int adresse = 0;
+    int adresse = check_firsts_couples(pair, coding_byte, champion, corewar);
 
-    if (my_strlen(coding_byte) < 8 || my_strlen(coding_byte) % 2 != 0)
+    if (adresse == -1)
         return 1;
-    if (check_firsts_couples(pair, coding_byte, champion, corewar) == -1) {
-        return 1;
-    } else {
-        adresse = check_firsts_couples(pair, coding_byte, champion, corewar);
-    }
     pair[0] = coding_byte[4];
     pair[1] = coding_byte[5];
     pair[2] = '\0';
@@ -107,7 +100,5 @@ int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar)
         return 1;
     if (check_registers(corewar, adresse) == 1)
         return 1;
-    if (check_empty(my_strlen(coding_byte), coding_byte, pair) == 1)
-        return 1;
-    return 0;
+    return check_empty(my_strlen(coding_byte), coding_byte, pair);
 }

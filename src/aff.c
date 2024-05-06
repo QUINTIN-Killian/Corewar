@@ -30,11 +30,9 @@ int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     int len = my_strlen(coding_byte);
     char pair[3];
-    int adresse = champion->PC + 1;
+    int adresse = champion->PC + 2;
     cell_t *cell;
 
-    if (len < 8 || len % 2 != 0)
-        return 1;
     pair[0] = coding_byte[0];
     pair[1] = coding_byte[1];
     pair[2] = '\0';

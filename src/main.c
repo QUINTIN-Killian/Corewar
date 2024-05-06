@@ -55,7 +55,7 @@ int main(int ac, char **av)
     write_instructions_in_memory(&corewar, &corewar.champions);
     //display_champions_infos(&corewar.champions);
     print_memory(&corewar);
-    //main_loop(&corewar.champions, &corewar);
+    main_loop(&corewar.champions, &corewar);
     destroy_struct(&corewar);
     return 0;
 }

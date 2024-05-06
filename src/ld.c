@@ -67,12 +67,9 @@ static int set_adresse(char *pair, champion_t *champion)
         return champion->PC + 5;
     }
     if (my_strcmp(pair, "01") == 0) {
-        return champion->PC + 3;
+        return champion->PC + 2; //anciennement : return champion->PC + 3;
     }
-    if (my_strcmp(pair, "11") == 0) {
-        return champion->PC + 3;
-    }
-    return champion->PC;
+    return champion->PC + 3;
 }
 
 static int check_first(char *pair, champion_t *champion, corewar_t *corewar)
@@ -106,7 +103,5 @@ int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
     cell = get_memory_cell(corewar, adresse);
     if (cell->value_int < 1 || cell->value_int > 16)
         return 1;
-    if (check_empty(my_strlen(coding_byte), coding_byte, pair) == 1)
-        return 1;
-    return 0;
+    return check_empty(my_strlen(coding_byte), coding_byte, pair);
 }

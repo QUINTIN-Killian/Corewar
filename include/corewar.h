@@ -122,7 +122,7 @@ void destroy_memory(corewar_t *corewar);
 
 //add.c :
 void exec_add(champion_t *champion);
-int check_add_sub(char *coding_byte, corewar_t *corewar);
+int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //aff.c :
 void exec_aff(champion_t *champion);
@@ -130,7 +130,7 @@ int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //and.c :
 void exec_and(champion_t *champion);
-int check_and(char *coding_byte, champion_t *champion);
+int check_and(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //instruction_execution.c :
 void instruction_execution(corewar_t *corewar, champion_t *champion,
