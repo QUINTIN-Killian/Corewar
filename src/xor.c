@@ -25,8 +25,8 @@ static int get_param_xor(corewar_t *corewar, champion_t *champion, int ind,
 
 void exec_xor(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = get_param_and(corewar, champion, 0, 2);
-    int value2 = get_param_and(corewar, champion, 2, 3);
+    int value1 = get_param_xor(corewar, champion, 0, 2);
+    int value2 = get_param_xor(corewar, champion, 2, 3);
 
     champion->registers[get_memory_cell(corewar, champion->PC + 4)->value_int]
     = value1 ^ value2;
