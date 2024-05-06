@@ -21,8 +21,7 @@ int process_instruction(int mnemonic_value,
     if (mnemonic_value == 10 || mnemonic_value == 14)
         return check_ldi(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
     if (mnemonic_value == 16)
-        return check_aff(champion->instructions->coding_byte,
-            champion, corewar);
+        return check_aff(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
     return 0;
 }
 
