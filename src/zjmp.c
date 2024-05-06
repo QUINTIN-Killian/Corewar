@@ -13,6 +13,7 @@ void exec_zjmp(corewar_t *corewar, champion_t *champion)
     get_memory_cell(corewar, champion->PC + 1)->value_int,
     get_memory_cell(corewar, champion->PC + 2)->value_int);
 
+    champion->timeout = 20;
     if (!champion->carry || value == 0) {
         champion->PC += 3;
         return;

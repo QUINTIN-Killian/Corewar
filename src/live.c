@@ -25,4 +25,5 @@ void exec_live(corewar_t *corewar, champion_t **champions_list,
         node = node->next;
     }
     champion->PC += 5;
+    champion->timeout = 10;
 }

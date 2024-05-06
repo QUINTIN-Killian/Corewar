@@ -28,6 +28,7 @@ void exec_st(corewar_t *corewar, champion_t *champion)
         champion->PC + value % IDX_MOD, 2);
         champion->PC += 5;
     }
+    champion->timeout = 5;
 }
 
 static int check_empty(int len, char *pair, char *coding_byte)

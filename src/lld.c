@@ -33,4 +33,5 @@ void exec_lld(corewar_t *corewar, champion_t *champion)
     set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
     ->value_int]);
     champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));
+    champion->timeout = 10;
 }

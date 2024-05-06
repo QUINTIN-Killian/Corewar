@@ -12,6 +12,7 @@ void exec_aff(corewar_t *corewar, champion_t *champion)
     mini_printf("%c\n", champion->registers[get_memory_cell(corewar,
     champion->PC + 1)->value_int]);
     champion->PC += 2;
+    champion->timeout = 2;
 }
 
 static int check_end_cb(int len, char *pair, char *coding_byte)

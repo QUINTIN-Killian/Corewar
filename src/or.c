@@ -29,4 +29,5 @@ void exec_or(corewar_t *corewar, champion_t *champion)
     set_carry(champion, champion->registers[get_memory_cell(corewar,
     champion->PC + 4)->value_int]);
     champion->PC += 5;
+    champion->timeout = 6;
 }

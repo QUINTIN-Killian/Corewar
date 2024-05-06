@@ -13,4 +13,5 @@ void exec_sub(corewar_t *corewar, champion_t *champion)
     = get_memory_cell(corewar, champion->PC + 2)->value_int -
     get_memory_cell(corewar, champion->PC + 3)->value_int;
     champion->PC += 5;
+    champion->timeout = 10;
 }
