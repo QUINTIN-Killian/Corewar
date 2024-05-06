@@ -7,43 +7,19 @@
 
 #include "../include/corewar.h"
 
-static void exec_zjmp_forward(champion_t *champion)
+void exec_zjmp(corewar_t *corewar, champion_t *champion)
 {
-    int distance = champion->instructions->parameters[0] - 3;
-    instructions_t *node = champion->instructions->next;
+    int value = combine_bytes(2,
+    get_memory_cell(corewar, champion->PC + 1)->value_int,
+    get_memory_cell(corewar, champion->PC + 2)->value_int);
 
-    while (node != NULL && distance > 0) {
-        distance -= node->nb_bytes;
-        if (distance <= 0)
-            break;
-        node = node->next;
-    }
-    champion->instructions = node;
-}
-
-static void exec_zjmp_backward(champion_t *champion)
-{
-    int distance = 0xffff - champion->instructions->parameters[0] + 1;
-    instructions_t *node = champion->instructions->prev;
-
-    while (node != NULL && distance > 0) {
-        distance -= node->nb_bytes;
-        if (distance <= 0)
-            break;
-        node = node->prev;
-    }
-    champion->instructions = node;
-}
-
-void exec_zjmp(champion_t *champion)
-{
-    if (!champion->carry)
-        return move_instruction_head(champion);
-    if (champion->instructions->parameters[0] == 0)
+    if (!champion->carry || value == 0) {
+        champion->PC += 3;
         return;
-    champion->PC = champion->PC + champion->instructions->parameters[0] %
-    IDX_MOD;
-    if (champion->instructions->parameters[0] <= 0xffff / 2)
-        return exec_zjmp_forward(champion);
-    exec_zjmp_backward(champion);
+    }
+    if (value <= 0xffff / 2)
+        champion->PC += value % IDX_MOD;
+    else
+        champion->PC -= value % IDX_MOD;
+    champion->PC = cycle_coords(champion->PC);
 }

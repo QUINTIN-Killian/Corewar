@@ -13,24 +13,24 @@
 
 #include "../include/corewar.h"
 
-void exec_lld(champion_t *champion, corewar_t *corewar)
+void exec_lld(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = 0;
-    int adress = 0;
-    int new = 0;
-    int val = 0;
-    cell_t *temp;
+    int adress = champion->PC + 2;
+    int value;
 
-    value1 = set_value(champion, 2, 1);
-    adress = champion->PC + value1;
-    for (int i = 0; i < REG_SIZE; i++) {
-        temp = get_memory_cell(corewar, adress);
-        new += convert_hex_in_int(temp->value);
-        val = set_val(i);
-        if (val != -1)
-            new = new << val;
+    if (my_strncmp(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int), "01", 2) == 0) {
+        value = champion->registers[get_memory_cell(corewar,
+        adress)->value_int];
+        adress++;
+    } else {
+        value = get_memory_cell(corewar, adress)->value_int;
+        adress = move_pc_general(convert_int_in_bin(get_memory_cell(corewar,
+        champion->PC + 1)->value_int), 1);
     }
-    champion->registers[champion->instructions->parameters[1]] = new;
-    set_carry(champion, new);
-    move_instruction_head(champion);
+    champion->registers[get_memory_cell(corewar, adress)->value_int] =
+    champion->PC + value;
+    set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
+    ->value_int]);
+    champion->PC += adress + 1;
 }

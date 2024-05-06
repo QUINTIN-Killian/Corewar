@@ -7,40 +7,44 @@
 
 #include "../include/corewar.h"
 
-int ldi_bin(corewar_t *corewar, cell_t *temp, int adress)
+static int get_param_ldi(corewar_t *corewar, champion_t *champion, int i,
+    int *pc)
 {
-    int val = 0;
-    int new = 0;
+    int res = 0;
 
-    for (int i = 0; i < REG_SIZE; i++) {
-        temp = get_memory_cell(corewar, adress);
-        new += convert_hex_in_int(temp->value);
-        val = set_val(i);
-        if (val != -1)
-            new = new << val;
+    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(
+    corewar, champion->PC + 1)->value_int)[i]), "01", 2) == 0) {
+        res = champion->registers[get_memory_cell(
+        corewar, *pc)->value_int];
+        *pc += 1;
+    } else {
+        res = combine_bytes(2, get_memory_cell(
+        corewar, *pc)->value_int, get_memory_cell(
+        corewar, *pc + 1)->value_int);
+        *pc += 2;
     }
-    return new;
+    return res;
 }
 
 void exec_ldi(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = 0;
-    int value2 = 0;
-    int adress = 0;
-    int s = 0;
-    int new = 0;
-    cell_t *temp;
+    int pc = champion->PC + 2;
+    int param1 = get_param_ldi(corewar, champion, 0, &pc);
+    int param2 = get_param_ldi(corewar, champion, 2, &pc);
+    int s = combine_bytes(IND_SIZE,
+    get_memory_cell(corewar, champion->PC + param1 % IDX_MOD)->value_int,
+    get_memory_cell(corewar, (champion->PC + param1 % IDX_MOD) + 1)->value_int)
+    + param2;
 
-    value1 = set_value(champion, 0, 0);
-    value2 = set_value(champion, 2, 1);
-    adress = champion->PC + value1 % IDX_MOD;
-    temp = get_memory_cell(corewar, adress);
-    s = convert_hex_in_int(temp->value) + value2;
-    adress = champion->PC + s % IDX_MOD;
-    new = ldi_bin(corewar, temp, adress);
-    champion->registers[champion->instructions->parameters[3]] = new;
-    set_carry(champion, new);
-    move_instruction_head(champion);
+    champion->registers[get_memory_cell(corewar, pc)->value_int] =
+    combine_bytes(REG_SIZE,
+    get_memory_cell(corewar, (champion->PC + s % IDX_MOD))->value_int,
+    get_memory_cell(corewar, (champion->PC + s % IDX_MOD) + 1)->value_int,
+    get_memory_cell(corewar, (champion->PC + s % IDX_MOD) + 2)->value_int,
+    get_memory_cell(corewar, (champion->PC + s % IDX_MOD) + 3)->value_int);
+    champion->PC += pc + 1;
+    set_carry(champion,
+    champion->registers[get_memory_cell(corewar, pc)->value_int]);
 }
 
 static int check_registers(corewar_t *corewar, int adresse)
@@ -73,7 +77,8 @@ static int check_firsts_couples(char *pair, char *coding_byte,
         pair[0] = coding_byte[i];
         pair[1] = coding_byte[i + 1];
         pair[2] = '\0';
-        if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "01") != 0 || my_strcmp(pair, "10") == 0)
+        if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "01") != 0 &&
+        my_strcmp(pair, "10") != 0)
             return -1;
         if (my_strcmp(pair, "01") == 0)
             adresse++;

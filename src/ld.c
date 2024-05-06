@@ -18,26 +18,26 @@ int set_val(int i)
     return -1;
 }
 
-void exec_ld(champion_t *champion, corewar_t *corewar)
+void exec_ld(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = 0;
-    int adress = 0;
-    int new = 0;
-    int val = 0;
-    cell_t *temp;
+    int adress = champion->PC + 2;
+    int value;
 
-    value1 = set_value(champion, 2, 1);
-    adress = champion->PC + value1 % IDX_MOD;
-    for (int i = 0; i < 4; i++) {
-        temp = get_memory_cell(corewar, adress);
-        new += convert_hex_in_int(temp->value);
-        val = set_val(i);
-        if (val != -1)
-            new = new << val;
+    if (my_strncmp(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int), "01", 2) == 0) {
+        value = champion->registers[get_memory_cell(corewar,
+        adress)->value_int];
+        adress++;
+    } else {
+        value = get_memory_cell(corewar, adress)->value_int;
+        adress = move_pc_general(convert_int_in_bin(get_memory_cell(corewar,
+        champion->PC + 1)->value_int), 1);
     }
-    champion->registers[champion->instructions->parameters[1]] = new;
-    set_carry(champion, new);
-    move_instruction_head(champion);
+    champion->registers[get_memory_cell(corewar, adress)->value_int] =
+    champion->PC + value % IDX_MOD;
+    set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
+    ->value_int]);
+    champion->PC += adress + 1;
 }
 
 static int check_empty(int len, char *coding_byte, char *pair)
@@ -67,7 +67,7 @@ static int set_adresse(char *pair, champion_t *champion)
         return champion->PC + 5;
     }
     if (my_strcmp(pair, "01") == 0) {
-        return champion->PC + 2; //anciennement : return champion->PC + 3;
+        return champion->PC + 2;
     }
     return champion->PC + 3;
 }

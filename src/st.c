@@ -6,22 +6,28 @@
 */
 #include "../include/corewar.h"
 
-void exec_st(champion_t *champion, corewar_t *corewar)
+void exec_st(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = champion->registers[champion->instructions->parameters[0]];
-    int value2 = 0;
-    int adress = 0;
+    int value = champion->registers[get_memory_cell(corewar,
+    champion->PC + 2)->value_int];
 
-    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0) {
-        value2 = value1;
-        champion->registers[champion->instructions->parameters[1]] = value2;
-    } else {
-        value2 = champion->instructions->parameters[1];
-        adress = champion->PC + value2 % IDX_MOD;
-        set_memory_cell(corewar, create_tmp_cell(champion->id, value1),
-        adress, 4);
+    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(
+        corewar, champion->PC + 1)->value_int)[2]), "01", 2) == 0) {
+        champion->registers[get_memory_cell(corewar, champion->PC + 3)
+        ->value_int] = value;
+        champion->PC += 4;
+        return;
     }
-    move_instruction_head(champion);
+    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int)[2]), "10", 2) == 0) {
+        set_memory_cell(corewar, create_tmp_cell(champion->id, value),
+        champion->PC + value % IDX_MOD, 4);
+        champion->PC += 7;
+    } else {
+        set_memory_cell(corewar, create_tmp_cell(champion->id, value),
+        champion->PC + value % IDX_MOD, 2);
+        champion->PC += 5;
+    }
 }
 
 static int check_empty(int len, char *pair, char *coding_byte)

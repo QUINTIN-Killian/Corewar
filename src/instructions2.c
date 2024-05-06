@@ -43,10 +43,3 @@ void set_double_linked_list(champion_t **champions)
         node = node->next;
     }
 }
-
-void move_instruction_head(champion_t *champion)
-{
-    if (champion->instructions == NULL)
-        return;
-    champion->instructions = champion->instructions->next;
-}

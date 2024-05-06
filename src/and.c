@@ -7,26 +7,28 @@
 
 #include "../include/corewar.h"
 
-void exec_and(champion_t *champion)
+void exec_and(corewar_t *corewar, champion_t *champion)
 {
     int value1 = 0;
     int value2 = 0;
 
-    if (my_strncmp(champion->instructions->coding_byte, "01", 2) == 0)
-        value1 = champion->registers[champion->instructions->parameters[0]];
+    if (my_strncmp(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int), "01", 2) == 0)
+        value1 = champion->registers[get_memory_cell(corewar,
+        champion->PC + 2)->value_int];
     else
-        value1 = champion->instructions->parameters[0];
-    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0)
-        value2 = champion->registers[champion->instructions->parameters[1]];
+        value1 = get_memory_cell(corewar, champion->PC + 2)->value_int;
+    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int)[2]), "01", 2) == 0)
+        value2 = champion->registers[get_memory_cell(corewar,
+        champion->PC + 3)->value_int];
     else
-        value2 = champion->instructions->parameters[1];
-    champion->registers[champion->instructions->parameters[2]] =
-    value1 & value2;
-    if (champion->registers[champion->instructions->parameters[2]] == 0)
-        champion->carry = 0;
-    else
-        champion->carry = 1;
-    move_instruction_head(champion);
+        value2 = get_memory_cell(corewar, champion->PC + 3)->value_int;
+    champion->registers[get_memory_cell(corewar, champion->PC + 4)->value_int]
+    = value1 & value2;
+    set_carry(champion, champion->registers[get_memory_cell(corewar,
+    champion->PC + 4)->value_int]);
+    champion->PC += 5;
 }
 
 static int check_empty(int len, char *coding_byte, char *pair)
@@ -41,7 +43,7 @@ static int check_empty(int len, char *coding_byte, char *pair)
     return 0;
 }
 
-static int set_adresse(char *pair, champion_t *champion)
+static int set_adresse(char *pair)
 {
     if (my_strcmp(pair, "10") == 0) {
         return 4;
@@ -73,7 +75,7 @@ int check_and(char *coding_byte, champion_t *champion, corewar_t *corewar)
         if (my_strcmp(pair, "10") != 0 && my_strcmp(pair, "11")
         != 0 && my_strcmp(pair, "01") != 0)
             return 1;
-        adresse += set_adresse(pair, champion);
+        adresse += set_adresse(pair);
     }
     pair[0] = coding_byte[4];
     pair[1] = coding_byte[5];

@@ -16,7 +16,7 @@ cell_t *create_tmp_cell(int id_owner, int value_int)
     return cell;
 }
 
-static int cycle_coords(int coords)
+int cycle_coords(int coords)
 {
     if (coords < 0)
         return MEM_SIZE + (coords % MEM_SIZE);
@@ -35,7 +35,7 @@ int combine_bytes(int nb_bytes, ...)
     va_start(args, nb_bytes);
     for (int i = 0; i < nb_bytes; i++) {
         res += va_arg(args, int);
-        res = res << (8 * (nb_bytes - 1));
+        res = res << (8 * (nb_bytes - 1 - i));
     }
     va_end(args);
     return res;

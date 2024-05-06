@@ -7,24 +7,26 @@
 
 #include "../include/corewar.h"
 
-void exec_or(champion_t *champion)
+void exec_or(corewar_t *corewar, champion_t *champion)
 {
     int value1 = 0;
     int value2 = 0;
 
-    if (my_strncmp(champion->instructions->coding_byte, "01", 2) == 0)
-        value1 = champion->registers[champion->instructions->parameters[0]];
+    if (my_strncmp(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int), "01", 2) == 0)
+        value1 = champion->registers[get_memory_cell(corewar,
+        champion->PC + 2)->value_int];
     else
-        value1 = champion->instructions->parameters[0];
-    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0)
-        value2 = champion->registers[champion->instructions->parameters[1]];
+        value1 = get_memory_cell(corewar, champion->PC + 2)->value_int;
+    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int)[2]), "01", 2) == 0)
+        value2 = champion->registers[get_memory_cell(corewar,
+        champion->PC + 3)->value_int];
     else
-        value2 = champion->instructions->parameters[1];
-    champion->registers[champion->instructions->parameters[2]] =
-    value1 | value2;
-    if (champion->registers[champion->instructions->parameters[2]] == 0)
-        champion->carry = 0;
-    else
-        champion->carry = 1;
-    move_instruction_head(champion);
+        value2 = get_memory_cell(corewar, champion->PC + 3)->value_int;
+    champion->registers[get_memory_cell(corewar, champion->PC + 4)->value_int]
+    = value1 | value2;
+    set_carry(champion, champion->registers[get_memory_cell(corewar,
+    champion->PC + 4)->value_int]);
+    champion->PC += 5;
 }

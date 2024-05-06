@@ -7,61 +7,42 @@
 
 #include "../include/corewar.h"
 
-void set_carry(champion_t *champion, int new)
+static int get_param_lldi(corewar_t *corewar, champion_t *champion, int i,
+    int *pc)
 {
-    if (new == 0) {
-        champion->carry = 0;
+    int res = 0;
+
+    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(
+    corewar, champion->PC + 1)->value_int)[i]), "01", 2) == 0) {
+        res = champion->registers[get_memory_cell(
+        corewar, *pc)->value_int];
+        *pc += 1;
     } else {
-        champion->carry = 1;
+        res = combine_bytes(2, get_memory_cell(
+        corewar, *pc)->value_int, get_memory_cell(
+        corewar, *pc + 1)->value_int);
+        *pc += 2;
     }
-}
-
-int set_value(champion_t *champion, int start, int parameter)
-{
-    int value = 0;
-
-    if (my_strncmp(&(champion->instructions->coding_byte[start]),
-    "01", 2) == 0) {
-        value =
-        champion->registers[champion->instructions->parameters[parameter]];
-    } else {
-        value = champion->instructions->parameters[parameter];
-    }
-    return value;
-}
-
-int lldi_bin(corewar_t *corewar, cell_t *temp, int adress)
-{
-    int val = 0;
-    int new = 0;
-
-    for (int i = 0; i < REG_SIZE; i++) {
-        temp = get_memory_cell(corewar, adress);
-        new += convert_hex_in_int(temp->value);
-        val = set_val(i);
-        if (val != -1)
-            new = new << val;
-    }
-    return new;
+    return res;
 }
 
 void exec_lldi(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = 0;
-    int value2 = 0;
-    int adress = 0;
-    int s = 0;
-    int new = 0;
-    cell_t *temp;
+    int pc = champion->PC + 2;
+    int param1 = get_param_lldi(corewar, champion, 0, &pc);
+    int param2 = get_param_lldi(corewar, champion, 2, &pc);
+    int s = combine_bytes(IND_SIZE,
+    get_memory_cell(corewar, champion->PC + param1)->value_int,
+    get_memory_cell(corewar, (champion->PC + param1) + 1)->value_int)
+    + param2;
 
-    value1 = set_value(champion, 0, 0);
-    value2 = set_value(champion, 2, 1);
-    adress = champion->PC + value1;
-    temp = get_memory_cell(corewar, adress);
-    s = convert_hex_in_int(temp->value) + value2;
-    adress = champion->PC + s;
-    new = lldi_bin(corewar, temp, adress);
-    champion->registers[champion->instructions->parameters[3]] = new;
-    set_carry(champion, new);
-    move_instruction_head(champion);
+    champion->registers[get_memory_cell(corewar, pc)->value_int] =
+    combine_bytes(REG_SIZE,
+    get_memory_cell(corewar, (champion->PC + s))->value_int,
+    get_memory_cell(corewar, (champion->PC + s) + 1)->value_int,
+    get_memory_cell(corewar, (champion->PC + s) + 2)->value_int,
+    get_memory_cell(corewar, (champion->PC + s) + 3)->value_int);
+    champion->PC += pc + 1;
+    set_carry(champion,
+    champion->registers[get_memory_cell(corewar, pc)->value_int]);
 }
