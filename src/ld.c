@@ -37,7 +37,7 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
     champion->PC + value % IDX_MOD;
     set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
     ->value_int]);
-    champion->PC += adress + 1;
+    champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));
 }
 
 static int check_empty(int len, char *coding_byte, char *pair)

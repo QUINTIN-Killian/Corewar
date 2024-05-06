@@ -42,7 +42,7 @@ void exec_lldi(corewar_t *corewar, champion_t *champion)
     get_memory_cell(corewar, (champion->PC + s) + 1)->value_int,
     get_memory_cell(corewar, (champion->PC + s) + 2)->value_int,
     get_memory_cell(corewar, (champion->PC + s) + 3)->value_int);
-    champion->PC += pc + 1;
+    champion->PC = cycle_coords(champion->PC + (pc - champion->PC + 1));
     set_carry(champion,
     champion->registers[get_memory_cell(corewar, pc)->value_int]);
 }

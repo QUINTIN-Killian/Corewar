@@ -11,10 +11,10 @@ void exec_live(corewar_t *corewar, champion_t **champions_list,
     champion_t *champion)
 {
     int id = combine_bytes(4,
-    get_memory_cell(corewar, champion->PC + 1)->value,
-    get_memory_cell(corewar, champion->PC + 2)->value,
-    get_memory_cell(corewar, champion->PC + 3)->value,
-    get_memory_cell(corewar, champion->PC + 4)->value);
+    get_memory_cell(corewar, champion->PC + 1)->value_int,
+    get_memory_cell(corewar, champion->PC + 2)->value_int,
+    get_memory_cell(corewar, champion->PC + 3)->value_int,
+    get_memory_cell(corewar, champion->PC + 4)->value_int);
     champion_t *node = *champions_list;
 
     while (node != NULL) {

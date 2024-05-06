@@ -32,5 +32,5 @@ void exec_lld(corewar_t *corewar, champion_t *champion)
     champion->PC + value;
     set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
     ->value_int]);
-    champion->PC += adress + 1;
+    champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));
 }

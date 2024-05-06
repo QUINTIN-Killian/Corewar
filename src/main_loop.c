@@ -94,5 +94,6 @@ void main_loop(champion_t **champions, corewar_t *corewar)
         champions_turn(champions, corewar, node);
         corewar->nb_turns--;
     }
+    print_memory(corewar);
     mini_printf("Game terminated at turn %d.\n", corewar->turn_id);
 }
