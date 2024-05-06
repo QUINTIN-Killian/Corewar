@@ -11,9 +11,10 @@ static int get_param_lldi(corewar_t *corewar, champion_t *champion, int i,
     int *pc)
 {
     int res = 0;
+    char *bin = convert_int_in_bin(get_memory_cell(
+    corewar, champion->PC + 1)->value_int);
 
-    if (my_strncmp(&(convert_int_in_bin(get_memory_cell(
-    corewar, champion->PC + 1)->value_int)[i]), "01", 2) == 0) {
+    if (my_strncmp(&(bin[i]), "01", 2) == 0) {
         res = champion->registers[get_memory_cell(
         corewar, *pc)->value_int];
         *pc += 1;
@@ -23,6 +24,7 @@ static int get_param_lldi(corewar_t *corewar, champion_t *champion, int i,
         corewar, *pc + 1)->value_int);
         *pc += 2;
     }
+    free(bin);
     return res;
 }
 

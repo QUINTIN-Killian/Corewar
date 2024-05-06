@@ -7,32 +7,22 @@
 
 #include "../include/corewar.h"
 
-int set_val(int i)
-{
-    if (i == 0)
-        return 24;
-    if (i == 1)
-        return 12;
-    if (i == 2)
-        return 8;
-    return -1;
-}
-
 void exec_ld(corewar_t *corewar, champion_t *champion)
 {
     int adress = champion->PC + 2;
     int value;
+    char *bin = convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int);
 
-    if (my_strncmp(convert_int_in_bin(get_memory_cell(corewar,
-    champion->PC + 1)->value_int), "01", 2) == 0) {
+    if (my_strncmp(bin, "01", 2) == 0) {
         value = champion->registers[get_memory_cell(corewar,
         adress)->value_int];
         adress++;
     } else {
         value = get_memory_cell(corewar, adress)->value_int;
-        adress = move_pc_general(convert_int_in_bin(get_memory_cell(corewar,
-        champion->PC + 1)->value_int), 1);
+        adress = move_pc_general(bin, 1);
     }
+    free(bin);
     champion->registers[get_memory_cell(corewar, adress)->value_int] =
     champion->PC + value % IDX_MOD;
     set_carry(champion, champion->registers[get_memory_cell(corewar, adress)

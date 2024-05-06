@@ -178,7 +178,6 @@ int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar);
 void exec_sti(corewar_t *corewar, champion_t *champion);
 
 //ld.c :
-int set_val(int i);
 void exec_ld(corewar_t *corewar, champion_t *champion);
 int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
