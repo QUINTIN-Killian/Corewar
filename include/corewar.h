@@ -105,6 +105,9 @@ void display_champions_infos(champion_t **champions);
 void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 
+//champions2.c :
+int get_nb_champions(champion_t **champions);
+
 //move.c :
 int move_pc_general(char *coding_byte, int nb_params);
 int move_pc_index(char *coding_byte, int nb_params);

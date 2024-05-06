@@ -52,8 +52,11 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
         (*node) = (*node)->next;
         destroy_champion_node_by_id(champions, tmp);
         corewar->nb_champions--;
-        if (corewar->nb_champions == 1)
+        if (get_nb_champions(champions) == 1) {
+            mini_printf("The player %d(%s)has won.\n",
+            (*node)->id, (*node)->name);
             return 2;
+        }
         return 1;
     }
     return skip_turn_aux(corewar, node);

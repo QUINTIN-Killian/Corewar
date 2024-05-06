@@ -40,7 +40,8 @@ SRC	=	src/champions.c	\
 		src/conversions.c	\
 		src/writing.c	\
 		src/instructions_checker.c	\
-		src/move.c
+		src/move.c	\
+		src/champions2.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)
 
