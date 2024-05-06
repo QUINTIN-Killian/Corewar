@@ -110,8 +110,6 @@ int get_nb_champions(champion_t **champions);
 champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
 
 //move.c :
-int move_pc_general(char *coding_byte, int nb_params);
-int move_pc_index(char *coding_byte, int nb_params);
 void set_carry(champion_t *champion, int value);
 
 //instructions.c :

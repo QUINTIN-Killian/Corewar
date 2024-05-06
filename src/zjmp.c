@@ -21,6 +21,6 @@ void exec_zjmp(corewar_t *corewar, champion_t *champion)
     if (value <= 0xffff / 2)
         champion->PC += value % IDX_MOD;
     else
-        champion->PC -= value % IDX_MOD;
+        champion->PC -= (0xffff - value + 1) % IDX_MOD;
     champion->PC = cycle_coords(champion->PC);
 }

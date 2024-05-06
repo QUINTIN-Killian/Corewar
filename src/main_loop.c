@@ -34,10 +34,10 @@ static int skip_turn_aux(corewar_t *corewar, champion_t **node)
         (*node) = (*node)->next;
         return 1;
     }
-    if (pc_checker(corewar, *node)) {
-        (*node) = (*node)->next;
-        return 1;
-    }
+    // if (pc_checker(corewar, *node)) {
+    //     (*node) = (*node)->next;
+    //     return 1;
+    // }
     return 0;
 }
 
