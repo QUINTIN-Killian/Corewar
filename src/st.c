@@ -6,23 +6,6 @@
 */
 #include "../include/corewar.h"
 
-static void set_st(corewar_t *corewar, champion_t *champion, int value)
-{
-    char *bin = convert_int_in_bin(get_memory_cell(corewar,
-    champion->PC + 1)->value_int);
-
-    if (my_strncmp(&(bin[2]), "10", 2) == 0) {
-        set_memory_cell(corewar, create_tmp_cell(champion->id, value),
-        champion->PC + value % IDX_MOD, 4);
-        champion->PC += 7;
-    } else {
-        set_memory_cell(corewar, create_tmp_cell(champion->id, value),
-        champion->PC + value % IDX_MOD, 2);
-        champion->PC += 5;
-    }
-    free(bin);
-}
-
 void exec_st(corewar_t *corewar, champion_t *champion)
 {
     int value = champion->registers[get_memory_cell(corewar,
@@ -30,6 +13,7 @@ void exec_st(corewar_t *corewar, champion_t *champion)
     char *bin = convert_int_in_bin(get_memory_cell(corewar,
     champion->PC + 1)->value_int);
 
+    champion->timeout = 5;
     if (my_strncmp(&(bin[2]), "01", 2) == 0) {
         champion->registers[get_memory_cell(corewar, champion->PC + 3)
         ->value_int] = value;
@@ -38,8 +22,11 @@ void exec_st(corewar_t *corewar, champion_t *champion)
         return;
     }
     free(bin);
-    set_st(corewar, champion, value);
-    champion->timeout = 5;
+    set_memory_cell(corewar, create_tmp_cell(champion->id, value),
+    champion->PC + combine_bytes(2, get_memory_cell(corewar, champion->PC + 3)
+    ->value_int, get_memory_cell(corewar, champion->PC + 4)->value_int) %
+    IDX_MOD, 4);
+    champion->PC += 5;
 }
 
 static int check_empty(int len, char *pair, char *coding_byte)
