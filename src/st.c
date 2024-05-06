@@ -65,7 +65,7 @@ int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
     pair[1] = coding_byte[1];
     pair[2] = '\0';
     if (my_strcmp(pair, "01") != 0 ||
-    check_first_register(corewar, adresse))
+    check_first_register(corewar, adresse) == 1)
         return 1;
     pair[0] = coding_byte[2];
     pair[1] = coding_byte[3];

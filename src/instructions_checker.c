@@ -12,9 +12,12 @@ int process_instruction(int mnemonic_value,
 {
     if (mnemonic_value == 2 || mnemonic_value == 13)
         return check_ld(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
+        return check_ld(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
     if (mnemonic_value == 3)
         return check_st(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
+        return check_st(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
     if (mnemonic_value == 4 || mnemonic_value == 5)
+        return check_add_sub(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
         return check_add_sub(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);
     if (mnemonic_value == 6 || mnemonic_value == 7 || mnemonic_value == 8)
         return check_and(convert_int_in_bin(get_memory_cell(corewar, champion->PC + 1)->value_int), champion, corewar);

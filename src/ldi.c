@@ -73,7 +73,7 @@ static int check_firsts_couples(char *pair, char *coding_byte,
         pair[0] = coding_byte[i];
         pair[1] = coding_byte[i + 1];
         pair[2] = '\0';
-        if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "01") != 0)
+        if (my_strcmp(pair, "11") != 0 && my_strcmp(pair, "01") != 0 || my_strcmp(pair, "10") == 0)
             return -1;
         if (my_strcmp(pair, "01") == 0)
             adresse++;
@@ -98,7 +98,7 @@ int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar)
     pair[2] = '\0';
     if (my_strcmp(pair, "01") != 0)
         return 1;
-    if (check_registers(corewar, adresse) == 1)
+    if (check_registers(corewar, adresse + 1) == 1)
         return 1;
     return check_empty(my_strlen(coding_byte), coding_byte, pair);
 }

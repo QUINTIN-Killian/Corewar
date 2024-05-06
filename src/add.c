@@ -2,16 +2,26 @@
 ** EPITECH PROJECT, 2024
 ** corewar-private
 ** File description:
-** add
+** and
 */
 
 #include "../include/corewar.h"
 
-void exec_add(champion_t *champion)
+void exec_and(champion_t *champion)
 {
+    int value1 = 0;
+    int value2 = 0;
+
+    if (my_strncmp(champion->instructions->coding_byte, "01", 2) == 0)
+        value1 = champion->registers[champion->instructions->parameters[0]];
+    else
+        value1 = champion->instructions->parameters[0];
+    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0)
+        value2 = champion->registers[champion->instructions->parameters[1]];
+    else
+        value2 = champion->instructions->parameters[1];
     champion->registers[champion->instructions->parameters[2]] =
-    champion->registers[champion->instructions->parameters[0]] +
-    champion->registers[champion->instructions->parameters[1]];
+    value1 & value2;
     if (champion->registers[champion->instructions->parameters[2]] == 0)
         champion->carry = 0;
     else
@@ -19,7 +29,7 @@ void exec_add(champion_t *champion)
     move_instruction_head(champion);
 }
 
-static int check_empty(int len, char *pair, char *coding_byte)
+static int check_empty(int len, char *coding_byte, char *pair)
 {
     for (int i = 6; i < len; i += 2) {
         pair[0] = coding_byte[i];
