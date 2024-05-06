@@ -23,7 +23,7 @@ int process_instruction(int mnemonic_value,
         return check_and(champion->instructions->coding_byte, champion);
     if (mnemonic_value == 9 || mnemonic_value == 12 || mnemonic_value == 15)
         return 0;
-    if (mnemonic_value == 10)
+    if (mnemonic_value == 10 || mnemonic_value == 14)
         return check_ldi(champion->instructions->coding_byte,
             champion, corewar);
     if (mnemonic_value == 16)

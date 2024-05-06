@@ -185,4 +185,7 @@ cell_t *get_memory_cell(corewar_t *corewar, int coords);
 int set_memory_cell(corewar_t *corewar, cell_t *new_cell, int coords,
     int nb_bytes);
 
+//instructions_checker.c
+int pc_checker(corewar_t *corewar, champion_t *champion);
+
 #endif /* !COREWAR_H_ */

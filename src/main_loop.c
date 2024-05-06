@@ -62,7 +62,12 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
         mini_printf("%d) %s : %s\n",
         corewar->turn_id, node->name, node->instructions->instruction);
         node->timeout = node->instructions->nb_cycles;
-        instruction_execution(corewar, node, node->instructions);
+        if (pc_checker(corewar, node) == 0) {
+
+            instruction_execution(corewar, node, node->instructions);
+        } else {
+            printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah\n");
+        }
         node = node->next;
     }
 }

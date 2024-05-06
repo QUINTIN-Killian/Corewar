@@ -40,7 +40,7 @@ void exec_ld(champion_t *champion, corewar_t *corewar)
     move_instruction_head(champion);
 }
 
-static check_empty(int len, char *coding_byte, char *pair)
+static int check_empty(int len, char *coding_byte, char *pair)
 {
     for (int i = 4; i < len; i += 2) {
         pair[0] = coding_byte[i];
