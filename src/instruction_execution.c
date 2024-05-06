@@ -18,8 +18,10 @@ const instruction_call_t calls[] = {
     {9, exec_zjmp},
     {10, exec_ldi},
     {11, exec_sti},
+    {12, exec_fork},
     {13, exec_lld},
     {14, exec_lldi},
+    {15, exec_lfork},
     {16, exec_aff},
     {-1, NULL}
 };
@@ -28,16 +30,6 @@ void instruction_execution(corewar_t *corewar, champion_t *champion)
 {
     int mnemonic = get_memory_cell(corewar, champion->PC)->value_int;
 
-    if (mnemonic == 12) {
-        mini_printf("Instruction fork\n");
-        champion->PC += 3;
-        return;
-    }
-    if (mnemonic == 15) {
-        mini_printf("Instruction lfork\n");
-        champion->PC += 3;
-        return;
-    }
     if (mnemonic == 1)
         return exec_live(corewar, &corewar->champions, champion);
     for (int i = 0; calls[i].f != NULL; i++)

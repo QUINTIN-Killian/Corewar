@@ -107,6 +107,7 @@ champion_t *rev_champions(champion_t **champions);
 
 //champions2.c :
 int get_nb_champions(champion_t **champions);
+champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
 
 //move.c :
 int move_pc_general(char *coding_byte, int nb_params);
@@ -143,6 +144,12 @@ int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar);
 //and.c :
 void exec_and(corewar_t *corewar, champion_t *champion);
 int check_and(char *coding_byte, champion_t *champion, corewar_t *corewar);
+
+//fork.c :
+void exec_fork(corewar_t *corewar, champion_t *champion);
+
+//lfork.c :
+void exec_lfork(corewar_t *corewar, champion_t *champion);
 
 //instruction_execution.c :
 void instruction_execution(corewar_t *corewar, champion_t *champion);
