@@ -28,3 +28,12 @@ int check_empty(int len, char *coding_byte, char *pair, int start)
     }
     return 0;
 }
+
+int check_register(int coords, corewar_t *corewar)
+{
+    cell_t *cell = get_memory_cell(corewar, coords);
+
+    if (cell->value_int < 1 || cell->value_int > 16)
+        return 1;
+    return 0;
+}
