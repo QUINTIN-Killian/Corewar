@@ -46,7 +46,7 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
     ->value_int]);
     champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));
     champion->timeout = 5;
-}
+}yy
 
 static int check_first(char *pair, champion_t *champion, corewar_t *corewar)
 {
