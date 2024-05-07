@@ -52,15 +52,6 @@ static int check_end(char *pair, int len, char *coding_byte, cell_t *cell)
     return 0;
 }
 
-static int check_first_register(corewar_t *corewar, int adresse)
-{
-    cell_t *cell = get_memory_cell(corewar, adresse);
-
-    if (cell->value_int < 1 || cell->value_int > 16)
-        return 1;
-    return 0;
-}
-
 int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     char pair[3];
@@ -69,8 +60,7 @@ int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
     pair[0] = coding_byte[0];
     pair[1] = coding_byte[1];
     pair[2] = '\0';
-    if (my_strcmp(pair, "01") != 0 ||
-    check_first_register(corewar, adresse) == 1)
+    if (my_strcmp(pair, "01") != 0 || check_register(adresse, corewar) == 1)
         return 1;
     pair[0] = coding_byte[2];
     pair[1] = coding_byte[3];
