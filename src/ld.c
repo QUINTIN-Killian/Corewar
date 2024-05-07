@@ -48,12 +48,6 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
     champion->timeout = 5;
 }
 
-static int check_first(char *pair, champion_t *champion, corewar_t *corewar)
-{
-
-    return 0;
-}
-
 int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     char pair[3];
