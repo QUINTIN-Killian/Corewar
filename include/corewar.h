@@ -205,5 +205,7 @@ int set_memory_cell(corewar_t *corewar, cell_t *new_cell, int coords,
 
 // checking_function.c
 int check_register(int coords, corewar_t *corewar);
+int check_empty(int len, char *coding_byte, char *pair, int start);
+int set_adresse(char *pair, champion_t *champion);
 
 #endif /* !COREWAR_H_ */
