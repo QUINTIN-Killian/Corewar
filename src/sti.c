@@ -50,7 +50,7 @@ int check_sti(char *coding_byte, champion_t *champion, corewar_t *corewar)
 
     if (my_strlen(coding_byte) % 2 != 0 || my_strlen(coding_byte) < 8)
         return 1;
-    if (my_strncmp("01", coding_byte, 2) != 0 || check_register(corewar, adresse) == 1)
+    if (my_strncmp("01", coding_byte, 2) != 0 || check_register(adresse, corewar) == 1)
         return 1;
     if (my_strncmp("01", &(coding_byte[2]), 2) != 0 && my_strncmp("10", &(coding_byte[2]), 2) != 0
     && my_strncmp("11", &(coding_byte[2]), 2))
