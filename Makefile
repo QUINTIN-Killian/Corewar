@@ -43,7 +43,8 @@ SRC	=	src/champions.c	\
 		src/move.c	\
 		src/champions2.c	\
 		src/fork.c	\
-		src/lfork.c
+		src/lfork.c	\
+		src/checking_function.c
 
 OBJ	=	$(SRC:src/%.c=bin/%.o)
 
