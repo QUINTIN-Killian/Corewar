@@ -17,7 +17,7 @@ void exec_st(corewar_t *corewar, champion_t *champion)
     if (my_strncmp(&(bin[2]), "01", 2) == 0) {
         champion->registers[get_memory_cell(corewar, champion->PC + 3)
         ->value_int] = value;
-        champion->PC += 4;
+        champion->PC = cycle_coords(champion->PC + 4);
         free(bin);
         return;
     }
@@ -26,7 +26,7 @@ void exec_st(corewar_t *corewar, champion_t *champion)
     champion->PC + combine_bytes(2, get_memory_cell(corewar, champion->PC + 3)
     ->value_int, get_memory_cell(corewar, champion->PC + 4)->value_int) %
     IDX_MOD, 4);
-    champion->PC += 5;
+    champion->PC = cycle_coords(champion->PC + 5);
 }
 
 static int check_empty(int len, char *pair, char *coding_byte)

@@ -49,6 +49,7 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
     if ((*node)->cycle_live >= CYCLE_TO_DIE ||
     is_champion_dead(corewar, (*node)->id)) {
         tmp = (*node)->id;
+        mini_fdprintf(2, "Champion %s is dead !\n", (*node)->name);
         (*node) = (*node)->next;
         destroy_champion_node_by_id(champions, tmp);
         corewar->nb_champions--;
@@ -74,9 +75,10 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
             continue;
         if (skip == 2)
             break;
-        mini_printf("%d) %s : %s\n",
+        //mini_fdprintf(2, "%d) %d, %s\n", corewar->turn_id, get_memory_cell(corewar, 693)->value_int, get_memory_cell(corewar, 693)->value);
+        mini_printf("%d) %s : %s, %d\n",
         corewar->turn_id, node->name,
-        get_memory_cell(corewar, node->PC)->value);
+        get_memory_cell(corewar, node->PC)->value, node->PC);
         //node->timeout = node->instructions->nb_cycles;
         instruction_execution(corewar, node);
         // mini_printf("%d) %s : %s\n",

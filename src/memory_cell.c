@@ -16,15 +16,6 @@ cell_t *create_tmp_cell(int id_owner, int value_int)
     return cell;
 }
 
-int cycle_coords(int coords)
-{
-    if (coords < 0)
-        return MEM_SIZE + (coords % MEM_SIZE);
-    if (coords >= MEM_SIZE)
-        return coords % MEM_SIZE;
-    return coords;
-}
-
 int combine_bytes(int nb_bytes, ...)
 {
     int res = 0;
@@ -38,7 +29,7 @@ int combine_bytes(int nb_bytes, ...)
         res = res << (8 * (nb_bytes - 1 - i));
     }
     va_end(args);
-    return res;
+    return cycle_nb(res);
 }
 
 cell_t *get_memory_cell(corewar_t *corewar, int coords)

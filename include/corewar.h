@@ -110,6 +110,8 @@ int get_nb_champions(champion_t **champions);
 champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
 
 //move.c :
+int cycle_nb(int nb);
+int cycle_coords(int coords);
 void set_carry(champion_t *champion, int value);
 
 //instructions.c :
@@ -197,7 +199,6 @@ int convert_bin_in_int(char *bin);
 
 // memory_cell.c :
 cell_t *create_tmp_cell(int id_owner, int value_int);
-int cycle_coords(int coords);
 int combine_bytes(int nb_bytes, ...);
 cell_t *get_memory_cell(corewar_t *corewar, int coords);
 int set_memory_cell(corewar_t *corewar, cell_t *new_cell, int coords,

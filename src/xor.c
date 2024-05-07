@@ -32,6 +32,6 @@ void exec_xor(corewar_t *corewar, champion_t *champion)
     = value1 ^ value2;
     set_carry(champion, champion->registers[get_memory_cell(corewar,
     champion->PC + 4)->value_int]);
-    champion->PC += 5;
+    champion->PC = cycle_coords(champion->PC + 5);
     champion->timeout = 6;
 }

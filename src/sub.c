@@ -12,6 +12,6 @@ void exec_sub(corewar_t *corewar, champion_t *champion)
     champion->registers[get_memory_cell(corewar, champion->PC + 4)->value_int]
     = get_memory_cell(corewar, champion->PC + 2)->value_int -
     get_memory_cell(corewar, champion->PC + 3)->value_int;
-    champion->PC += 5;
+    champion->PC = cycle_coords(champion->PC + 5);
     champion->timeout = 10;
 }
