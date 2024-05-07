@@ -50,13 +50,7 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
 
 static int check_first(char *pair, champion_t *champion, corewar_t *corewar)
 {
-    if (my_strcmp(pair, "10") != 0 && my_strcmp(pair, "11")
-        != 0 && my_strcmp(pair, "01") != 0)
-        return 1;
-    if (my_strcmp(pair, "01") == 0 &&
-        check_register(champion->PC + 2, corewar) == 1) {
-        return 1;
-    }
+
     return 0;
 }
 
@@ -66,15 +60,14 @@ int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
     int adresse = 0;
     cell_t *cell;
 
-    pair[0] = coding_byte[0];
-    pair[1] = coding_byte[1];
-    pair[2] = '\0';
-    if (check_first(pair, champion, corewar) == 1)
+    if (my_strncmp("10", coding_byte, 2) != 0 &&my_strncmp("11", coding_byte, 2)
+        != 0 && my_strncmp("01", coding_byte, 2) != 0)
+        return 1;
+    if (my_strncmp("01", coding_byte, 2) == 0 &&
+        check_register(champion->PC + 2, corewar) == 1)
         return 1;
     adresse = set_adresse(pair, champion);
-    pair[0] = coding_byte[2];
-    pair[1] = coding_byte[3];
-    if (my_strcmp(pair, "01") != 0)
+    if (my_strncmp("01", &(coding_byte[2]), 2) != 0)
         return 1;
     cell = get_memory_cell(corewar, adresse);
     if (cell->value_int < 1 || cell->value_int > 16)
