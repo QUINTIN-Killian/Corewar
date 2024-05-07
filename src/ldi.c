@@ -50,27 +50,6 @@ void exec_ldi(corewar_t *corewar, champion_t *champion)
     champion->timeout = 25;
 }
 
-static int check_registers(corewar_t *corewar, int adresse)
-{
-    cell_t *cell = get_memory_cell(corewar, adresse);
-
-    if (cell->value_int < 1 || cell->value_int > 16)
-        return 1;
-    return 0;
-}
-
-static int check_empty(int len, char *coding_byte, char *pair)
-{
-    for (int i = 6; i < len; i += 2) {
-        pair[0] = coding_byte[i];
-        pair[1] = coding_byte[i + 1];
-        pair[2] = '\0';
-        if (my_strcmp(pair, "00") != 0)
-            return 1;
-    }
-    return 0;
-}
-
 static int check_firsts_couples(char *pair, char *coding_byte,
     champion_t *champion, corewar_t *corewar)
 {
@@ -108,5 +87,5 @@ int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar)
         return 1;
     if (check_registers(corewar, adresse + 1) == 1)
         return 1;
-    return check_empty(my_strlen(coding_byte), coding_byte, pair);
+    return check_empty(my_strlen(coding_byte), coding_byte, pair, 6);
 }
