@@ -48,38 +48,6 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
     champion->timeout = 5;
 }
 
-static int check_empty(int len, char *coding_byte, char *pair)
-{
-    for (int i = 4; i < len; i += 2) {
-        pair[0] = coding_byte[i];
-        pair[1] = coding_byte[i + 1];
-        pair[2] = '\0';
-        if (my_strcmp(pair, "00") != 0)
-            return 1;
-    }
-    return 0;
-}
-
-static int check_register(int coords, corewar_t *corewar)
-{
-    cell_t *cell = get_memory_cell(corewar, coords);
-
-    if (cell->value_int < 1 || cell->value_int > 16)
-        return 1;
-    return 0;
-}
-
-static int set_adresse(char *pair, champion_t *champion)
-{
-    if (my_strcmp(pair, "10") == 0) {
-        return champion->PC + 5;
-    }
-    if (my_strcmp(pair, "01") == 0) {
-        return champion->PC + 2;
-    }
-    return champion->PC + 3;
-}
-
 static int check_first(char *pair, champion_t *champion, corewar_t *corewar)
 {
     if (my_strcmp(pair, "10") != 0 && my_strcmp(pair, "11")
@@ -111,5 +79,5 @@ int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar)
     cell = get_memory_cell(corewar, adresse);
     if (cell->value_int < 1 || cell->value_int > 16)
         return 1;
-    return check_empty(my_strlen(coding_byte), coding_byte, pair);
+    return check_empty(my_strlen(coding_byte), coding_byte, pair, 4);
 }
