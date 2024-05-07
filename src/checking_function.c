@@ -6,15 +6,6 @@
 */
 #include "../include/corewar.h"
 
-int check_register(int coords, corewar_t *corewar)
-{
-    cell_t *cell = get_memory_cell(corewar, coords);
-
-    if (cell->value_int < 1 || cell->value_int > 16)
-        return 1;
-    return 0;
-}
-
 int set_adresse(char *pair, champion_t *champion)
 {
     if (my_strcmp(pair, "10") == 0) {
