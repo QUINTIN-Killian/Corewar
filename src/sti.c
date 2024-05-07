@@ -42,3 +42,45 @@ void exec_sti(corewar_t *corewar, champion_t *champion)
     champion->PC = cycle_coords(champion->PC + (pc - champion->PC));
     champion->timeout = 25;
 }
+
+static int check_end(char *pair, int len, char *coding_byte, cell_t *cell)
+{
+    if (my_strcmp(pair, "01") != 0 &&
+        (cell->value_int < 1 || cell->value_int > 16))
+        return 1;
+    return 0;
+}
+
+static int check_register_or(char *pair, char *coding_byte, int adresse, corewar_t *corewar)
+{
+    if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
+        && my_strcmp(pair, "11") != 0)
+        return 1;
+    if (check_end(pair, my_strlen(coding_byte), coding_byte,
+    get_memory_cell(corewar, adresse + 1)) == 1 && my_strcmp(pair, "01") == 0)
+        return 1;
+    if (check_empty(my_strlen(coding_byte), pair, coding_byte, 6) == 1)
+        return 1;
+    return 0;
+}
+
+int check_sti(char *coding_byte, champion_t *champion, corewar_t *corewar)
+{
+    char pair[3];
+    int adresse = champion->PC + 1;
+
+    if (my_strlen(coding_byte) % 2 != 0 || my_strlen(coding_byte) < 8)
+        return 1;
+    pair[0] = coding_byte[0];
+    pair[1] = coding_byte[1];
+    pair[2] = '\0';
+    if (my_strcmp(pair, "01") != 0 ||
+    check_register(corewar, adresse) == 1)
+        return 1;
+    pair[0] = coding_byte[2];
+    pair[1] = coding_byte[3];
+    check_register_or(pair, coding_byte, adresse, corewar);
+    pair[0] = coding_byte[4];
+    pair[1] = coding_byte[5];
+    return check_register_or(pair, coding_byte, adresse, corewar);
+}
