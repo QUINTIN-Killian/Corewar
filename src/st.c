@@ -34,18 +34,12 @@ int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
     char pair[3];
     int adresse = champion->PC + 1;
 
-    pair[0] = coding_byte[0];
-    pair[1] = coding_byte[1];
-    pair[2] = '\0';
-    if (my_strcmp(pair, "01") != 0 || check_register(adresse, corewar) == 1)
+    if (my_strncmpt(coding_byte, "01", 2) != 0 || check_register(adresse, corewar))
         return 1;
-    pair[0] = coding_byte[2];
-    pair[1] = coding_byte[3];
-    if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
-        && my_strcmp(pair, "11") != 0)
+    if (my_strncmp(&(coding_byte[2]), "01", 2) != 0 && my_strncmp(&(coding_byte[2]), "10", 2) != 0
+    && my_strncmp(&(coding_byte[2]), "11", 2) != 0)
         return 1;
-    if (my_strcmp(pair, "01") == 0 &&
-        check_register(adresse + 1, corewar) == 1)
+    if (my_strncmp(&(coding_byte[2]), "01", 2) == 0 && check_register(adresse + 1, corewar) == 1)
         return 1;
     return check_empty(my_strlen(coding_byte), pair, coding_byte, 4);
 }
