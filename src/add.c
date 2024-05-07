@@ -16,18 +16,6 @@ void exec_add(corewar_t *corewar, champion_t *champion)
     champion->timeout = 10;
 }
 
-static int check_empty(int len, char *coding_byte, char *pair)
-{
-    for (int i = 6; i < len; i += 2) {
-        pair[0] = coding_byte[i];
-        pair[1] = coding_byte[i + 1];
-        pair[2] = '\0';
-        if (my_strcmp(pair, "00") != 0)
-            return 1;
-    }
-    return 0;
-}
-
 int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     char pair[3];
@@ -43,5 +31,5 @@ int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar)
         if (cell->value_int < 1 || cell->value_int > 16)
             return 1;
     }
-    return check_empty(my_strlen(coding_byte), pair, coding_byte);
+    return check_empty(my_strlen(coding_byte), pair, coding_byte, 6);
 }
