@@ -29,25 +29,13 @@ void exec_st(corewar_t *corewar, champion_t *champion)
     champion->PC += 5;
 }
 
-static int check_empty(int len, char *pair, char *coding_byte)
-{
-    for (int i = 4; i < len; i += 2) {
-        pair[0] = coding_byte[i];
-        pair[1] = coding_byte[i + 1];
-        pair[2] = '\0';
-        if (my_strcmp(pair, "00") != 0) {
-            return 1;
-        }
-    }
-    return 0;
-}
 
 static int check_end(char *pair, int len, char *coding_byte, cell_t *cell)
 {
     if (my_strcmp(pair, "01") == 0 &&
     (cell->value_int < 1 || cell->value_int > 16))
         return 1;
-    if (check_empty(len, pair, coding_byte))
+    if (check_empty(len, pair, coding_byte, 4))
         return 1;
     return 0;
 }
