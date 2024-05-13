@@ -31,7 +31,7 @@ int extract_args(int ac, char **av, corewar_t *corewar)
             continue;
         }
         if (is_a_flag(av, i)) {
-            corewar->start_mem = convert_str_in_int(av[i + 1]);
+            corewar->start_mem = convert_str_in_int(av[i + 1]) % MEM_SIZE;
             i++;
             continue;
         }
