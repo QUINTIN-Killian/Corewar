@@ -18,7 +18,7 @@ static int tab_int_len(int *tab)
     return ans;
 }
 
-static int *realloc_int_plus_one(int *tab)
+int *realloc_int_plus_one(int *tab)
 {
     int *ans;
 
@@ -29,13 +29,13 @@ static int *realloc_int_plus_one(int *tab)
     }
     ans = malloc(sizeof(int) * (tab_int_len(tab) + 2));
     ans[tab_int_len(tab) + 1] = -1;
-    for (int i = 1; i < tab_int_len(tab) + 2; i++)
-        ans[i] = tab[i];
+    for (int i = 0; i < tab_int_len(tab); i++)
+        ans[i + 1] = tab[i];
     free(tab);
     return ans;
 }
 
-static int is_nb_already_in_tab(int *tab, int nb)
+int is_nb_already_in_tab(int *tab, int nb)
 {
     if (tab == NULL)
         return 0;
@@ -48,9 +48,10 @@ static int is_nb_already_in_tab(int *tab, int nb)
 int get_nb_champions(champion_t **champions)
 {
     champion_t *node = *champions;
-    int *ids = NULL;
+    int *ids = malloc(sizeof(int));
     int ans = 0;
 
+    ids[0] = -1;
     while (node != NULL) {
         if (!is_nb_already_in_tab(ids, node->id)) {
             ids = realloc_int_plus_one(ids);
