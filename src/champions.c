@@ -43,8 +43,10 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
 static void del_node(champion_t *node)
 {
     delete_instructions_list(&node->head_instruction_ref);
-    free(node->registers);
-    fclose(node->fd);
+    if (node->registers != NULL)
+        free(node->registers);
+    if (node->fd != NULL)
+        fclose(node->fd);
     free(node);
 }
 

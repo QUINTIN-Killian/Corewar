@@ -7,24 +7,31 @@
 
 #include "../include/corewar.h"
 
-void exec_xor(champion_t *champion)
+static int get_param_xor(corewar_t *corewar, champion_t *champion, int ind,
+    int pc_adding)
 {
-    int value1 = 0;
-    int value2 = 0;
+    char *bin = convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int);
 
-    if (my_strncmp(champion->instructions->coding_byte, "01", 2) == 0)
-        value1 = champion->registers[champion->instructions->parameters[0]];
-    else
-        value1 = champion->instructions->parameters[0];
-    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0)
-        value2 = champion->registers[champion->instructions->parameters[1]];
-    else
-        value2 = champion->instructions->parameters[1];
-    champion->registers[champion->instructions->parameters[2]] =
-    value1 ^ value2;
-    if (champion->registers[champion->instructions->parameters[2]] == 0)
-        champion->carry = 0;
-    else
-        champion->carry = 1;
-    move_instruction_head(champion);
+    if (my_strncmp(&(bin[ind]), "01", 2) == 0) {
+        free(bin);
+        return champion->registers[get_memory_cell(corewar,
+        champion->PC + pc_adding)->value_int];
+    } else {
+        free(bin);
+        return get_memory_cell(corewar, champion->PC + pc_adding)->value_int;
+    }
+}
+
+void exec_xor(corewar_t *corewar, champion_t *champion)
+{
+    int value1 = get_param_xor(corewar, champion, 0, 2);
+    int value2 = get_param_xor(corewar, champion, 2, 3);
+
+    champion->registers[get_memory_cell(corewar, champion->PC + 4)->value_int]
+    = value1 ^ value2;
+    set_carry(champion, champion->registers[get_memory_cell(corewar,
+    champion->PC + 4)->value_int]);
+    champion->PC = cycle_coords(champion->PC + 5);
+    champion->timeout = 6;
 }

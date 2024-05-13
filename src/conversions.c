@@ -40,7 +40,7 @@ char *convert_int_in_bin(int nb)
     int tmp;
 
     if (nb > 255 || nb < 0)
-        nb = my_abs(nb % 256);
+        nb = my_abs(nb) % 255;
     ans = my_strdup("00000000");
     for (int i = 7; i >= 0; i--) {
         tmp = my_compute_power_rec(2, i);
@@ -69,7 +69,7 @@ char *convert_int_in_hex(int nb)
     char *ans;
 
     if (nb > 255 || nb < 0)
-        nb = my_abs(nb % 256);
+        nb = my_abs(nb) % 255;
     ans = my_strdup("00");
     for (int i = 1; i >= 0; i--) {
         ans[i] = get_int_value(nb % 16);

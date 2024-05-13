@@ -27,6 +27,20 @@ int is_champion_dead(corewar_t *corewar, int id)
     return 1;
 }
 
+static int skip_turn_aux(corewar_t *corewar, champion_t **node)
+{
+    if ((*node)->timeout > 0) {
+        (*node)->timeout--;
+        (*node) = (*node)->next;
+        return 1;
+    }
+    // if (pc_checker(corewar, *node)) {
+    //     (*node) = (*node)->next;
+    //     return 1;
+    // }
+    return 0;
+}
+
 static int skip_turn(champion_t **champions, corewar_t *corewar,
     champion_t **node)
 {
@@ -35,34 +49,41 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
     if ((*node)->cycle_live >= CYCLE_TO_DIE ||
     is_champion_dead(corewar, (*node)->id)) {
         tmp = (*node)->id;
+        mini_fdprintf(2, "Champion %s is dead !\n", (*node)->name);
         (*node) = (*node)->next;
         destroy_champion_node_by_id(champions, tmp);
         corewar->nb_champions--;
+        if (get_nb_champions(champions) == 1) {
+            mini_printf("The player %d(%s)has won.\n",
+            (*node)->id, (*node)->name);
+            return 2;
+        }
         return 1;
     }
-    if ((*node)->instructions == NULL) {
-        (*node) = (*node)->next;
-        return 1;
-    }
-    if ((*node)->timeout > 0) {
-        (*node)->timeout--;
-        (*node) = (*node)->next;
-        return 1;
-    }
-    return 0;
+    return skip_turn_aux(corewar, node);
 }
 
 static void champions_turn(champion_t **champions, corewar_t *corewar,
     champion_t *node)
 {
+    int skip = 0;
+
     while (node != NULL) {
         node->cycle_live++;
-        if (skip_turn(champions, corewar, &node))
+        skip = skip_turn(champions, corewar, &node);
+        if (skip == 1)
             continue;
-        mini_printf("%d) %s : %s\n",
-        corewar->turn_id, node->name, node->instructions->instruction);
-        node->timeout = node->instructions->nb_cycles;
-        instruction_execution(corewar, node, node->instructions);
+        if (skip == 2)
+            break;
+        //mini_fdprintf(2, "%d) %d, %s\n", corewar->turn_id, get_memory_cell(corewar, 693)->value_int, get_memory_cell(corewar, 693)->value);
+        mini_printf("%d) %s : %s, %d\n",
+        corewar->turn_id, node->name,
+        get_memory_cell(corewar, node->PC)->value, node->PC);
+        //node->timeout = node->instructions->nb_cycles;
+        instruction_execution(corewar, node);
+        // mini_printf("%d) %s : %s\n",
+        // corewar->turn_id, node->name,
+        // get_memory_cell(corewar, node->PC)->value);
         node = node->next;
     }
 }
@@ -78,5 +99,6 @@ void main_loop(champion_t **champions, corewar_t *corewar)
         champions_turn(champions, corewar, node);
         corewar->nb_turns--;
     }
+    print_memory(corewar);
     mini_printf("Game terminated at turn %d.\n", corewar->turn_id);
 }

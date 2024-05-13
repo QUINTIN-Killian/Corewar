@@ -58,6 +58,14 @@ typedef struct corewar_s {
     cell_t **memory;
 } corewar_t;
 
+typedef struct instruction_call_s {
+    int mnemonic;
+    void (*f)(corewar_t *, champion_t *);
+} instruction_call_t;
+
+//instructions_checker.c :
+int pc_checker(corewar_t *corewar, champion_t *champion);
+
 //writing.c :
 void write_instructions_in_memory(corewar_t *corewar, champion_t **champions);
 
@@ -97,6 +105,17 @@ void display_champions_infos(champion_t **champions);
 void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 
+//champions2.c :
+int *realloc_int_plus_one(int *tab);
+int is_nb_already_in_tab(int *tab, int nb);
+int get_nb_champions(champion_t **champions);
+champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
+
+//move.c :
+int cycle_nb(int nb);
+int cycle_coords(int coords);
+void set_carry(champion_t *champion, int value);
+
 //instructions.c :
 instructions_t *create_instruction(instructions_t *next);
 void destroy_instruction_node_by_id(instructions_t **instructions, int id);
@@ -107,69 +126,73 @@ instructions_t *rev_instructions(instructions_t **instructions);
 //instructions2.c :
 int set_instruction(instructions_t *node);
 void set_double_linked_list(champion_t **champions);
-void move_instruction_head(champion_t *champion);
 
 //main_loop.c :
 void main_loop(champion_t **champions, corewar_t *corewar);
 
 //memory.c :
 void create_memory(corewar_t *corewar);
-void print_memory(corewar_t *corewar);
 void destroy_memory(corewar_t *corewar);
 
+//print_memory.c :
+void print_memory(corewar_t *corewar);
+
 //add.c :
-void exec_add(champion_t *champion);
+void exec_add(corewar_t *corewar, champion_t *champion);
 int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //aff.c :
-void exec_aff(champion_t *champion);
+void exec_aff(corewar_t *corewar, champion_t *champion);
 int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //and.c :
-void exec_and(champion_t *champion);
-int check_and(char *coding_byte, champion_t *champion);
+void exec_and(corewar_t *corewar, champion_t *champion);
+int check_and(char *coding_byte, champion_t *champion, corewar_t *corewar);
+
+//fork.c :
+void exec_fork(corewar_t *corewar, champion_t *champion);
+
+//lfork.c :
+void exec_lfork(corewar_t *corewar, champion_t *champion);
 
 //instruction_execution.c :
-void instruction_execution(corewar_t *corewar, champion_t *champion,
-    instructions_t *instruction);
+void instruction_execution(corewar_t *corewar, champion_t *champion);
 
 //zjmp.c :
-void exec_zjmp(champion_t *champion);
+void exec_zjmp(corewar_t *corewar, champion_t *champion);
 
 //live.c :
-void exec_live(champion_t *champion);
+void exec_live(corewar_t *corewar, champion_t **champions_list,
+    champion_t *champion);
 
 //or.c :
-void exec_or(champion_t *champion);
+void exec_or(corewar_t *corewar, champion_t *champion);
 
 //sub.c :
-void exec_sub(champion_t *champion);
+void exec_sub(corewar_t *corewar, champion_t *champion);
 
 //xor.c :
-void exec_xor(champion_t *champion);
+void exec_xor(corewar_t *corewar, champion_t *champion);
 
 //st.c :
-void exec_st(champion_t *champion, corewar_t *corewar);
+void exec_st(corewar_t *corewar, champion_t *champion);
 int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //sti.c :
-void exec_sti(champion_t *champion, corewar_t *corewar);
+void exec_sti(corewar_t *corewar, champion_t *champion);
 
 //ld.c :
-int set_val(int i);
-void exec_ld(champion_t *champion, corewar_t *corewar);
+void exec_ld(corewar_t *corewar, champion_t *champion);
 int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lld.c :
-void exec_lld(champion_t *champion, corewar_t *corewar);
+void exec_lld(corewar_t *corewar, champion_t *champion);
 
 //ldi.c :
 void exec_ldi(corewar_t *corewar, champion_t *champion);
 int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lldi.c :
-void set_carry(champion_t *champion, int new);
-int set_value(champion_t *champion, int start, int parameter);
 void exec_lldi(corewar_t *corewar, champion_t *champion);
 
 //conversions.c :

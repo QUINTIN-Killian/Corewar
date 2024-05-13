@@ -7,57 +7,33 @@
 
 #include "../include/corewar.h"
 
-static void instruction_execution4(corewar_t *corewar, champion_t *champion,
-    instructions_t *instruction)
-{
-    if (instruction->mnemonic == 13)
-        return exec_lld(champion, corewar);
-    if (instruction->mnemonic == 14)
-        return exec_lldi(corewar, champion);
-    if (instruction->mnemonic == 15)
-        return move_instruction_head(champion);
-    if (instruction->mnemonic == 16)
-        return exec_aff(champion);
-}
+const instruction_call_t calls[] = {
+    {2, exec_ld},
+    {3, exec_st},
+    {4, exec_add},
+    {5, exec_sub},
+    {6, exec_and},
+    {7, exec_or},
+    {8, exec_xor},
+    {9, exec_zjmp},
+    {10, exec_ldi},
+    {11, exec_sti},
+    {12, exec_fork},
+    {13, exec_lld},
+    {14, exec_lldi},
+    {15, exec_lfork},
+    {16, exec_aff},
+    {-1, NULL}
+};
 
-static void instruction_execution3(corewar_t *corewar, champion_t *champion,
-    instructions_t *instruction)
+void instruction_execution(corewar_t *corewar, champion_t *champion)
 {
-    if (instruction->mnemonic == 9)
-        return exec_zjmp(champion);
-    if (instruction->mnemonic == 10)
-        return exec_ldi(corewar, champion);
-    if (instruction->mnemonic == 11)
-        return exec_sti(champion, corewar);
-    if (instruction->mnemonic == 12)
-        return move_instruction_head(champion);
-    instruction_execution4(corewar, champion, instruction);
-}
+    int mnemonic = get_memory_cell(corewar, champion->PC)->value_int;
 
-static void instruction_execution2(corewar_t *corewar, champion_t *champion,
-    instructions_t *instruction)
-{
-    if (instruction->mnemonic == 5)
-        return exec_sub(champion);
-    if (instruction->mnemonic == 6)
-        return exec_and(champion);
-    if (instruction->mnemonic == 7)
-        return exec_or(champion);
-    if (instruction->mnemonic == 8)
-        return exec_xor(champion);
-    instruction_execution3(corewar, champion, instruction);
-}
-
-void instruction_execution(corewar_t *corewar, champion_t *champion,
-    instructions_t *instruction)
-{
-    if (instruction->mnemonic == 1)
-        return exec_live(champion);
-    if (instruction->mnemonic == 2)
-        return exec_ld(champion, corewar);
-    if (instruction->mnemonic == 3)
-        return exec_st(champion, corewar);
-    if (instruction->mnemonic == 4)
-        return exec_add(champion);
-    instruction_execution2(corewar, champion, instruction);
+    if (mnemonic == 1)
+        return exec_live(corewar, &corewar->champions, champion);
+    for (int i = 0; calls[i].f != NULL; i++)
+        if (calls[i].mnemonic == mnemonic)
+            return calls[i].f(corewar, champion);
+    mini_fdprintf(2, "Erreur instruction !\n");
 }

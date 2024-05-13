@@ -41,7 +41,6 @@ static int write_no_coding_byte(corewar_t *corewar, champion_t *champion,
 static void write_index_instruction(corewar_t *corewar, champion_t *champion,
     instructions_t **node)
 {
-    // mini_printf("%s : %d\n", (*node)->coding_byte, convert_bin_in_int((*node)->coding_byte));
     set_memory_cell(corewar, create_tmp_cell(champion->id, (*node)->mnemonic),
     champion->PC, 1);
     set_memory_cell(corewar, create_tmp_cell(champion->id, convert_bin_in_int(
@@ -59,6 +58,24 @@ static void write_index_instruction(corewar_t *corewar, champion_t *champion,
         champion->PC += 2;
     }
     (*node) = (*node)->next;
+}
+
+static int write_general_instruction_aux(corewar_t *corewar,
+    champion_t *champion, instructions_t **node, int i)
+{
+    if (my_strncmp(&((*node)->coding_byte[i * 2]), "01", 2) == 0) {
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->parameters[i]), champion->PC, 1);
+        champion->PC++;
+        return 1;
+    }
+    if (my_strncmp(&((*node)->coding_byte[i * 2]), "10", 2) == 0) {
+        set_memory_cell(corewar, create_tmp_cell(champion->id,
+        (*node)->parameters[i]), champion->PC, 4);
+        champion->PC += 4;
+        return 1;
+    }
+    return 0;
 }
 
 static void write_general_instruction(corewar_t *corewar, champion_t *champion,
@@ -70,18 +87,8 @@ static void write_general_instruction(corewar_t *corewar, champion_t *champion,
     (*node)->coding_byte)), champion->PC + 1, 1);
     champion->PC += 2;
     for (int i = 0; i < get_nb_parameters((*node)->coding_byte); i++) {
-        if (my_strncmp(&((*node)->coding_byte[i * 2]), "01", 2) == 0) {
-            set_memory_cell(corewar, create_tmp_cell(champion->id,
-            (*node)->parameters[i]), champion->PC, 1);
-            champion->PC++;
+        if (write_general_instruction_aux(corewar, champion, node, i))
             continue;
-        }
-        if (my_strncmp(&((*node)->coding_byte[i * 2]), "10", 2) == 0) {
-            set_memory_cell(corewar, create_tmp_cell(champion->id,
-            (*node)->parameters[i]), champion->PC, 4);
-            champion->PC += 4;
-            continue;
-        }
         set_memory_cell(corewar, create_tmp_cell(champion->id,
         (*node)->parameters[i]), champion->PC, 2);
         champion->PC += 2;
@@ -89,7 +96,7 @@ static void write_general_instruction(corewar_t *corewar, champion_t *champion,
     (*node) = (*node)->next;
 }
 
-static void write_instructions_in_memory_aux(corewar_t *corewar,
+void write_instructions_in_memory_aux(corewar_t *corewar,
     champion_t *champion, instructions_t **instructions)
 {
     instructions_t *node = *instructions;
@@ -114,6 +121,7 @@ void write_instructions_in_memory(corewar_t *corewar, champion_t **champions)
 
     while (node != NULL) {
         write_instructions_in_memory_aux(corewar, node, &node->instructions);
+        node->PC = node->registers[0];
         node = node->next;
     }
 }

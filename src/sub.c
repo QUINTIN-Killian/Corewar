@@ -7,14 +7,11 @@
 
 #include "../include/corewar.h"
 
-void exec_sub(champion_t *champion)
+void exec_sub(corewar_t *corewar, champion_t *champion)
 {
-    champion->registers[champion->instructions->parameters[2]] =
-    champion->registers[champion->instructions->parameters[0]] -
-    champion->registers[champion->instructions->parameters[1]];
-    if (champion->registers[champion->instructions->parameters[2]] == 0)
-        champion->carry = 0;
-    else
-        champion->carry = 1;
-    move_instruction_head(champion);
+    champion->registers[get_memory_cell(corewar, champion->PC + 4)->value_int]
+    = get_memory_cell(corewar, champion->PC + 2)->value_int -
+    get_memory_cell(corewar, champion->PC + 3)->value_int;
+    champion->PC = cycle_coords(champion->PC + 5);
+    champion->timeout = 10;
 }

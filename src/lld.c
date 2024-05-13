@@ -13,24 +13,43 @@
 
 #include "../include/corewar.h"
 
-void exec_lld(champion_t *champion, corewar_t *corewar)
+static int get_param_lld(corewar_t *corewar, champion_t *champion, int *adress,
+    char *bin)
 {
-    int value1 = 0;
-    int adress = 0;
-    int new = 0;
-    int val = 0;
-    cell_t *temp;
+    int value;
 
-    value1 = set_value(champion, 2, 1);
-    adress = champion->PC + value1;
-    for (int i = 0; i < REG_SIZE; i++) {
-        temp = get_memory_cell(corewar, adress);
-        new += convert_hex_in_int(temp->value);
-        val = set_val(i);
-        if (val != -1)
-            new = new << val;
+    if (my_strncmp(bin, "01", 2) == 0) {
+        value = champion->registers[get_memory_cell(corewar,
+        *adress)->value_int];
+        *adress += 1;
+    } else if (my_strncmp(bin, "10", 2) == 0) {
+        value = combine_bytes(4,
+        get_memory_cell(corewar, *adress)->value_int,
+        get_memory_cell(corewar, *adress + 1)->value_int,
+        get_memory_cell(corewar, *adress + 2)->value_int,
+        get_memory_cell(corewar, *adress + 3)->value_int);
+        *adress += 4;
+    } else {
+        value = combine_bytes(2,
+        get_memory_cell(corewar, *adress)->value_int,
+        get_memory_cell(corewar, *adress + 1)->value_int);
+        *adress += 2;
     }
-    champion->registers[champion->instructions->parameters[1]] = new;
-    set_carry(champion, new);
-    move_instruction_head(champion);
+    return value;
+}
+
+void exec_lld(corewar_t *corewar, champion_t *champion)
+{
+    int adress = champion->PC + 2;
+    char *bin = convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int);
+    int value = get_param_lld(corewar, champion, &adress, bin);
+
+    free(bin);
+    champion->registers[get_memory_cell(corewar, adress)->value_int] =
+    champion->PC + value;
+    set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
+    ->value_int]);
+    champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));
+    champion->timeout = 5;
 }

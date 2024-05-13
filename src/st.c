@@ -6,22 +6,27 @@
 */
 #include "../include/corewar.h"
 
-void exec_st(champion_t *champion, corewar_t *corewar)
+void exec_st(corewar_t *corewar, champion_t *champion)
 {
-    int value1 = champion->registers[champion->instructions->parameters[0]];
-    int value2 = 0;
-    int adress = 0;
+    int value = champion->registers[get_memory_cell(corewar,
+    champion->PC + 2)->value_int];
+    char *bin = convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int);
 
-    if (my_strncmp(&(champion->instructions->coding_byte[2]), "01", 2) == 0) {
-        value2 = value1;
-        champion->registers[champion->instructions->parameters[1]] = value2;
-    } else {
-        value2 = champion->instructions->parameters[1];
-        adress = champion->PC + value2 % IDX_MOD;
-        set_memory_cell(corewar, create_tmp_cell(champion->id, value1),
-        adress, 4);
+    champion->timeout = 5;
+    if (my_strncmp(&(bin[2]), "01", 2) == 0) {
+        champion->registers[get_memory_cell(corewar, champion->PC + 3)
+        ->value_int] = value;
+        champion->PC = cycle_coords(champion->PC + 4);
+        free(bin);
+        return;
     }
-    move_instruction_head(champion);
+    free(bin);
+    set_memory_cell(corewar, create_tmp_cell(champion->id, value),
+    champion->PC + combine_bytes(2, get_memory_cell(corewar, champion->PC + 3)
+    ->value_int, get_memory_cell(corewar, champion->PC + 4)->value_int) %
+    IDX_MOD, 4);
+    champion->PC = cycle_coords(champion->PC + 5);
 }
 
 static int check_empty(int len, char *pair, char *coding_byte)
@@ -39,17 +44,18 @@ static int check_empty(int len, char *pair, char *coding_byte)
 
 static int check_end(char *pair, int len, char *coding_byte, cell_t *cell)
 {
-    if (my_strcmp(pair, "01") != 0 &&
-        (cell->value_int < 1 || cell->value_int > 16))
+    if (my_strcmp(pair, "01") == 0 &&
+    (cell->value_int < 1 || cell->value_int > 16))
         return 1;
-    if (check_empty(len, pair, coding_byte == 1))
+    if (check_empty(len, pair, coding_byte))
         return 1;
     return 0;
 }
 
-static check_first_register(cell_t *cell, corewar_t *corewar, int adresse)
+static int check_first_register(corewar_t *corewar, int adresse)
 {
-    cell = get_memory_cell(corewar, adresse);
+    cell_t *cell = get_memory_cell(corewar, adresse);
+
     if (cell->value_int < 1 || cell->value_int > 16)
         return 1;
     return 0;
@@ -58,24 +64,19 @@ static check_first_register(cell_t *cell, corewar_t *corewar, int adresse)
 int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar)
 {
     char pair[3];
-    cell_t *cell;
     int adresse = champion->PC + 1;
 
-    if (my_strlen(coding_byte) % 2 != 0 || my_strlen(coding_byte) < 8)
-        return 1;
     pair[0] = coding_byte[0];
     pair[1] = coding_byte[1];
     pair[2] = '\0';
     if (my_strcmp(pair, "01") != 0 ||
-        check_first_register(cell, corewar, adresse))
+    check_first_register(corewar, adresse) == 1)
         return 1;
     pair[0] = coding_byte[2];
     pair[1] = coding_byte[3];
     if (my_strcmp(pair, "01") != 0 && my_strcmp(pair, "10") != 0
         && my_strcmp(pair, "11") != 0)
         return 1;
-    cell = get_memory_cell(corewar, adresse + 1);
-    if (check_end(pair, my_strlen(coding_byte), coding_byte, cell) == 1)
-        return 1;
-    return 0;
+    return check_end(pair, my_strlen(coding_byte), coding_byte,
+    get_memory_cell(corewar, adresse + 1));
 }
