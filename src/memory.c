@@ -22,16 +22,6 @@ void create_memory(corewar_t *corewar)
     corewar->memory[MEM_SIZE / 32] = NULL;
 }
 
-void print_memory(corewar_t *corewar)
-{
-    for (int i = 0; corewar->memory[i] != NULL; i++) {
-        for (int j = 0; corewar->memory[i][j].value != NULL; j++) {
-            mini_printf("%s ", corewar->memory[i][j].value);
-        }
-        mini_printf("\n");
-    }
-}
-
 void destroy_memory(corewar_t *corewar)
 {
     if (corewar->memory == NULL)

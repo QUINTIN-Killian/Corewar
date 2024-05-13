@@ -106,6 +106,8 @@ void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 
 //champions2.c :
+int *realloc_int_plus_one(int *tab);
+int is_nb_already_in_tab(int *tab, int nb);
 int get_nb_champions(champion_t **champions);
 champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
 
@@ -130,8 +132,10 @@ void main_loop(champion_t **champions, corewar_t *corewar);
 
 //memory.c :
 void create_memory(corewar_t *corewar);
-void print_memory(corewar_t *corewar);
 void destroy_memory(corewar_t *corewar);
+
+//print_memory.c :
+void print_memory(corewar_t *corewar);
 
 //add.c :
 void exec_add(corewar_t *corewar, champion_t *champion);
