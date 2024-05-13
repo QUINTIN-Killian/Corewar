@@ -106,6 +106,7 @@ void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 
 //champions2.c :
+int *get_tab_ids_champions(champion_t **champions);
 int get_nb_champions(champion_t **champions);
 champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
 

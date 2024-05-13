@@ -29,8 +29,8 @@ static int *realloc_int_plus_one(int *tab)
     }
     ans = malloc(sizeof(int) * (tab_int_len(tab) + 2));
     ans[tab_int_len(tab) + 1] = -1;
-    for (int i = 1; i < tab_int_len(tab) + 2; i++)
-        ans[i] = tab[i];
+    for (int i = 0; i < tab_int_len(tab); i++)
+        ans[i + 1] = tab[i];
     free(tab);
     return ans;
 }
@@ -61,6 +61,21 @@ int get_nb_champions(champion_t **champions)
     ans = tab_int_len(ids);
     free(ids);
     return ans;
+}
+
+int *get_tab_ids_champions(champion_t **champions)
+{
+    champion_t *node = *champions;
+    int *ids = NULL;
+
+    while (node != NULL) {
+        if (!is_nb_already_in_tab(ids, node->id)) {
+            ids = realloc_int_plus_one(ids);
+            ids[0] = node->id;
+        }
+        node = node->next;
+    }
+    return ids;
 }
 
 static int *dup_registers(int *registers)

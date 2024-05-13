@@ -75,15 +75,10 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
             continue;
         if (skip == 2)
             break;
-        //mini_fdprintf(2, "%d) %d, %s\n", corewar->turn_id, get_memory_cell(corewar, 693)->value_int, get_memory_cell(corewar, 693)->value);
         mini_printf("%d) %s : %s, %d\n",
         corewar->turn_id, node->name,
         get_memory_cell(corewar, node->PC)->value, node->PC);
-        //node->timeout = node->instructions->nb_cycles;
         instruction_execution(corewar, node);
-        // mini_printf("%d) %s : %s\n",
-        // corewar->turn_id, node->name,
-        // get_memory_cell(corewar, node->PC)->value);
         node = node->next;
     }
 }

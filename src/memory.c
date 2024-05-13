@@ -22,11 +22,47 @@ void create_memory(corewar_t *corewar)
     corewar->memory[MEM_SIZE / 32] = NULL;
 }
 
+static int print_color(int color, cell_t *cell)
+{
+    if (color == 0) {
+        mini_printf("\e[31m");
+        mini_printf("%s ", cell->value);
+        return mini_printf("\e[0m");
+    }
+    if (color == 1) {
+        mini_printf("\e[32m");
+        mini_printf("%s ", cell->value);
+        return mini_printf("\e[0m");
+    }
+    if (color == 2) {
+        mini_printf("\e[33m");
+        mini_printf("%s ", cell->value);
+        return mini_printf("\e[0m");
+    }
+    if (color == 3) {
+        mini_printf("\e[34m");
+        mini_printf("%s ", cell->value);
+        return mini_printf("\e[0m");
+    }
+}
+
+static int print_memory_aux(int *ids, cell_t *cell)
+{
+    if (ids == NULL)
+        return mini_printf("%s ", cell->value);
+    for (int i = 0; ids[i] != -1; i++)
+        if (cell->id_owner == ids[i])
+            return print_color(i, cell);
+    return mini_printf("%s ", cell->value);
+}
+
 void print_memory(corewar_t *corewar)
 {
+    int *ids = get_tab_ids_champions(&corewar->champions);
+
     for (int i = 0; corewar->memory[i] != NULL; i++) {
         for (int j = 0; corewar->memory[i][j].value != NULL; j++) {
-            mini_printf("%s ", corewar->memory[i][j].value);
+            print_memory_aux(ids, &(corewar->memory[i][j]));
         }
         mini_printf("\n");
     }
