@@ -7,7 +7,7 @@
 
 #include "../include/corewar.h"
 
-static int skip_turn_aux(corewar_t *corewar, champion_t **node)
+static int skip_turn_aux(champion_t **node)
 {
     if ((*node)->timeout > 0) {
         (*node)->timeout--;
@@ -17,8 +17,7 @@ static int skip_turn_aux(corewar_t *corewar, champion_t **node)
     return 0;
 }
 
-static int skip_turn(champion_t **champions, corewar_t *corewar,
-    champion_t **node)
+static int skip_turn(champion_t **champions, champion_t **node)
 {
     int tmp = -1;
 
@@ -34,7 +33,7 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
         }
         return 1;
     }
-    return skip_turn_aux(corewar, node);
+    return skip_turn_aux(node);
 }
 
 static void champions_turn(champion_t **champions, corewar_t *corewar,
@@ -44,7 +43,7 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
 
     while (node != NULL) {
         node->cycle_live++;
-        skip = skip_turn(champions, corewar, &node);
+        skip = skip_turn(champions, &node);
         if (skip == 1)
             continue;
         if (skip == 2) {
