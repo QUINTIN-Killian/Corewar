@@ -7,11 +7,19 @@
 
 #include "../include/corewar.h"
 
-int cycle_nb(int nb)
+int cycle_nb(int nb, int bytes)
 {
-    if (nb <= 0xffff / 2) /*32 767 ; -32 768*/
-        return nb;
-    return (-0xffff / 2) + (nb - 1 - 0xffff / 2);
+    if (bytes == 1) {
+        if (nb <= 0xff / 2)
+            return nb;
+        return (-0xff / 2) + (nb - 1 - 0xff / 2) - 1;
+    }
+    if (bytes == 2) {
+        if (nb <= 0xffff / 2)
+            return nb;
+        return (-0xffff / 2) + (nb - 1 - 0xffff / 2) - 1;
+    }
+    return nb;
 }
 
 int cycle_coords(int coords)
@@ -26,7 +34,7 @@ int cycle_coords(int coords)
 void set_carry(champion_t *champion, int value)
 {
     if (value == 0)
-        champion->carry = 0;
-    else
         champion->carry = 1;
+    else
+        champion->carry = 0;
 }

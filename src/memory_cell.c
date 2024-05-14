@@ -25,11 +25,12 @@ int combine_bytes(int nb_bytes, ...)
         return 0;
     va_start(args, nb_bytes);
     for (int i = 0; i < nb_bytes; i++) {
-        res += va_arg(args, int);
-        res = res << (8 * (nb_bytes - 1 - i));
+        res |= (va_arg(args, int) & 0xff);
+        if (i < nb_bytes - 1)
+            res <<= 8;
     }
     va_end(args);
-    return cycle_nb(res);
+    return cycle_nb(res, nb_bytes);
 }
 
 cell_t *get_memory_cell(corewar_t *corewar, int coords)

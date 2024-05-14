@@ -16,6 +16,7 @@ int get_max_champion_id(champion_t **champions)
         if (node->id == id) {
             id++;
             node = *champions;
+            continue;
         }
         node = node->next;
     }
@@ -47,6 +48,7 @@ void set_champions_infos(corewar_t *corewar, champion_t **champions)
             node->head = 0 + n * (MEM_SIZE / corewar->nb_champions);
         node->registers[0] = node->PC;
         node->registers[1] = node->id;
+        node->owner = node->id;
         n++;
         node = node->next;
     }
@@ -67,4 +69,19 @@ void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions)
         }
         node = node->next;
     }
+}
+
+int get_parameter_type(char *coding_byte, int param)
+{
+    int i = 0;
+
+    param--;
+    for (; i < param; i++);
+    if (my_strncmp(&(coding_byte[i * 2]), "01", 2) == 0)
+        return T_REG;
+    if (my_strncmp(&(coding_byte[i * 2]), "10", 2) == 0)
+        return T_DIR;
+    if (my_strncmp(&(coding_byte[i * 2]), "11", 2) == 0)
+        return T_IND;
+    return 0;
 }

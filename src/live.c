@@ -16,17 +16,15 @@ void exec_live(corewar_t *corewar, champion_t **champions_list,
     get_memory_cell(corewar, champion->PC + 3)->value_int,
     get_memory_cell(corewar, champion->PC + 4)->value_int);
     champion_t *node = *champions_list;
-    champion_t *ref = NULL;
 
     while (node != NULL) {
         if (node->id == id) {
             node->cycle_live = -1;
-            ref = node;
+            mini_printf("The player %d(%s)is alive.\n", node->id, node->name);
+            break;
         }
         node = node->next;
     }
     champion->PC = cycle_coords(champion->PC + 5);
     champion->timeout = 10;
-    if (ref != NULL)
-        mini_printf("The player %d(%s)is alive.\n", ref->id, ref->name);
 }
