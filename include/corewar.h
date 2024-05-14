@@ -97,6 +97,7 @@ int is_correct_file(char **args, int i);
 int get_max_champion_id(champion_t **champions);
 void set_champions_infos(corewar_t *corewar, champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
+int get_parameter_type(char *coding_byte, int param);
 
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);

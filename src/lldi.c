@@ -28,22 +28,31 @@ static int get_param_lldi(corewar_t *corewar, champion_t *champion, int i,
     return res;
 }
 
-void exec_lldi(corewar_t *corewar, champion_t *champion)
+static void set_lldi(corewar_t *corewar, champion_t *champion, int s, int pc)
 {
-    int pc = champion->PC + 2;
-    int param1 = get_param_lldi(corewar, champion, 0, &pc);
-    int param2 = get_param_lldi(corewar, champion, 2, &pc);
-    int s = combine_bytes(IND_SIZE,
-    get_memory_cell(corewar, champion->PC + param1)->value_int,
-    get_memory_cell(corewar, (champion->PC + param1) + 1)->value_int)
-    + param2;
-
     champion->registers[get_memory_cell(corewar, pc)->value_int] =
     combine_bytes(REG_SIZE,
     get_memory_cell(corewar, (champion->PC + s))->value_int,
     get_memory_cell(corewar, (champion->PC + s) + 1)->value_int,
     get_memory_cell(corewar, (champion->PC + s) + 2)->value_int,
     get_memory_cell(corewar, (champion->PC + s) + 3)->value_int);
+}
+
+void exec_lldi(corewar_t *corewar, champion_t *champion)
+{
+    int pc = champion->PC + 2;
+    int param1 = get_param_lldi(corewar, champion, 0, &pc);
+    int param2 = get_param_lldi(corewar, champion, 2, &pc);
+    int s = param1 + param2;
+    char *bin = convert_int_in_bin(get_memory_cell(
+    corewar, champion->PC + 1)->value_int);
+
+    if (get_parameter_type(bin, 1) == T_IND)
+        s = combine_bytes(IND_SIZE, get_memory_cell(corewar, champion->PC +
+        param1)->value_int, get_memory_cell(corewar, (champion->PC +
+        param1) + 1)->value_int) + param2;
+    free(bin);
+    set_lldi(corewar, champion, s, pc);
     champion->PC = cycle_coords(champion->PC + (pc - champion->PC + 1));
     set_carry(champion,
     champion->registers[get_memory_cell(corewar, pc)->value_int]);

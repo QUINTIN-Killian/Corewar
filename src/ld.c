@@ -32,6 +32,31 @@ static int get_param_ld(corewar_t *corewar, champion_t *champion, int *adress,
     return value;
 }
 
+static void set_ld(corewar_t *corewar, champion_t *champion, int adress,
+    int value)
+{
+    char *bin = convert_int_in_bin(get_memory_cell(corewar,
+    champion->PC + 1)->value_int);
+
+    if (get_parameter_type(bin, 1) == T_IND) {
+        champion->registers[get_memory_cell(corewar, adress)->value_int] =
+        combine_bytes(REG_SIZE,
+        get_memory_cell(corewar, champion->PC + value % IDX_MOD)->value_int,
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 1)->value_int,
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 2)->value_int,
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 3)->value_int);
+        mini_fdprintf(2, "%d, %d, %d\n", value, get_memory_cell(corewar, champion->PC + value % IDX_MOD)->value_int, combine_bytes(REG_SIZE,
+        get_memory_cell(corewar, champion->PC + value % IDX_MOD)->value_int,
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 1)->value_int,
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 2)->value_int,
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 3)->value_int));
+    } else {
+        champion->registers[get_memory_cell(corewar, adress)->value_int] =
+        value;
+    }
+    free(bin);
+}
+
 void exec_ld(corewar_t *corewar, champion_t *champion)
 {
     int adress = champion->PC + 2;
@@ -40,8 +65,7 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
     int value = get_param_ld(corewar, champion, &adress, bin);
 
     free(bin);
-    champion->registers[get_memory_cell(corewar, adress)->value_int] =
-    champion->PC + value % IDX_MOD;
+    set_ld(corewar, champion, adress, value);
     set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
     ->value_int]);
     champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));
