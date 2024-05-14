@@ -35,5 +35,4 @@ void instruction_execution(corewar_t *corewar, champion_t *champion)
     for (int i = 0; calls[i].f != NULL; i++)
         if (calls[i].mnemonic == mnemonic)
             return calls[i].f(corewar, champion);
-    mini_fdprintf(2, "Erreur instruction !\n");
 }

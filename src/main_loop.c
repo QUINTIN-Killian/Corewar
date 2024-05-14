@@ -23,7 +23,6 @@ static int skip_turn(champion_t **champions, champion_t **node)
 
     if ((*node)->cycle_live >= CYCLE_TO_DIE) {
         tmp = (*node)->id;
-        mini_fdprintf(2, "Champion %s is dead !\n", (*node)->name);
         (*node) = (*node)->next;
         destroy_champion_node_by_id(champions, tmp);
         if (get_nb_champions(champions) == 1) {
@@ -66,6 +65,4 @@ void main_loop(champion_t **champions, corewar_t *corewar)
         champions_turn(champions, corewar, node);
         corewar->nb_turns--;
     }
-    print_memory(corewar);
-    mini_printf("Game terminated at turn %d.\n", corewar->turn_id);
 }
