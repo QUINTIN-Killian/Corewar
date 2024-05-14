@@ -51,8 +51,10 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
         skip = skip_turn(champions, corewar, &node);
         if (skip == 1)
             continue;
-        if (skip == 2)
+        if (skip == 2) {
+            corewar->nb_champions = -1;
             break;
+        }
         mini_printf("%d) %s : %s, %d\n",
         corewar->turn_id, node->name,
         get_memory_cell(corewar, node->PC)->value, node->PC); /*remove*/
