@@ -42,9 +42,10 @@ static void set_ld(corewar_t *corewar, champion_t *champion, int adress,
         champion->registers[get_memory_cell(corewar, adress)->value_int] =
         combine_bytes(REG_SIZE,
         get_memory_cell(corewar, champion->PC + value % IDX_MOD)->value_int,
-        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 1)->value_int,
-        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 2)->value_int,
-        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 3)->value_int);
+        get_memory_cell(corewar, (champion->PC + value % IDX_MOD) + 1)
+        ->value_int, get_memory_cell(corewar, (champion->PC + value % IDX_MOD)
+        + 2)->value_int, get_memory_cell(corewar, (champion->PC + value %
+        IDX_MOD) + 3)->value_int);
     } else {
         champion->registers[get_memory_cell(corewar, adress)->value_int] =
         value;

@@ -74,6 +74,7 @@ void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions)
 int get_parameter_type(char *coding_byte, int param)
 {
     int i = 0;
+
     param--;
     for (; i < param; i++);
     if (my_strncmp(&(coding_byte[i * 2]), "01", 2) == 0)

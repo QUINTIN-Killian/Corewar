@@ -10,11 +10,12 @@
 int cycle_nb(int nb, int bytes)
 {
     if (bytes == 1) {
-        if (nb <= 0xff / 2) /*127 ; -128*/
+        if (nb <= 0xff / 2)
             return nb;
         return (-0xff / 2) + (nb - 1 - 0xff / 2) - 1;
-    } else if (bytes == 2) {
-        if (nb <= 0xffff / 2) /*32 767 ; -32 768*/
+    }
+    if (bytes == 2) {
+        if (nb <= 0xffff / 2)
             return nb;
         return (-0xffff / 2) + (nb - 1 - 0xffff / 2) - 1;
     }

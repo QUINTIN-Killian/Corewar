@@ -53,8 +53,6 @@ int main(int ac, char **av)
     set_double_linked_list(&corewar.champions);
     create_memory(&corewar);
     write_instructions_in_memory(&corewar, &corewar.champions);
-    //display_champions_infos(&corewar.champions);
-    //print_memory(&corewar);
     main_loop(&corewar.champions, &corewar);
     destroy_struct(&corewar);
     return 0;
