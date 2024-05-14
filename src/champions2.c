@@ -90,7 +90,7 @@ static void init_clone(champion_t *new_champion, champion_t *node)
     new_champion->instructions = NULL;
     new_champion->is_alive = node->is_alive;
     new_champion->registers = dup_registers(node->registers);
-    new_champion->timeout = node->timeout;
+    new_champion->timeout = node->timeout + 1;
     new_champion->next = node->next;
     node->next = new_champion;
 }
