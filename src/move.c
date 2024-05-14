@@ -33,7 +33,7 @@ int cycle_coords(int coords)
 void set_carry(champion_t *champion, int value)
 {
     if (value == 0)
-        champion->carry = 0;
-    else
         champion->carry = 1;
+    else
+        champion->carry = 0;
 }
