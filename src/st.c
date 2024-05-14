@@ -22,7 +22,7 @@ void exec_st(corewar_t *corewar, champion_t *champion)
         return;
     }
     free(bin);
-    set_memory_cell(corewar, create_tmp_cell(champion->id, value),
+    set_memory_cell(corewar, create_tmp_cell(champion->owner, value),
     champion->PC + combine_bytes(2, get_memory_cell(corewar, champion->PC + 3)
     ->value_int, get_memory_cell(corewar, champion->PC + 4)->value_int) %
     IDX_MOD, 4);

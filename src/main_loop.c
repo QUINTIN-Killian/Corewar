@@ -7,26 +7,6 @@
 
 #include "../include/corewar.h"
 
-static int is_champion_dead_aux(corewar_t *corewar, int id, int i)
-{
-    for (int j = 0; corewar->memory[i][j].value != NULL; j++) {
-        if (corewar->memory[i][j].id_owner == id) {
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int is_champion_dead(corewar_t *corewar, int id)
-{
-    for (int i = 0; corewar->memory[i] != NULL; i++) {
-        if (!is_champion_dead_aux(corewar, id, i)) {
-            return 0;
-        }
-    }
-    return 1;
-}
-
 static int skip_turn_aux(corewar_t *corewar, champion_t **node)
 {
     if ((*node)->timeout > 0) {
@@ -46,8 +26,7 @@ static int skip_turn(champion_t **champions, corewar_t *corewar,
 {
     int tmp = -1;
 
-    if ((*node)->cycle_live >= CYCLE_TO_DIE ||
-    is_champion_dead(corewar, (*node)->id)) {
+    if ((*node)->cycle_live >= CYCLE_TO_DIE) {
         tmp = (*node)->id;
         mini_fdprintf(2, "Champion %s is dead !\n", (*node)->name); /*remove*/
         (*node) = (*node)->next;
