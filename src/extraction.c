@@ -88,3 +88,68 @@ void extract_body(champion_t **champions)
         node = node->next;
     }
 }
+
+static int extract_live(corewar_t *corewar, champion_t *champion, int pc_tmp)
+{
+    champion->pc->params = realloc_tab_plus_one(champion->pc->params);
+    champion->pc->params[0] = convert_int_to_str(combine_bytes(4,
+    get_memory_cell(corewar, pc_tmp)->value_int,
+    get_memory_cell(corewar, pc_tmp + 1)->value_int,
+    get_memory_cell(corewar, pc_tmp + 2)->value_int,
+    get_memory_cell(corewar, pc_tmp + 3)->value_int));
+    champion->pc->params[1] = NULL;
+    champion->PC = pc_tmp + 4;
+    return 1;
+}
+
+static int extract_index(corewar_t *corewar, champion_t *champion, int pc_tmp)
+{
+    for (int i = 0; i < 4; i++) {
+        if (my_strcmp(champion->pc->coding_byte[i], "00") == 0)
+            break;
+        if (my_strcmp(champion->pc->coding_byte[i], "01") == 0) {
+            
+            pc_tmp++;
+        }
+    }
+    champion->PC = pc_tmp;
+    return 1;
+}
+
+int extract_instruction(corewar_t *corewar, champion_t *champion)
+{
+    char *coding_byte;
+    int pc_tmp = champion->PC;
+
+    destroy_pc_content(champion);
+    champion->pc->mnemonic = get_memory_cell(corewar, pc_tmp)->value_int;
+    if (champion->pc->mnemonic < 1 || champion->pc->mnemonic > 16)
+        return 0;
+    if ((champion->pc->mnemonic >= 2 && champion->pc->mnemonic <= 8) ||
+    (champion->pc->mnemonic >= 10 && champion->pc->mnemonic <= 11) ||
+    (champion->pc->mnemonic >= 13 && champion->pc->mnemonic <= 14) ||
+    champion->pc->mnemonic == 16) {
+        pc_tmp++;
+        coding_byte = convert_int_in_bin(get_memory_cell(corewar,
+        pc_tmp)->value_int);
+        champion->pc->coding_byte = malloc(sizeof(char *) * 5);
+        for (int i = 0; i < 4; i++) {
+            champion->pc->coding_byte[i] =
+            my_strndup(&(coding_byte[i * 2]), 2);
+        }
+        champion->pc->coding_byte[4] = NULL;
+        free(coding_byte);
+    }
+    pc_tmp++;
+    champion->pc->params = NULL;
+    if (champion->pc->mnemonic == 1)
+        return extract_live(corewar, champion, pc_tmp);
+    for (int i = 0; i < 4; i++) {
+        if (my_strcmp(champion->pc->coding_byte[i], "01") == 0) {
+            champion->pc->params[i] = convert_int_to_str(get_memory_cell(corewar, pc_tmp)->value_int);
+            continue;
+        }
+        if ()
+    }
+    return 1;
+}

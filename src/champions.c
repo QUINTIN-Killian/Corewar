@@ -7,23 +7,14 @@
 
 #include "../include/corewar.h"
 
-static int *create_registers(void)
+static void create_champion_aux(corewar_t *corewar, champion_t *champion,
+    char *filename)
 {
     int *registers = malloc(REG_SIZE * (REG_NUMBER + 1));
 
     for (int i = 0; i < REG_NUMBER + 1; i++)
         registers[i] = 0;
-    return registers;
-}
-
-champion_t *create_champion(corewar_t *corewar, char *filename)
-{
-    champion_t *champion = malloc(sizeof(champion_t));
-
-    corewar->nb_champions++;
-    champion->cycle_live = -1;
-    champion->carry = 1;
-    champion->registers = create_registers();
+    champion->registers = registers;
     champion->magic_number = 0;
     champion->name[0] = '\0';
     champion->prog_size = 0;
@@ -33,6 +24,18 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
     champion->id = corewar->id;
     champion->head = corewar->start_mem;
     champion->fd = fopen(filename, "r");
+    champion->pc = malloc(sizeof(pc_t));
+    init_pc_struct(champion);
+}
+
+champion_t *create_champion(corewar_t *corewar, char *filename)
+{
+    champion_t *champion = malloc(sizeof(champion_t));
+
+    corewar->nb_champions++;
+    champion->cycle_live = -1;
+    champion->carry = 1;
+    create_champion_aux(corewar, champion, filename);
     champion->next = corewar->champions;
     champion->instructions = NULL;
     corewar->id = -1;
@@ -47,6 +50,8 @@ static void del_node(champion_t *node)
         free(node->registers);
     if (node->fd != NULL)
         fclose(node->fd);
+    destroy_pc_content(node);
+    free(node->pc);
     free(node);
 }
 

@@ -75,9 +75,10 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
             continue;
         if (skip == 2)
             break;
-        mini_printf("%d) %s : %s, %d\n",
-        corewar->turn_id, node->name,
-        get_memory_cell(corewar, node->PC)->value, node->PC); /*remove*/
+        if (my_strcmp("Infinite loop", node->name) != 0)
+            mini_printf("%d) %s : %s, %d\n",
+            corewar->turn_id, node->name,
+            get_memory_cell(corewar, node->PC)->value, node->PC); /*remove*/
         instruction_execution(corewar, node);
         node = node->next;
     }

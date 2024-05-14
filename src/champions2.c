@@ -75,6 +75,7 @@ static int *dup_registers(int *registers)
 
 static void init_clone(champion_t *new_champion, champion_t *node)
 {
+    init_pc_struct(new_champion);
     new_champion->fd = NULL;
     new_champion->magic_number = node->magic_number;
     my_strncpy(new_champion->name, node->name, 128);

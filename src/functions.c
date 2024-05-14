@@ -68,3 +68,33 @@ void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions)
         node = node->next;
     }
 }
+
+char **tablloc(int nb_elements, ...)
+{
+    char **tab = malloc(sizeof(char *) * (nb_elements + 1));
+    char *element = NULL;
+    va_list args;
+
+    va_start(args, nb_elements);
+    for (int i = 0; i < nb_elements; i++) {
+        element = va_arg(args, char *);
+        if (element == NULL)
+            tab[i] = my_strdup("");
+        else
+            tab[i] = my_strdup(element);
+    }
+    va_end(args);
+    tab[nb_elements] = NULL;
+    return tab;
+}
+
+char **realloc_tab_plus_one(char **tab)
+{
+    char **ans = malloc(sizeof(char *) * (my_strlen_array(tab) + 2));
+
+    for (int i = 0; i < my_strlen_array(tab); i++)
+        ans[i] = my_strdup(tab[i]);
+    ans[my_strlen_array(tab) + 1] = NULL;
+    free_word_array(tab);
+    return ans;
+}

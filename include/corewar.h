@@ -11,6 +11,12 @@
     #include "op.h"
     #define PC head
 
+typedef struct pc_s {
+    int mnemonic;
+    char **coding_byte;
+    char **params;
+} pc_t;
+
 typedef struct cell_s {
     char *value;
     int value_int;
@@ -31,6 +37,7 @@ typedef struct instructions_s {
 } instructions_t;
 
 typedef struct champion_s {
+    pc_t *pc;
     int carry;
     int cycle_live;
     int *registers;
@@ -97,6 +104,8 @@ int is_correct_file(char **args, int i);
 int get_max_champion_id(champion_t **champions);
 void set_champions_infos(corewar_t *corewar, champion_t **champions);
 void del_incorrect_magic_number(corewar_t *corewar, champion_t **champions);
+char **tablloc(int nb_elements, ...);
+char **realloc_tab_plus_one(char **tab);
 
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
@@ -104,6 +113,10 @@ void destroy_champion_node_by_id(champion_t **champions, int id);
 void display_champions_infos(champion_t **champions);
 void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
+
+//pc.c :
+void init_pc_struct(champion_t *champion);
+void destroy_pc_content(champion_t *champion);
 
 //champions2.c :
 int *realloc_int_plus_one(int *tab);

@@ -41,7 +41,11 @@ void exec_ld(corewar_t *corewar, champion_t *champion)
 
     free(bin);
     champion->registers[get_memory_cell(corewar, adress)->value_int] =
-    champion->PC + value % IDX_MOD;
+    combine_bytes(REG_SIZE, get_memory_cell(corewar, champion->PC + 2 +
+    value % IDX_MOD)->value_int, get_memory_cell(corewar, (champion->PC + 2 +
+    value % IDX_MOD) + 1)->value_int, get_memory_cell(corewar, (champion->PC +
+    2 + value % IDX_MOD) + 2)->value_int, get_memory_cell(corewar,
+    (champion->PC + 2 + value % IDX_MOD) + 3)->value_int);
     set_carry(champion, champion->registers[get_memory_cell(corewar, adress)
     ->value_int]);
     champion->PC = cycle_coords(champion->PC + (adress - champion->PC + 1));

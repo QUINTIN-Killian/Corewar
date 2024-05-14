@@ -15,7 +15,7 @@ void exec_fork(corewar_t *corewar, champion_t *champion)
     champion_t *new_champion;
 
     champion->timeout = 800;
-    new_champion = duplicate_champion(&corewar->champions, champion);
-    new_champion->PC = cycle_coords(champion->PC + value % IDX_MOD);
+    // new_champion = duplicate_champion(&corewar->champions, champion);
+    // new_champion->PC = cycle_coords(champion->PC + value % IDX_MOD);
     champion->PC = cycle_coords(champion->PC + 3);
 }
