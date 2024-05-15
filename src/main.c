@@ -52,7 +52,6 @@ int main(int ac, char **av)
         return 84;
     }
     extract_body(&corewar.champions);
-    set_double_linked_list(&corewar.champions);
     create_memory(&corewar);
     write_instructions_in_memory(&corewar, &corewar.champions);
     main_loop(&corewar.champions, &corewar);

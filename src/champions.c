@@ -42,7 +42,7 @@ champion_t *create_champion(corewar_t *corewar, char *filename)
 
 static void del_node(champion_t *node)
 {
-    delete_instructions_list(&node->head_instruction_ref);
+    delete_instructions_list(&node->instructions);
     if (node->registers != NULL)
         free(node->registers);
     if (node->fd != NULL)
@@ -73,26 +73,37 @@ void destroy_champion_node_by_id(champion_t **champions, int id)
     }
 }
 
-void display_champions_infos(champion_t **champions)
+static champion_t *get_next_correct_champion(champion_t *ref)
+{
+    champion_t *node = ref;
+
+    while (node != NULL && node->id == ref->id)
+        node = node->next;
+    return node;
+}
+
+champion_t *destroy_all_champions_node_by_ref(champion_t **champions,
+    champion_t *ref)
 {
     champion_t *node = *champions;
+    champion_t *ans = get_next_correct_champion(ref);
+    champion_t *tmp = NULL;
 
-    if (node == NULL) {
-        mini_printf("Champions:\n");
-        mini_printf("\tNULL\n");
-        return;
+    while (node != NULL && node->id == ref->id) {
+        *champions = node->next;
+        del_node(node);
+        node = *champions;
     }
-    while (node != NULL) {
-        mini_printf("Champion:\n");
-        mini_printf("\tID: %d, Name: %s, Head: %d, Timeout: %d, Statut: %d\n",
-        node->id, node->name, node->head, node->timeout, node->is_alive);
-        display_instructions_infos(&node->instructions);
-        node = node->next;
-        if (node != NULL) {
-            mini_printf("\n-------------------------------------------------");
-            mini_printf("-----------------------------------------------\n\n");
+    while (node->next != NULL) {
+        if (node->next->id == ref->id) {
+            tmp = node->next;
+            node->next = node->next->next;
+            del_node(tmp);
+            continue;
         }
+        node = node->next;
     }
+    return ans;
 }
 
 void delete_champions_list(champion_t **champions)
