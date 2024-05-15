@@ -22,7 +22,8 @@ static int skip_turn(corewar_t *corewar, champion_t **champions,
 {
     if ((*node)->cycle_live >= CYCLE_TO_DIE - corewar->nb_delta * CYCLE_DELTA){
         mini_printf("The player %d(%s)is dead.\n", (*node)->id, (*node)->name);
-        (*node) = destroy_all_champions_node_by_ref(champions, *node);
+        (*node) = destroy_all_champions_node_by_ref(champions, *node,
+        (*node)->id);
         if (get_nb_champions(champions) == 1) {
             mini_printf("The player %d(%s)has won.\n",
             (*champions)->id, (*champions)->name);

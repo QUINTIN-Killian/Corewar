@@ -102,7 +102,7 @@ void destroy_champion_node_by_id(champion_t **champions, int id);
 void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
 champion_t *destroy_all_champions_node_by_ref(champion_t **champions,
-    champion_t *ref);
+    champion_t *ref, int ref_id);
 
 //champions2.c :
 int *realloc_int_plus_one(int *tab);

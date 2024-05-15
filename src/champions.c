@@ -83,19 +83,19 @@ static champion_t *get_next_correct_champion(champion_t *ref)
 }
 
 champion_t *destroy_all_champions_node_by_ref(champion_t **champions,
-    champion_t *ref)
+    champion_t *ref, int ref_id)
 {
     champion_t *node = *champions;
     champion_t *ans = get_next_correct_champion(ref);
     champion_t *tmp = NULL;
 
-    while (node != NULL && node->id == ref->id) {
+    while (node != NULL && node->id == ref_id) {
         *champions = node->next;
         del_node(node);
         node = *champions;
     }
     while (node->next != NULL) {
-        if (node->next->id == ref->id) {
+        if (node->next->id == ref_id) {
             tmp = node->next;
             node->next = node->next->next;
             del_node(tmp);
