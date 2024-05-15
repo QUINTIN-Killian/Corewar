@@ -43,7 +43,6 @@ static int is_correct_register(int value)
     return value >= 1 && value <= 16;
 }
 
-
 static void skip_parameter(char *coding_byte, int i, int opcode, int *pc_tmp)
 {
     if (my_strncmp(&(coding_byte[i * 2]), "10", 2) == 0) {
@@ -84,5 +83,4 @@ int check_instruction(corewar_t *corewar, champion_t *champion)
 {
     return check_mnemonic(corewar, champion) && check_coding_byte(corewar,
     champion) && check_register(corewar, champion);
-
 }
