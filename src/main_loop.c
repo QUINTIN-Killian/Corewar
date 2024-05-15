@@ -17,11 +17,12 @@ static int skip_turn_aux(champion_t **node)
     return 0;
 }
 
-static int skip_turn(champion_t **champions, champion_t **node)
+static int skip_turn(corewar_t *corewar, champion_t **champions,
+    champion_t **node)
 {
     int tmp = -1;
 
-    if ((*node)->cycle_live >= CYCLE_TO_DIE) {
+    if ((*node)->cycle_live >= CYCLE_TO_DIE - corewar->nb_delta * CYCLE_DELTA){
         tmp = (*node)->id;
         (*node) = (*node)->next;
         destroy_champion_node_by_id(champions, tmp);
@@ -42,7 +43,7 @@ static void champions_turn(champion_t **champions, corewar_t *corewar,
 
     while (node != NULL) {
         node->cycle_live++;
-        skip = skip_turn(champions, &node);
+        skip = skip_turn(corewar, champions, &node);
         if (skip == 1)
             continue;
         if (skip == 2) {
@@ -64,5 +65,9 @@ void main_loop(champion_t **champions, corewar_t *corewar)
         node = *champions;
         champions_turn(champions, corewar, node);
         corewar->nb_turns--;
+        while (corewar->nb_live >= NBR_LIVE) {
+            corewar->nb_live -= NBR_LIVE;
+            corewar->nb_delta++;
+        }
     }
 }

@@ -27,4 +27,5 @@ void exec_live(corewar_t *corewar, champion_t **champions_list,
     }
     champion->PC = cycle_coords(champion->PC + 5);
     champion->timeout = 10;
+    corewar->nb_live++;
 }
