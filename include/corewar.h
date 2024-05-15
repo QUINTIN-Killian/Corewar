@@ -50,6 +50,8 @@ typedef struct champion_s {
 } champion_t;
 
 typedef struct corewar_s {
+    int nb_live;
+    int nb_delta;
     int id;
     int start_mem;
     int nb_turns;
