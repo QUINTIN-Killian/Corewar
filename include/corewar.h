@@ -36,7 +36,6 @@ typedef struct champion_s {
     int *registers;
     FILE *fd;
     int id;
-    int owner;
     int timeout;
     int is_alive;
     int head;
