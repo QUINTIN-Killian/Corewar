@@ -20,12 +20,10 @@ static int skip_turn_aux(champion_t **node)
 static int skip_turn(corewar_t *corewar, champion_t **champions,
     champion_t **node)
 {
-    int tmp = -1;
-
     if ((*node)->cycle_live >= CYCLE_TO_DIE - corewar->nb_delta * CYCLE_DELTA){
-        tmp = (*node)->id;
-        (*node) = (*node)->next;
-        destroy_champion_node_by_id(champions, tmp);
+        mini_printf("The player %d(%s)is dead.\n", (*node)->id, (*node)->name);
+        (*node) = destroy_all_champions_node_by_ref(champions, *node,
+        (*node)->id);
         if (get_nb_champions(champions) == 1) {
             mini_printf("The player %d(%s)has won.\n",
             (*champions)->id, (*champions)->name);
@@ -70,4 +68,6 @@ void main_loop(champion_t **champions, corewar_t *corewar)
             corewar->nb_delta++;
         }
     }
+    print_memory(corewar);
+    mini_printf("Game terminated at turn %d.\n", corewar->turn_id);
 }

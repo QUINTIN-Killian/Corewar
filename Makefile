@@ -15,7 +15,6 @@ SRC	=	src/champions.c	\
 		src/flags_recognition.c	\
 		src/functions.c	\
 		src/instructions.c	\
-		src/instructions2.c	\
 		src/main.c	\
 		src/main_loop.c	\
 		src/memory.c	\
@@ -39,13 +38,10 @@ SRC	=	src/champions.c	\
 		src/memory_cell.c	\
 		src/conversions.c	\
 		src/writing.c	\
-		src/instructions_checker.c	\
 		src/move.c	\
 		src/champions2.c	\
 		src/fork.c	\
-		src/lfork.c	\
-		src/print_memory.c
-
+		src/lfork.c
 OBJ	=	$(SRC:src/%.c=bin/%.o)
 
 CFLAGS	=	-g3 -W -Wall

@@ -26,7 +26,6 @@ typedef struct instructions_s {
     int nb_parameters;
     int *parameters;
     int nb_bytes;
-    struct instructions_s *prev;
     struct instructions_s *next;
 } instructions_t;
 
@@ -36,7 +35,6 @@ typedef struct champion_s {
     int *registers;
     FILE *fd;
     int id;
-    int owner;
     int timeout;
     int is_alive;
     int head;
@@ -46,7 +44,6 @@ typedef struct champion_s {
     char comment[COMMENT_LENGTH + 1];
     struct champion_s *next;
     instructions_t *instructions;
-    instructions_t *head_instruction_ref;
 } champion_t;
 
 typedef struct corewar_s {
@@ -65,9 +62,6 @@ typedef struct instruction_call_s {
     int mnemonic;
     void (*f)(corewar_t *, champion_t *);
 } instruction_call_t;
-
-//instructions_checker.c :
-int pc_checker(corewar_t *corewar, champion_t *champion);
 
 //writing.c :
 void write_instructions_in_memory(corewar_t *corewar, champion_t **champions);
@@ -105,9 +99,10 @@ int get_parameter_type(char *coding_byte, int param);
 //champions.c :
 champion_t *create_champion(corewar_t *corewar, char *filename);
 void destroy_champion_node_by_id(champion_t **champions, int id);
-void display_champions_infos(champion_t **champions);
 void delete_champions_list(champion_t **champions);
 champion_t *rev_champions(champion_t **champions);
+champion_t *destroy_all_champions_node_by_ref(champion_t **champions,
+    champion_t *ref, int ref_id);
 
 //champions2.c :
 int *realloc_int_plus_one(int *tab);
@@ -122,14 +117,9 @@ void set_carry(champion_t *champion, int value);
 
 //instructions.c :
 instructions_t *create_instruction(instructions_t *next);
-void destroy_instruction_node_by_id(instructions_t **instructions, int id);
-void display_instructions_infos(instructions_t **instructions);
 void delete_instructions_list(instructions_t **instructions);
 instructions_t *rev_instructions(instructions_t **instructions);
-
-//instructions2.c :
 int set_instruction(instructions_t *node);
-void set_double_linked_list(champion_t **champions);
 
 //main_loop.c :
 void main_loop(champion_t **champions, corewar_t *corewar);
@@ -137,21 +127,16 @@ void main_loop(champion_t **champions, corewar_t *corewar);
 //memory.c :
 void create_memory(corewar_t *corewar);
 void destroy_memory(corewar_t *corewar);
-
-//print_memory.c :
 void print_memory(corewar_t *corewar);
 
 //add.c :
 void exec_add(corewar_t *corewar, champion_t *champion);
-int check_add_sub(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //aff.c :
 void exec_aff(corewar_t *corewar, champion_t *champion);
-int check_aff(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //and.c :
 void exec_and(corewar_t *corewar, champion_t *champion);
-int check_and(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //fork.c :
 void exec_fork(corewar_t *corewar, champion_t *champion);
@@ -180,21 +165,18 @@ void exec_xor(corewar_t *corewar, champion_t *champion);
 
 //st.c :
 void exec_st(corewar_t *corewar, champion_t *champion);
-int check_st(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //sti.c :
 void exec_sti(corewar_t *corewar, champion_t *champion);
 
 //ld.c :
 void exec_ld(corewar_t *corewar, champion_t *champion);
-int check_ld(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lld.c :
 void exec_lld(corewar_t *corewar, champion_t *champion);
 
 //ldi.c :
 void exec_ldi(corewar_t *corewar, champion_t *champion);
-int check_ldi(char *coding_byte, champion_t *champion, corewar_t *corewar);
 
 //lldi.c :
 void exec_lldi(corewar_t *corewar, champion_t *champion);
