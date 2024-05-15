@@ -113,6 +113,8 @@ int *realloc_int_plus_one(int *tab);
 int is_nb_already_in_tab(int *tab, int nb);
 int get_nb_champions(champion_t **champions);
 champion_t *duplicate_champion(champion_t **champions, champion_t *ref);
+champion_t *destroy_all_champions_node_by_ref(champion_t **champions,
+    champion_t *ref);
 
 //move.c :
 int cycle_nb(int nb, int bytes);

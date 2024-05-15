@@ -110,3 +110,46 @@ champion_t *duplicate_champion(champion_t **champions, champion_t *ref)
     }
     return NULL;
 }
+
+static void del_node(champion_t *node)
+{
+    delete_instructions_list(&node->head_instruction_ref);
+    if (node->registers != NULL)
+        free(node->registers);
+    if (node->fd != NULL)
+        fclose(node->fd);
+    free(node);
+}
+
+static champion_t *get_next_correct_champion(champion_t *ref)
+{
+    champion_t *node = ref;
+
+    while (node != NULL && node->id == ref->id)
+        node = node->next;
+    return node;
+}
+
+champion_t *destroy_all_champions_node_by_ref(champion_t **champions,
+    champion_t *ref)
+{
+    champion_t *node = *champions;
+    champion_t *ans = get_next_correct_champion(ref);
+    champion_t *tmp = NULL;
+
+    while (node != NULL && node->id == ref->id) {
+        *champions = node->next;
+        del_node(node);
+        node = *champions;
+    }
+    while (node->next != NULL) {
+        if (node->next->id == ref->id) {
+            tmp = node->next;
+            node->next = node->next->next;
+            del_node(tmp);
+            continue;
+        }
+        node = node->next;
+    }
+    return ans;
+}
