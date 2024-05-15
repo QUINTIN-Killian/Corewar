@@ -73,8 +73,7 @@ static int *dup_registers(int *registers)
     return new_registers;
 }
 
-static void init_clone(champion_t **champions, champion_t *new_champion,
-    champion_t *node)
+static void init_clone(champion_t *new_champion, champion_t *node)
 {
     new_champion->fd = NULL;
     new_champion->magic_number = node->magic_number;
@@ -86,9 +85,7 @@ static void init_clone(champion_t **champions, champion_t *new_champion,
     new_champion->cycle_live = -1;
     new_champion->carry = node->carry;
     new_champion->PC = node->PC;
-    new_champion->head_instruction_ref = NULL;
-    new_champion->id = get_max_champion_id(champions);
-    new_champion->owner = node->owner;
+    new_champion->id = node->id;
     new_champion->instructions = NULL;
     new_champion->is_alive = node->is_alive;
     new_champion->registers = dup_registers(node->registers);
@@ -105,7 +102,7 @@ champion_t *duplicate_champion(champion_t **champions, champion_t *ref)
     while (node != NULL) {
         if (node == ref) {
             new_champion = malloc(sizeof(champion_t));
-            init_clone(champions, new_champion, node);
+            init_clone(new_champion, node);
             return new_champion;
         }
         node = node->next;

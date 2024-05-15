@@ -37,7 +37,7 @@ void exec_sti(corewar_t *corewar, champion_t *champion)
     int adress = 0;
 
     get_param_sti(corewar, champion, &pc, &adress);
-    set_memory_cell(corewar, create_tmp_cell(champion->owner, value),
+    set_memory_cell(corewar, create_tmp_cell(champion->id, value),
     champion->PC + adress % IDX_MOD, 4);
     champion->PC = cycle_coords(champion->PC + (pc - champion->PC));
     champion->timeout = 25;
