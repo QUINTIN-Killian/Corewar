@@ -63,6 +63,9 @@ typedef struct instruction_call_s {
     void (*f)(corewar_t *, champion_t *);
 } instruction_call_t;
 
+//check_instruction.c :
+int check_instruction(corewar_t *corewar, champion_t *champion);
+
 //writing.c :
 void write_instructions_in_memory(corewar_t *corewar, champion_t **champions);
 
