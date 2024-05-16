@@ -7,6 +7,27 @@
 
 #include "../include/corewar.h"
 
+static int print_help(void)
+{
+    mini_printf("USAGE\n");
+    mini_printf("./corewar [-dump nbr_cycle] [[-n prog_number] ");
+    mini_printf("[-a load_address] prog_name] ...\n");
+    mini_printf("DESCRIPTION\n");
+    mini_printf("-dump nbr_cycle dumps the memory after the ");
+    mini_printf("nbr_cycle execution (if the round isn’t\n");
+    mini_printf("already over) with the following format: 32 bytes/line in ");
+    mini_printf("hexadecimal (A0BCDEFE1DD3...)\n");
+    mini_printf("-n prog_number sets the next program’s number. ");
+    mini_printf("By default, the first free number in the\n");
+    mini_printf("parameter order\n");
+    mini_printf("-a load_address sets the next program’s loading address. ");
+    mini_printf("When no address is specified,\n");
+    mini_printf("optimize the addresses so that the processes are as far ");
+    mini_printf("away from each other as\n");
+    mini_printf("possible. The addresses are MEM_SIZE modulo.\n");
+    return 0;
+}
+
 void init_struct(corewar_t *corewar)
 {
     corewar->nb_live = 0;
@@ -47,6 +68,8 @@ int main(int ac, char **av)
 {
     corewar_t corewar;
 
+    if (ac == 2 && my_strcmp(av[1], "-h") == 0)
+        return print_help();
     if (error_handling(ac, av, &corewar)) {
         destroy_struct(&corewar);
         return 84;
