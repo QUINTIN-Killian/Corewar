@@ -29,8 +29,7 @@ static int skip_turn(corewar_t *corewar, champion_t **champions,
         (*node) = destroy_all_champions_node_by_ref(champions, *node,
         (*node)->id);
         if (get_nb_champions(champions) == 1) {
-            mini_printf("The player %d(%s)has won.\n",
-            (*champions)->id, (*champions)->name);
+            corewar->winner = *champions;
             return 2;
         }
         return 1;
@@ -72,6 +71,7 @@ void main_loop(champion_t **champions, corewar_t *corewar)
             corewar->nb_delta++;
         }
     }
+    print_winner(corewar);
     print_memory(corewar);
     mini_printf("Game terminated at turn %d.\n", corewar->turn_id);
 }
