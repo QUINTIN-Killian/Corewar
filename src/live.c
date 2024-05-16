@@ -7,6 +7,21 @@
 
 #include "../include/corewar.h"
 
+static champion_t *get_alive_champion(champion_t **champions_list, int id)
+{
+    champion_t *node = *champions_list;
+    champion_t *ans = NULL;
+
+    while (node != NULL) {
+        if (node->id == id) {
+            node->cycle_live = -1;
+            ans = node;
+        }
+        node = node->next;
+    }
+    return ans;
+}
+
 void exec_live(corewar_t *corewar, champion_t **champions_list,
     champion_t *champion)
 {
@@ -15,19 +30,13 @@ void exec_live(corewar_t *corewar, champion_t **champions_list,
     get_memory_cell(corewar, champion->PC + 2)->value_int,
     get_memory_cell(corewar, champion->PC + 3)->value_int,
     get_memory_cell(corewar, champion->PC + 4)->value_int);
-    champion_t *node = *champions_list;
-    champion_t *ref = NULL;
+    champion_t *ref = get_alive_champion(champions_list, id);
 
-    while (node != NULL) {
-        if (node->id == id) {
-            node->cycle_live = -1;
-            ref = node;
-        }
-        node = node->next;
-    }
     champion->PC = cycle_coords(champion->PC + 5);
     champion->timeout = 10;
     corewar->nb_live++;
-    if (ref != NULL)
+    if (ref != NULL) {
         mini_printf("The player %d(%s)is alive.\n", ref->id, ref->name);
+        corewar->winner = ref;
+    }
 }

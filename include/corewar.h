@@ -47,6 +47,7 @@ typedef struct champion_s {
 } champion_t;
 
 typedef struct corewar_s {
+    champion_t *winner;
     int nb_live;
     int nb_delta;
     int id;
@@ -62,6 +63,9 @@ typedef struct instruction_call_s {
     int mnemonic;
     void (*f)(corewar_t *, champion_t *);
 } instruction_call_t;
+
+//print_winner.c :
+void print_winner(corewar_t *corewar);
 
 //check_instruction.c :
 int check_instruction(corewar_t *corewar, champion_t *champion);

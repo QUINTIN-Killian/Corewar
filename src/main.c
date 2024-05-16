@@ -30,6 +30,7 @@ static int print_help(void)
 
 void init_struct(corewar_t *corewar)
 {
+    corewar->winner = NULL;
     corewar->nb_live = 0;
     corewar->nb_delta = 0;
     corewar->id = -1;
