@@ -32,7 +32,7 @@ make
 **Executing:**
 
 ```bash
-/corewar bonus/champions/abel.cor bonus/champions/42.cor
+./corewar bonus/champions/abel.cor bonus/champions/42.cor
 ```
 
 ---
