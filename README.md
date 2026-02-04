@@ -1,17 +1,43 @@
-# Corewar project
-Repository for the EPITECH Corewar project.
+# Corewar
 
-## Rules :
-#### Commits standard :
-["ADD"/"FIX"/"FEAT"/"DEL"/"TEST"/"..."] "description" (ex : [FIX] coding style)
-#### Branches :
-- We don't code on the 'main' branch
-- We don't code on the 'dev' branch
-- We create branches with the following name pattern : "ACTION"/"name" (ex : FEAT/right_redirections)
-- We merge our branches on the 'dev' branch and merge 'dev' on 'main' with the agreement of everybody
+The Corewar project is an arena in which binary programs must fight.
 
-## Links :
-[Trello](https://trello.com/b/9jQngJFs/corewar)
+---
 
-##### Credits :
-Project created by QUINTIN Killian & CHARDIN Elie
+## 🧠 Description
+
+The Corewar's arena welcomes binary champions that must conqueer the most possible space to eliminate their opponents. The winner is the last champion alive.
+
+---
+
+## 🚀 Getting started
+
+### Installing
+
+**Clone the repository:**
+
+```bash
+git clone https://github.com/QUINTIN-Killian/Corewar.git
+cd Corewar
+```
+
+### Executing program
+
+**Compiling:**
+
+```bash
+make
+```
+
+**Executing:**
+
+```bash
+/corewar bonus/champions/abel.cor bonus/champions/42.cor
+```
+
+---
+
+## 👥 Authors
+
+* [@Killian QUINTIN](https://github.com/QUINTIN-Killian)
+* Elie CHARDIN
