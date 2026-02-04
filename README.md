@@ -32,7 +32,7 @@ make
 **Executing:**
 
 ```bash
-./corewar <champion1> <champion2> <champion3> <champion4>
+./corewar <champion1> <champion2> [champion3] [champion4]
 ```
 
 Example:
