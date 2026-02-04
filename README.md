@@ -46,4 +46,4 @@ Example:
 ## 👥 Authors
 
 * [@Killian QUINTIN](https://github.com/QUINTIN-Killian)
-* [Elie CHARDIN](https://github.com/Elieleche)
+* [@Elie CHARDIN](https://github.com/Elieleche)
