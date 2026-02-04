@@ -1,12 +1,12 @@
 # Corewar
 
-The Corewar project is an arena in which binary programs must fight.
+A virtual combat arena where programs written in redcode assembly compete for memory dominance, executing within a custom-built virtual machine to be the last process surviving.
 
 ---
 
 ## 🧠 Description
 
-The Corewar's arena welcomes binary champions that must conqueer the most possible space to eliminate their opponents. The winner is the last champion alive.
+This project implements a Corewar environment, a simulation of digital warfare where "champions" are loaded into a circular memory arena. The system consists of a virtual machine (VM) that executes these programs.
 
 ---
 
@@ -32,6 +32,12 @@ make
 **Executing:**
 
 ```bash
+./corewar <champion1> <champion2> <champion3> <champion4>
+```
+
+Example:
+
+```bash
 ./corewar bonus/champions/abel.cor bonus/champions/42.cor
 ```
 
@@ -40,4 +46,4 @@ make
 ## 👥 Authors
 
 * [@Killian QUINTIN](https://github.com/QUINTIN-Killian)
-* Elie CHARDIN
+* [Elie CHARDIN](https://github.com/Elieleche)
